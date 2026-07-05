@@ -52,4 +52,4 @@ inspectable version of exactly this discipline.
 ## Related
 
 - [Full case study: Enterprise Agentic AI — Lucid Motors](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/case-studies/enterprise-agentic-ai-lucid.md)
-- [system-design/03: Design an agent governance control plane](../system-design/03-design-an-agent-governance-control-plane.md)
+- [system-design/03: Agent/tool-use orchestration platform](../system-design/03-agent-tool-use-orchestration-platform.md)

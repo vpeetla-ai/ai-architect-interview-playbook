@@ -42,7 +42,7 @@ Option 3 (buy) was never seriously on the table here — cost metering needs to 
 consumer's specific LLM providers and per-model pricing deeply enough that a generic vendor
 FinOps tool wouldn't fit without as much integration work as building it, while giving up
 control over exactly how budget breach enforcement connects to each consumer's own kill-switch/
-dispatch-halt mechanism (see [system-design/04](../system-design/04-design-a-cost-governance-service.md)
+dispatch-halt mechanism (see [system-design/01](../system-design/01-llm-inference-serving-at-scale.md)
 for why that enforcement design needed to stay consumer-owned).
 
 ## The interview-ready summary

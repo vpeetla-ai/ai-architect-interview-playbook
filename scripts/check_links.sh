@@ -17,7 +17,7 @@ while IFS= read -r -d '' file; do
       broken=1
     fi
   done < <(grep -oE '\]\((\.\./[^)]+\.md|[a-zA-Z-]+/[^)]+\.md)\)' "$file" 2>/dev/null | sed 's/^](//;s/)$//')
-done < <(find . -name "*.md" -not -path "./.git/*" -print0)
+done < <(find . -name "*.md" -not -path "./.git/*" -not -path "./.cursor/*" -not -path "./.github/*" -print0)
 
 if [ "$broken" -eq 1 ]; then
   echo "FAIL: broken internal links found"

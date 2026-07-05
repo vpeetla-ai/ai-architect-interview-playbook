@@ -54,5 +54,4 @@ changes get slowed down by governance's review cadence (also bad, for a differen
 ## Related
 
 - [ADR-001: Orchestration vs governance split](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-001-orchestration-vs-governance-split.md)
-- [system-design/02: Design a multi-agent orchestrator](../system-design/02-design-a-multi-agent-orchestrator.md)
-- [system-design/03: Design an agent governance control plane](../system-design/03-design-an-agent-governance-control-plane.md)
+- [system-design/03: Agent/tool-use orchestration platform](../system-design/03-agent-tool-use-orchestration-platform.md)

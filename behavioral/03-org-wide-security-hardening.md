@@ -55,4 +55,4 @@ place someone would look before deploying, not buried in a commit message.
 ## Related
 
 - Case studies and ADRs for each fix: [ai-architecture-portfolio](https://github.com/vpeetla-ai/ai-architecture-portfolio) ADR-008, ADR-009, ADR-010, and each repo's own local ADR sequence
-- [system-design/03: Design an agent governance control plane](../system-design/03-design-an-agent-governance-control-plane.md)
+- [system-design/03: Agent/tool-use orchestration platform](../system-design/03-agent-tool-use-orchestration-platform.md)

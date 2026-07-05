@@ -52,4 +52,4 @@ already underway.
 
 - [Substack: Enterprise AI FinOps Architecture](https://venkatapeetla.substack.com/p/enterprise-ai-finops-architecture)
 - [ADR-011: AgentFinOps as a standalone service](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-011-agent-finops-standalone-service.md)
-- [system-design/04: Design a cost-governance service](../system-design/04-design-a-cost-governance-service.md)
+- [system-design/01: LLM inference serving at scale (cost deep dive)](../system-design/01-llm-inference-serving-at-scale.md)
