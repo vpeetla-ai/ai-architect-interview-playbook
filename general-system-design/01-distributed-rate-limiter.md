@@ -89,6 +89,24 @@ because a naive "read counter, check, increment" sequence has a race condition w
 concurrent requests can both read the same under-limit value before either increments it,
 allowing both through when only one should have passed.
 
+## Deep dive 3: making "regionally approximate" a concrete mechanism, not a hand-wave
+
+Naming "each region enforces a fraction of the global limit" is a Staff+-level answer; a
+Principal-level one specifies how regions actually stay approximately in sync without a
+synchronous cross-region call on every request. Two real mechanisms, with different cost
+profiles: **static fractional allocation** (each of N regions gets limit/N as a fixed local
+budget — zero coordination cost, but wastes capacity when traffic is skewed toward one region
+and a client legitimately needs more than their region's fixed share) versus **periodic gossip/
+reconciliation** (each region tracks its own local counter and asynchronously exchanges counts
+with other regions on a short interval, e.g., every 1-2 seconds, allowing each region to adjust
+its effective local limit based on other regions' recent consumption). The gossip approach
+recovers much of the accuracy of a globally-exact limiter while keeping the hot path
+single-region and synchronous-call-free — the real cost is a bounded window (the gossip
+interval) during which the global limit can be modestly over-enforced, which is an explicit,
+quantifiable trade-off (e.g., "up to 2 seconds of staleness means at most ~2 extra seconds'
+worth of over-limit traffic can slip through across all regions combined") rather than an
+unstated approximation.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a fixed-window counter without addressing the boundary-burst problem
@@ -98,10 +116,10 @@ allowing both through when only one should have passed.
 - **Staff+:** designs the atomic check-and-increment explicitly (Lua script or equivalent) to
   close the race condition, and makes an explicit, stated choice about fail-open vs. fail-closed
   behavior when the counter store itself is unavailable.
-- **Principal:** additionally reasons about multi-region rate limiting — whether limits need to
-  be globally exact (requiring cross-region synchronization, adding latency) or can be
-  regionally approximate (each region enforces a fraction of the global limit, trading exactness
-  for latency) — and picks the right trade-off for the actual use case.
+- **Principal:** additionally specifies the actual cross-region synchronization mechanism
+  (static fractional allocation vs. periodic gossip/reconciliation) with its concrete staleness-
+  vs-accuracy trade-off quantified — not just "trade exactness for latency" as an unmechanized
+  observation — and picks the right one against a stated traffic-skew assumption.
 
 ## Follow-up questions to expect
 

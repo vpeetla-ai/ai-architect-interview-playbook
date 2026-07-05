@@ -37,7 +37,13 @@ entries rather than repeated. The research also found OpenAI and Anthropic are t
 sourced of the six for this classic round specifically: their public interview content is
 described (by prep aggregators, not primary sources) as staying AI-infra-framed even in what
 would otherwise be the "regular" round at other companies — worth knowing if you're prepping for
-one of those two specifically.
+one of those two specifically. A final end-to-end pass reviewed every entry against a genuine
+Staff+/Principal bar (not a rubber-stamp check) and reworked the ones that read as thinner than
+their neighbors — most notably `ai-system-design/06`, which had no real grounding and a generic
+Principal-level claim, now rebuilt with concrete ANN-index numbers and a named position-bias
+correction mechanism — plus two new entries the gap analysis found genuinely missing:
+`ai-system-design/12` (training-data provenance/IP risk) and `/13` (durable long-running agent
+execution).
 
 **Companion repo:** [ai-architecture-portfolio](https://github.com/vpeetla-ai/ai-architecture-portfolio)
 holds the ADRs and case studies this content is grounded in. This repo is the interview-format
@@ -54,7 +60,7 @@ layer on top of that — same real decisions, framed as "how would you explain t
 ## Structure
 
 ```text
-ai-system-design/                  — 11 AI/ML system design questions, hellointerview-style depth
+ai-system-design/                  — 13 AI/ML system design questions, hellointerview-style depth
 general-system-design/             — 7 classic distributed-systems questions, non-AI-specific, same depth
 cloud-architecture/                — 6 AI-infra cloud/network/security questions, same depth
 behavioral/                        — STAR-method write-ups for real, cited outcomes
@@ -76,12 +82,14 @@ which doesn't require any AI-specific knowledge to answer well.
 | [ai-system-design/03](ai-system-design/03-agent-tool-use-orchestration-platform.md) — Agent/tool-use orchestration platform | ✅ [venkat-ai-platform](https://github.com/vpeetla-ai/venkat-ai-platform) + [aegisai-enterprise-agent-platform](https://github.com/vpeetla-ai/aegisai-enterprise-agent-platform), ADR-001, ADR-0005, ADR-013 |
 | [ai-system-design/04](ai-system-design/04-feature-store-finetuning-data-pipeline.md) — Feature store / fine-tuning data pipeline | 🟡 General framework; real lineage-discipline callback to enterprise_rag_platform ADR-0005/016 |
 | [ai-system-design/05](ai-system-design/05-content-moderation-safety-system.md) — Content moderation & safety system | ✅ enterprise_rag_platform's real `GuardrailService` (input redaction + output grounding checks) |
-| [ai-system-design/06](ai-system-design/06-multimodal-search-recommendation-system.md) — Multimodal search / recommendation system | 🟡 General framework; partial real analog via enterprise_rag_platform's hybrid retrieval core |
+| [ai-system-design/06](ai-system-design/06-multimodal-search-recommendation-system.md) — Multimodal search / recommendation system | 🟡 General framework; partial real analog via enterprise_rag_platform's hybrid retrieval core; reworked with concrete ANN-index and position-bias mechanisms |
 | [ai-system-design/07](ai-system-design/07-llm-evaluation-observability-platform.md) — LLM evaluation & observability platform | ✅ [golden-eval-registry](https://github.com/vpeetla-ai/golden-eval-registry), ADR-014 — found a real fixture bug on first execution |
 | [ai-system-design/08](ai-system-design/08-finetuning-rlhf-training-pipeline-at-scale.md) — Fine-tuning/RLHF training pipeline at scale | 🟡 General framework; real callbacks to agent-finops (cost) and golden-eval-registry (eval-gating) disciplines |
 | [ai-system-design/09](ai-system-design/09-multi-tenant-ai-platform-architecture.md) — Multi-tenant AI platform architecture | 🟡 Real Azure/Vertex AI docs for the industry pattern; org callback via agent-finops |
 | [ai-system-design/10](ai-system-design/10-ai-agent-sandboxing-and-code-execution-security.md) — AI agent sandboxing & code-execution security | ✅ Real Anthropic Claude Code sandboxing docs + aegisai's real `McpGovernanceProxy` as the same principle one layer up |
 | [ai-system-design/11](ai-system-design/11-on-device-edge-ai-inference-architecture.md) — On-device/edge AI inference architecture | 🟡 Real Apple PCC/Google AICore/Meta Ray-Ban docs; no org-system analog at this scale |
+| [ai-system-design/12](ai-system-design/12-training-data-provenance-and-ip-risk-architecture.md) — Training-data provenance & IP-risk architecture | 🟡 Real public litigation (NYT v. OpenAI, Getty v. Stability); org callback via enterprise_rag_platform's real lineage-fix bug |
+| [ai-system-design/13](ai-system-design/13-durable-long-running-agent-execution.md) — Durable long-running agent execution | 🟡 General framework (durable-execution pattern); real callback via ai-content-factory's shipped `interrupt_before` + Redis checkpointer |
 | [general-system-design/01](general-system-design/01-distributed-rate-limiter.md) — Distributed rate limiter | 🟡 General archetype; real Google Cloud Armor grounding, no confirmed company attribution |
 | [general-system-design/02](general-system-design/02-realtime-chat-messaging-at-scale.md) — Real-time chat/messaging at scale | ✅ Real WhatsApp/Meta engineering-blog sourcing (Erlang scaling talks, Messenger's "Iris" architecture) |
 | [general-system-design/03](general-system-design/03-news-feed-ranking-system.md) — News feed / ranking system | ✅ Real Meta engineering-blog sourcing (Multifeed architecture, ML ranking pipeline) |

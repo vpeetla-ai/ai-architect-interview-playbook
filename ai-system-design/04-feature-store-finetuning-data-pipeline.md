@@ -111,6 +111,28 @@ features that are expensive and change slowly (aggregate historical statistics) 
 features belong in which bucket, with a concrete example, is what separates a Staff-level
 answer from "we'll just recompute everything hourly."
 
+## Deep dive 4: exact reproducibility as a bit-level contract, not a policy statement
+
+"We track lineage" is a Staff-level claim; a Principal-level answer specifies what reproducing a
+training set actually requires: a content-hash of the *feature computation logic itself*
+(not just its output) alongside the input snapshot's own hash, so that "rerun this exact
+training set six months later" means re-executing the identical transformation code against the
+identical input data, byte-for-byte — not just "the same feature names with roughly the same
+values." Without hashing the transformation logic, a silent library upgrade or a refactored
+feature-computation function can change output values without changing anything the lineage
+system was tracking, breaking reproducibility invisibly. This matters concretely for compliance
+and incident response: if a fine-tuned model is later found to have learned something harmful
+from its training data, "what exact data and exact transformation produced this checkpoint" needs
+to be an answerable, bit-exact question, not an approximate one.
+
+The backfill cost this implies is also a real, numbers-driven decision: recomputing a feature
+over N months of historical data at a non-trivial per-entity compute cost (e.g., an aggregate
+statistic requiring a full scan of historical events) can be a multi-hour-to-multi-day batch job
+at real data volumes — a Principal-level answer sizes this cost before committing to "we'll just
+backfill it," and considers whether a cheaper, approximate backfill (computed only for entities
+actually needed by the current training run, not the full historical population) is acceptable
+given the reproducibility contract above.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a single feature table used for both training and serving; may not
@@ -119,9 +141,11 @@ answer from "we'll just recompute everything hourly."
   named risk to design against.
 - **Staff+:** insists on point-in-time-correct joins unprompted, and can explain precisely why
   naive "join latest value" leaks future information.
-- **Principal:** additionally treats dataset lineage/reproducibility as a first-class
-  requirement (not just a nice-to-have), and can map freshness/cost trade-offs to specific
-  feature categories with concrete reasoning, not a blanket policy.
+- **Principal:** additionally specifies reproducibility as a content-hash contract over both the
+  transformation logic and the input snapshot (not just "we track lineage" as a policy
+  statement), and sizes the real compute cost of a historical backfill before committing to it —
+  treating exact reproducibility as an incident-response and compliance requirement, not a
+  nice-to-have.
 
 ## Follow-up questions to expect
 

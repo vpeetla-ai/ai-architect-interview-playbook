@@ -97,6 +97,29 @@ addressing that some datasets legally cannot be replicated everywhere — the mo
 trains also inherits some of that constraint if the model can be shown to memorize or leak
 training data.
 
+## Deep dive 3: does a trained model actually inherit its training data's residency constraint?
+
+This is the question that separates a Staff+ answer (name the boundary) from a Principal one
+(say how you'd actually test it). A model doesn't automatically inherit a dataset's residency
+restriction just because it was trained on that data — the real, testable question is whether
+the model **memorizes and can be made to emit** specific training examples verbatim or
+near-verbatim. The concrete mechanism for testing this is a **membership inference attack**: given
+a candidate input, determine (via the model's confidence/loss on that input relative to unseen
+data) whether it was part of the training set — if an attacker (or an auditor) can reliably
+answer "was this specific person's data in the training set," the model itself is leaking
+residency-relevant information, independent of where it's deployed. The architectural mitigation
+is **differential privacy during training** (e.g., DP-SGD, clipping and noising per-example
+gradients) which provides a mathematical bound on how much any single training example can
+influence the final model — at a real, non-free cost: a smaller privacy-loss budget (a lower
+epsilon) gives a stronger guarantee but measurably degrades model utility, so this is a genuine
+accuracy-vs-compliance trade-off with a number attached, not a free architectural choice.
+
+| Approach | Residency inheritance risk | Utility cost | When it's the right call |
+|---|---|---|---|
+| No mitigation, standard training | Real — membership inference against sensitive training data is a demonstrated, published attack class | None | Only acceptable when training data has no residency/privacy sensitivity to begin with |
+| Post-hoc testing (membership inference audit before deployment) | Detects the risk, doesn't prevent it | Low — an audit step, not a training-time change | A reasonable minimum bar — know whether the risk exists before deciding whether it's acceptable |
+| DP-SGD during training | Provides a mathematical bound on inheritance risk | Real, measurable accuracy degradation, worse at stronger privacy budgets | When regulation or contractual terms require a provable guarantee, not just an audit result |
+
 ## What's expected at each level
 
 - **Mid-level:** proposes regional serving replicas with a global load balancer; may not
@@ -106,9 +129,12 @@ training data.
 - **Staff+:** designs the residency-tagging mechanism explicitly — how a dataset's allowed
   regions propagate through training scheduling — and identifies the model-artifact boundary as
   the point where residency constraints may or may not carry forward.
-- **Principal:** additionally reasons about the compliance-surface cost of adding a region (more
-  regions to audit, more jurisdictions' rules to track) as a real operating cost that trades off
-  against latency/capacity benefits, not a free win.
+- **Principal:** additionally can state whether a trained model actually inherits its training
+  data's residency constraint — via a concrete test (membership inference auditing) rather than
+  an assumption — and names differential privacy (DP-SGD) as the architectural mitigation with
+  its real accuracy-vs-privacy-budget cost, not just "the model probably doesn't leak the data";
+  and reasons about the compliance-surface cost of adding a region as a real operating cost that
+  trades off against latency/capacity benefits.
 
 ## Follow-up questions to expect
 

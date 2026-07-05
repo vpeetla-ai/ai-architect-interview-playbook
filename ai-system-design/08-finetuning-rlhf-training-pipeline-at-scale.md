@@ -88,6 +88,20 @@ with human judgment on an ongoing sample throughout RLHF training, not just once
 | Reward hacking during RLHF | Policy exploits reward model blind spots the longer training runs | KL-divergence penalty against the SFT checkpoint to bound how far the policy can drift; periodic human eval spot-checks |
 | Preference data has low inter-annotator agreement | Reward model learns an inconsistent signal | Track and report annotator agreement rate as a data-quality metric, not just collect-and-train |
 
+**The subtler, Principal-level failure mode: reward model staleness under distributional
+shift.** The reward model is trained once, on preference data reflecting outputs from the
+*original* SFT checkpoint's output distribution. As PPO training proceeds over thousands of
+steps, the policy's outputs drift further from that original distribution — which means the
+reward model is increasingly scoring outputs it was never actually trained to evaluate, and its
+scores become silently less trustworthy the longer training runs, even with no single obvious
+bug. This is a distinct failure mode from reward hacking (deep dive above): reward hacking is
+the policy exploiting a *known* weakness in a stable reward model; staleness is the reward
+model's own reliability degrading as its input distribution shifts out from under it. The real
+mitigation is periodic reward-model refresh — re-collecting preference judgments on samples of
+the *current* policy's actual outputs at intervals during training (not just once, upfront) and
+retraining or fine-tuning the reward model against them — treated as a first-class, scheduled
+part of the training loop rather than a one-time setup step.
+
 ## Deep dive 2: cost and fault tolerance at multi-node scale
 
 Training runs at this scale span many GPU-hours across many nodes; a node failure partway
@@ -124,9 +138,12 @@ catch.
 - **Staff+:** names reward hacking and reward-model-quality as independent risks requiring
   their own evaluation, and designs fault tolerance (checkpoint + resume) as a first-class
   requirement, not an afterthought.
-- **Principal:** additionally treats cost attribution and safety-regression gating as
-  non-negotiable parts of the promotion decision, not optional monitoring bolted on after a
-  model is already serving.
+- **Principal:** additionally names reward-model staleness under distributional shift as a
+  distinct failure mode from reward hacking — the reward model's reliability silently degrading
+  as the policy drifts from the distribution it was validated against — and designs periodic
+  reward-model refresh (re-collecting preferences on the current policy's actual outputs) as a
+  scheduled part of the training loop, not a one-time upfront step; and treats cost attribution
+  and safety-regression gating as non-negotiable parts of the promotion decision.
 
 ## Follow-up questions to expect
 

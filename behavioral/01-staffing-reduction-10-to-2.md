@@ -28,7 +28,15 @@ Three specific architectural choices mattered most:
   threshold, rather than optimizing for zero human involvement.
 - **Invested in evaluation harnesses early**, before scaling volume, rather than relying on
   anecdotal spot-checks of output quality — this is the same principle later generalized across
-  this whole portfolio as "evals as a system layer, not an afterthought."
+  this whole portfolio as "evals as a system layer, not an afterthought." Concretely, that meant
+  checking three distinct things per decision, not one blended "looks right" pass: **structural
+  correctness** (did the routing/classification output conform to the schema downstream systems
+  required, not just read as plausible text), **grounding** (was the decision traceable to
+  specific retrieved context, not an unsupported model guess), and **risk-tier classification**
+  (would a wrong decision here be cheaply reversible, or would it touch something like a
+  financial commitment or an external-facing action) — and it was specifically the risk-tier
+  signal, not the other two, that decided whether a case got the human-approval gate or ran
+  fully automated.
 
 ## Result
 
@@ -42,7 +50,11 @@ every automated decision.
 **"How did you know it was safe to reduce staffing that much?"** The evaluation harness and
 human-approval gates weren't retrofitted after the staffing reduction — they were built *before*
 scaling volume, specifically so the reduction decision could be made on evidence (eval pass
-rates, audit trail review) rather than optimism. The org-wide practice this became — public,
+rates broken out per risk tier, not one blended pass rate, plus audit trail review of every
+gated decision) rather than optimism. The staffing number itself followed the eval evidence, not
+the other way around — the automated share only grew as the structural-correctness and
+grounding checks kept passing at volume; it wasn't a headcount target the automation was built
+to justify after the fact. The org-wide practice this became — public,
 open-source reference implementations of the same pattern
 ([VAP](https://github.com/vpeetla-ai/venkat-ai-platform),
 [AegisAI](https://github.com/vpeetla-ai/aegisai-enterprise-agent-platform),

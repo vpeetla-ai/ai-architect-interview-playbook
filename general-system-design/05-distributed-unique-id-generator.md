@@ -88,6 +88,21 @@ awareness that separates a Staff+ answer ("I know clocks aren't perfectly monoto
 machines, here's how I handle it") from a senior one that assumes the timestamp component is
 always trustworthy.
 
+## Deep dive 3: hybrid logical clocks — the unifying fix, not a patch per symptom
+
+Detecting and buffering around a backward clock jump treats each skew incident as a one-off
+patch. A **Principal-level answer names the underlying, unifying mechanism**: a Hybrid Logical
+Clock (HLC) — a timestamp component that combines the physical wall-clock time with a logical
+counter that only ever increases, so the combined value is guaranteed monotonically increasing
+*per node* regardless of physical clock behavior, while still staying close to real wall-clock
+time for practical time-range queries. This reframes clock skew from "a failure mode to detect
+and work around" into "a property the ID format is designed to tolerate by construction" — the
+same category of shift (from reactive patch to structural guarantee) that distinguishes a
+Principal answer elsewhere in this repo. It also directly resolves the sortability question:
+because an HLC-based ID stays monotonic per node even under skew, cross-node causal ordering
+(did event A happen before event B, when A and B originated on different nodes with imperfectly
+synchronized clocks) becomes answerable in a way a raw physical timestamp alone cannot guarantee.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a centralized counter or database auto-increment without recognizing
@@ -96,12 +111,12 @@ always trustworthy.
   free generation.
 - **Staff+:** designs the bit allocation deliberately (trading off ID lifetime before the
   timestamp component overflows, against per-node per-millisecond throughput from the sequence
-  bits) and addresses node-ID assignment (how nodes get their unique ID without runtime
-  coordination).
-- **Principal:** additionally addresses clock-skew as a real failure mode requiring explicit
-  handling, and can discuss the sortability trade-off against alternatives (UUIDs) explicitly —
-  when rough time-ordering is worth the added design complexity vs. when pure random uniqueness
-  (UUID) is sufficient.
+  bits), addresses node-ID assignment, and detects/buffers around clock-skew incidents reactively.
+- **Principal:** additionally names hybrid logical clocks as the structural fix for skew — a
+  monotonicity guarantee built into the ID format itself rather than a reactive patch per
+  incident — and can explain why this also solves cross-node causal ordering, not just
+  same-node monotonicity; and can discuss the sortability trade-off against alternatives (UUIDs)
+  explicitly.
 
 ## Follow-up questions to expect
 

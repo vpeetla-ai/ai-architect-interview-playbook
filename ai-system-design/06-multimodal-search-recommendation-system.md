@@ -70,77 +70,115 @@ is worth saying out loud in the interview: the underlying trade-off (you cannot 
 your most expensive model over your entire catalog per request) is identical whether the
 "catalog" is documents or products or videos.
 
-## Deep dive 1: multiple candidate-generation sources, not one
+## Deep dive 1: ANN index choice at billion-item scale — the actual serving-time bottleneck
 
-A single retrieval method (e.g., pure collaborative filtering, or pure embedding similarity)
-systematically misses whole categories of relevant content — collaborative filtering struggles
-with new items (cold start), embedding similarity alone misses exact-match or trending signals.
-Real systems merge candidates from several independent sources (collaborative filtering,
-content-based embedding similarity, trending/recency-boosted, explicit graph signals like
-"followed by people you follow") before ranking — the same principle as hybrid lexical +
-semantic retrieval in RAG, generalized to more sources because the personalization surface is
+Candidate generation over a catalog of hundreds of millions to billions of items cannot mean a
+brute-force distance computation against every item's embedding — at 1B items and a 128-
+dimensional embedding, that's 1B floating-point dot products per query, several orders of
+magnitude too slow for a tens-of-milliseconds budget. Real systems use an **approximate**
+nearest-neighbor (ANN) index, and the choice of index is a genuine, numbers-driven trade-off:
+
+| Index type | Recall@100 (typical) | Query latency at 1B items | Memory footprint | When it's the right call |
+|---|---|---|---|---|
+| Flat/brute-force | 100% (exact) | Seconds — infeasible at this scale | Highest (full-precision vectors) | Only for catalogs small enough to fit the latency budget exactly (low millions, not billions) |
+| IVF-PQ (inverted file + product quantization) | ~85-95%, tunable via `nprobe` | Single-digit milliseconds | Low — PQ compresses vectors to a fraction of full precision (often 8-16x smaller) | The common real default at billion-item scale, when memory cost matters as much as latency |
+| HNSW (hierarchical navigable small world graph) | ~95-99% | Single-digit milliseconds, generally faster per-query than IVF-PQ at comparable recall | High — stores full-precision vectors plus graph edges, several times IVF-PQ's footprint | When recall matters more than memory and the full index fits in memory |
+
+**Common mistake at the mid/senior level:** proposing "use an embedding index" without naming
+recall/latency/memory as three independently tunable axes — a Staff+/Principal answer states a
+concrete target (e.g., "recall@100 above 90% at p99 latency under 20ms") and picks an index
+family against that target explicitly, rather than treating ANN as a black box that "just
+works."
+
+## Deep dive 2: multiple candidate-generation sources, not one
+
+A single retrieval method systematically misses whole categories of relevant content —
+collaborative filtering struggles with new items (cold start), embedding similarity alone misses
+exact-match or trending signals. Real systems merge candidates from several independent sources
+(collaborative filtering, content-based embedding similarity via the ANN index above, trending/
+recency-boosted, explicit graph signals like "followed by people you follow") before ranking — a
+typical real system pulls on the order of 500-2,000 candidates per source, merges and dedups
+down to a few thousand total, then ranks that bounded set — the same principle as hybrid lexical
++ semantic retrieval in RAG, generalized to more sources because the personalization surface is
 richer.
 
 | Candidate source | Strength | Blind spot |
 |---|---|---|
 | Collaborative filtering | Strong for popular, well-engaged items | Cold start — new items/users have no signal |
-| Content/embedding similarity | Works for new items with no engagement history | Can over-recommend near-duplicates of what's already been seen |
+| Content/embedding similarity (ANN index) | Works for new items with no engagement history | Can over-recommend near-duplicates of what's already been seen |
 | Trending/recency boost | Surfaces genuinely new, time-sensitive content | Can dominate the feed if not capped |
 
-## Deep dive 2: multimodal representation — fusion vs. separate signals
+## Deep dive 3: multimodal representation — fusion vs. separate signals
 
 For a multimodal catalog, the question becomes: do you learn one joint embedding space across
-text/image/video, or keep modality-specific embeddings and combine their scores? Joint
-embeddings (e.g., trained via contrastive learning across modalities) let a single
-similarity computation capture cross-modal relevance ("this image matches this text query"),
-but they're expensive to train well and can degrade if one modality's data is much sparser than
-another's. Keeping modality-specific signals and combining them at the ranking stage (as
-separate features into the ranking model) is cheaper to build incrementally and easier to debug
-per-modality, at the cost of not capturing genuinely cross-modal relevance as directly.
+text/image/video (e.g., a CLIP-style dual-encoder trained via contrastive loss, so a single
+cosine-similarity computation captures cross-modal relevance), or keep modality-specific
+embeddings and combine their scores as separate features at ranking time? Joint embeddings are
+expensive to train well and degrade when one modality's data is much sparser than another's — a
+catalog with 100x more text-only items than video items will produce a joint space where video
+embeddings are undertrained relative to text. Keeping modality-specific signals and combining
+them at the ranking stage is cheaper to build incrementally and easier to debug per-modality
+(you can directly inspect which modality's signal drove a given ranking decision), at the cost
+of not capturing genuinely cross-modal relevance ("this image matches this text query") as
+directly as a joint space would.
 
-**Real, partial analog**: enterprise_rag_platform's retrieval layer already makes an analogous
-choice at a smaller scope — hybrid lexical + semantic scoring are combined explicitly at the
-retrieval stage rather than trained into one joint representation, specifically because it's
-debuggable (you can see which signal contributed) and doesn't require joint training data that
-doesn't exist for every corpus. The same reasoning applies at recsys scale: start with
-combined-at-ranking-time signals, and only invest in joint embeddings once you have clear
-evidence that cross-modal relevance is the actual bottleneck, not a starting assumption.
+**Real, partial analog**: enterprise_rag_platform's retrieval layer makes an analogous choice at
+smaller scope — hybrid lexical + semantic scoring are combined explicitly at the retrieval stage
+rather than trained into one joint representation, specifically because it's debuggable and
+doesn't require joint training data that doesn't exist for every corpus. The same reasoning
+applies at recsys scale: start with combined-at-ranking-time signals, and only invest in joint
+embeddings once there's clear evidence (a measured gap between fused-signal and joint-embedding
+quality on a held-out set) that cross-modal relevance is the actual bottleneck, not a starting
+assumption.
 
-## Deep dive 3: diversity and feedback loops
+## Deep dive 4: feedback loops and position bias — the mechanism, not just the observation
 
 Pure engagement-maximizing ranking creates a feedback loop: items that get engagement get
-recommended more, get more engagement, and crowd out everything else — including content that
-would have been relevant but never got an initial chance to be shown. A real design needs an
-explicit diversity/exploration mechanism (e.g., reserving some fraction of the candidate slots
-for exploration, or an explicit diversity penalty in the final ranking pass), named as a
-deliberate design choice, not left as an emergent property of "the ranking model is good."
+recommended more, get more engagement, and crowd out everything else. Naming this loop is a
+Senior-level observation; a Staff+/Principal answer names the actual correcting mechanisms:
+**position bias correction** (a click on the #1 slot means less than a click on the #10 slot,
+since users click higher-ranked items more regardless of true relevance — training data needs
+inverse-propensity weighting or a randomized-position exploration slice to avoid the ranking
+model learning "rank 1 gets clicks" as a spurious feature), and **explicit exploration budgets**
+(reserving a fixed fraction, e.g., 5-10% of candidate slots, for items the current model
+under-scores, so genuinely relevant new content gets a real chance to accumulate engagement
+signal rather than being permanently suppressed by its own cold start).
 
 ## What's expected at each level
 
-- **Mid-level:** proposes a single retrieval + ranking pipeline; may not raise cold start or
-  feedback loops unprompted.
-- **Senior:** proposes multiple candidate-generation sources; identifies cold start as a named
-  problem.
-- **Staff+:** explicitly designs for the engagement feedback loop (diversity/exploration as a
-  deliberate mechanism, not an afterthought), and can reason about fusion vs. separate-signal
-  trade-offs for multimodal content with a concrete recommendation.
-- **Principal:** additionally connects this design to the same retrieve-then-rank pattern that
-  shows up in RAG and other high-cardinality retrieval problems, showing the underlying
-  principle generalizes rather than treating this as a bespoke recsys-only problem.
+- **Mid-level:** proposes a single retrieval + ranking pipeline; may not raise cold start,
+  ANN index trade-offs, or feedback loops unprompted.
+- **Senior:** proposes multiple candidate-generation sources; identifies cold start and
+  engagement feedback loops as named problems, without necessarily naming a correction mechanism.
+- **Staff+:** picks a concrete ANN index family against a stated recall/latency/memory target,
+  and designs an explicit exploration/diversity mechanism (a stated budget or penalty) rather
+  than leaving it as an unmechanized observation.
+- **Principal:** additionally names position bias as the specific, measurable failure mode
+  driving the feedback loop (not just "engagement loops are bad") and designs the correction —
+  inverse-propensity weighting or randomized exploration slices — as a training-data-level fix,
+  not only a serving-time patch; and can state the ANN recall/latency trade-off in concrete
+  numbers (e.g., "90% recall at p99 20ms" rather than "a fast approximate index").
 
 ## Follow-up questions to expect
 
+- "Your IVF-PQ index's recall dropped after a re-index — how do you even detect this?" (Answer:
+  maintain a held-out set of (query, true-nearest-neighbor) pairs computed via exact brute-force
+  search, and continuously measure recall@K of the approximate index against it — this is a
+  real, standard ANN-index regression test, not a hypothetical.)
 - "How do you handle a brand-new user with no interaction history?" (Answer: fall back to
   content-based/trending candidates and coarse demographic signals until enough behavioral
   signal accumulates — a real cold-start strategy, not "just show popular items forever.")
-- "How would you A/B test a ranking model change safely?" (Answer: hold-out traffic
-  segmentation with a real statistical significance bar, and a rollback path if the new model
-  regresses a guardrail metric even while improving the primary one.)
 - "What's different if this needs to run on-device (e.g., a phone) instead of a data center?"
   (Answer: candidate generation and ranking both need to shrink dramatically — smaller
   embeddings, quantized models, a much smaller candidate pool — trading some ranking quality
-  for latency and privacy.)
+  for latency and privacy; see
+  [ai-system-design/11](11-on-device-edge-ai-inference-architecture.md) for the general
+  on-device/cloud tiering pattern this maps to.)
+- "How would you A/B test a ranking model change safely?" (Answer: hold-out traffic
+  segmentation with a real statistical significance bar, and a rollback path if the new model
+  regresses a guardrail metric even while improving the primary one.)
 
 ## Related
 
-- [system-design/02: RAG platform at scale](02-rag-platform-at-scale.md) — the same retrieve-then-rank pattern, different domain
+- [ai-system-design/02: RAG platform at scale](02-rag-platform-at-scale.md) — the same retrieve-then-rank pattern and ANN-index trade-off, different domain
+- [ai-system-design/11: On-device/edge AI inference architecture](11-on-device-edge-ai-inference-architecture.md) — the on-device tiering follow-up this entry maps to

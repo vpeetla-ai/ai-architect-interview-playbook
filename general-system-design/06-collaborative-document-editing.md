@@ -89,18 +89,37 @@ the two operations are ultimately applied in. Google's real Wave whitepaper docu
 this class of edge case as the actual source of complexity — not the high-level "let users edit
 together" concept, but the combinatorial correctness of the transform functions themselves.
 
+## Deep dive 3: the real cost CRDTs don't advertise — tombstone growth
+
+Choosing CRDTs for their peer-to-peer, no-central-authority convergence guarantee has a real,
+often-omitted cost: a naive CRDT implementation for text must retain a **tombstone** (a marker
+recording "a character was here and was deleted") for every deleted character, forever — because
+a late-arriving concurrent operation from an offline peer might still reference that position,
+and the CRDT needs the tombstone present to resolve the conflict correctly. In a long-lived,
+heavily-edited document, tombstones can grow to dwarf the actual visible content — a document
+that's been edited and revised thousands of times can accumulate a metadata overhead many times
+larger than its final visible text. **This is exactly the kind of concrete, non-obvious cost a
+Principal-level answer names unprompted**: real CRDT implementations need an explicit tombstone
+garbage-collection strategy (e.g., periodically compacting tombstones older than the oldest
+still-active peer's last-synced state, since only peers that haven't yet synced past a deletion
+still need its tombstone to resolve correctly), trading a small risk of rare conflict-resolution
+edge cases for bounded metadata growth — a real engineering trade-off, not a detail CRDT
+adoption gets for free.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes last-write-wins or a simple locking scheme (only one user can edit at
   a time), missing the actual concurrent-editing requirement.
 - **Senior:** identifies OT or CRDTs by name as the right category of solution, without
   necessarily being able to explain why the transform function itself is the hard part.
-- **Staff+:** can walk through a concrete insert-vs-insert or insert-vs-delete transform example
-  and explain why naive position-index math breaks without it.
-- **Principal:** additionally reasons about the OT-vs-CRDT trade-off explicitly (central-
-  authority-required vs. peer-to-peer-capable) and can connect that trade-off to a real product
-  requirement (offline-first support favors CRDTs; a simpler, always-online product can accept
-  OT's central-server dependency).
+- **Staff+:** can walk through a concrete insert-vs-insert or insert-vs-delete transform example,
+  explain why naive position-index math breaks without it, and connects the OT-vs-CRDT choice to
+  a real product requirement (offline-first favors CRDTs; always-online can accept OT's
+  central-server dependency).
+- **Principal:** additionally names tombstone growth as CRDTs' real, non-obvious operational
+  cost — unbounded metadata accumulation in long-lived documents — and designs a concrete garbage-
+  collection strategy for it (compaction bounded by the oldest still-syncing peer's state)
+  rather than treating CRDTs as a cost-free convergence guarantee.
 
 ## Follow-up questions to expect
 

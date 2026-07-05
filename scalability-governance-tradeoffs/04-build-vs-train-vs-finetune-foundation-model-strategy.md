@@ -59,16 +59,26 @@ Three real options, with different economics and different failure modes:
 
 ## The worked example, not hypothetical
 
-This org's own real decisions sit at a much smaller scale than a foundation-model company's, but
-reflect the same reasoning: [vllm-architecture-lab](https://github.com/vpeetla-ai/vllm-architecture-lab)
-builds a real simulator of the *serving* layer (PagedAttention, continuous batching) rather than
-attempting to train or fine-tune a model — a deliberate scope decision that the highest-leverage
-learning and demonstrable skill for this org's goals was in the inference/serving architecture,
-not model training, which requires data and compute resources genuinely out of scope for a
-solo-maintained portfolio. This mirrors the real trade-off in the framework above at a different
-scale: recognizing when training/fine-tuning isn't the right investment given the actual
-capability being demonstrated, and choosing the option (in this case, "build the surrounding
-system, don't retrain the core model") that matches the actual constraint.
+This org's own real decision is a direct, honest instance of option 3, not a strained analogy to
+it: every real service in this org that calls an LLM at all —
+[agent-finops](https://github.com/vpeetla-ai/agent-finops), [aegisai](https://github.com/vpeetla-ai/aegisai-enterprise-agent-platform),
+[aegisloop](https://github.com/vpeetla-ai/aegisloop-agentops-workbench),
+[enterprise_rag_platform](https://github.com/vpeetla-ai/enterprise_rag_platform),
+[venkat-ai-platform](https://github.com/vpeetla-ai/venkat-ai-platform) — calls a vendor API
+(OpenAI/Anthropic-compatible), never a model trained or fine-tuned in-house. That's a deliberate,
+disclosed choice for the same reason the framework names as the real driver of option 3: the
+differentiation this org's real work needs to demonstrate is in governance, orchestration, cost
+metering, and eval-gating architecture — the layers *around* a model call — not in model
+capability itself, and training/fine-tuning a model requires data and compute resources
+genuinely out of scope for what those layers actually need to prove.
+
+A related, smaller-scope decision worth naming honestly rather than over-claiming as the same
+thing: [vllm-architecture-lab](https://github.com/vpeetla-ai/vllm-architecture-lab) builds a
+real simulator of the *serving* layer (PagedAttention, continuous batching) specifically to
+demonstrate inference-architecture understanding without needing real model weights or training
+infrastructure to do it — a scope decision about how to prove serving-layer knowledge cheaply,
+distinct from (though motivated by the same resource-constraint logic as) the vendor-API decision
+above.
 
 ## The interview-ready summary
 
