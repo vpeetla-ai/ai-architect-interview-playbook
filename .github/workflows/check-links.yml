@@ -1,0 +1,15 @@
+name: check-links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify internal links resolve
+        run: ./scripts/check_links.sh
