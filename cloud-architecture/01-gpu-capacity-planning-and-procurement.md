@@ -4,7 +4,7 @@
 
 Well-documented as a *real infrastructure problem* at OpenAI and Meta specifically, but not as a
 *verbatim reported interview question* anywhere I could confirm. OpenAI's own engineering blog
-["Scaling Kubernetes to 25,000 GPU Nodes"](https://openai.com/index/scaling-kubernetes-to-7500-nodes/)
+["Scaling Kubernetes to 7,500 Nodes"](https://openai.com/index/scaling-kubernetes-to-7500-nodes/)
 and its Compute Infrastructure team's public job scope both describe capacity planning and
 cluster lifecycle as a named discipline; the OpenAI–NVIDIA 10-gigawatt compute deal (reported by
 OpenAI and NVIDIA directly) confirms procurement at this scale is a real, current concern,

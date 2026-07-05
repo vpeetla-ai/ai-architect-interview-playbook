@@ -3,7 +3,7 @@
 ## Where this actually gets asked
 
 Partially a well-known general archetype, partially distinctive to AI infra — disclosed
-honestly by piece. OpenAI's own engineering blog ("Scaling Kubernetes to 25,000 GPU Nodes") is a
+honestly by piece. OpenAI's own engineering blog ("Scaling Kubernetes to 7,500 Nodes") is a
 real, primary, citable source describing Kubernetes at GPU scale — genuine evidence this is a
 real operational concern at OpenAI, though not confirmed as a verbatim interview question.
 Google's own documentation and blog content on GKE Autopilot vs. Standard trade-offs for
