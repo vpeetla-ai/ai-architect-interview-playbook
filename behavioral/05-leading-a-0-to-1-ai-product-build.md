@@ -1,5 +1,14 @@
 # Leading a 0-to-1 AI product build under real ambiguity
 
+## The question, as it might actually be asked
+
+"Tell me about a time you had to decide what to actually ship in a 0-to-1 build, when the
+ambiguity was in the scope itself, not just the execution." This tests judgment about what to
+leave out, not just what to build — the real signal is whether you can name a specific
+overbuilding or underbuilding trap you avoided, not just that the launch went well. Answer with
+your own real experience — the case study below is one real example of this competency, not the
+assignment.
+
 ## Situation
 
 Every other behavioral entry in this repo is "found a real gap in an existing system and fixed
@@ -57,6 +66,17 @@ malformed content) on three of five platforms is a bigger trust and compliance r
 product that's honest about doing three things well and three things as a manual-friendly
 export. Scoping down to what's real, and disclosing the gap rather than hiding it, was the
 correct call even under pressure to look more complete on paper.
+
+## What's expected at each level
+
+- **Mid-level:** describes what was built and shipped; may not explicitly discuss what was
+  deliberately left out or deferred, and why.
+- **Senior:** names a specific overbuilding or underbuilding trap that was avoided, with the
+  concrete alternative that was considered and rejected.
+- **Staff+:** explains a structural (not configurable) safety or governance property built into
+  the system from the start, and why "optional" wasn't good enough for that specific property.
+- **Principal:** can defend a scope-narrowing decision to a stakeholder who wanted more,
+  articulating why disclosed partial scope beats undisclosed fragile completeness.
 
 ## Related
 

@@ -1,5 +1,13 @@
 # Finding and fixing a real FinOps gap in my own org
 
+## The question, as it might actually be asked
+
+"Tell me about a time you audited something you'd built or claimed publicly, found it didn't
+hold up, and fixed it." This tests intellectual honesty under no external pressure to look —
+nobody was forcing this audit; the real signal is whether you go looking for the gap between what
+you claim and what you shipped even when no one's checking. Answer with your own real experience
+— the case study below is one real example of this competency, not the assignment.
+
 ## Situation
 
 I'd written a Substack essay arguing that AI cost governance belongs in the architecture, not
@@ -47,6 +55,18 @@ is our total AI spend right now" without one canonical source underneath both. T
 requirements insight that only became clear partway through planning, and the honest answer is
 I changed the plan when I saw it, rather than defending the original approach because it was
 already underway.
+
+## What's expected at each level
+
+- **Mid-level:** describes finding a problem and fixing it; may frame the fix as the first idea
+  considered, without discussing alternatives or why they were rejected.
+- **Senior:** names at least one alternative approach considered and why it was rejected, with a
+  concrete technical detail about what was actually wrong — not just "it was broken."
+- **Staff+:** explains a requirement that only became clear mid-plan, not from the original ask,
+  and how that requirement changed the architecture (not just the implementation details).
+- **Principal:** connects the specific fix to a durable process or structural change that would
+  catch the same class of problem next time, treating the audit itself as evidence for a broader
+  claim rather than a one-off correction.
 
 ## Related
 

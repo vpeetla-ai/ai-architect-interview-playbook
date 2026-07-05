@@ -52,6 +52,17 @@ it's real, build a shared service — embedding will structurally never answer i
 one, embedding is fine and a shared service is premature complexity. Buy only when the
 capability is genuinely undifferentiated *and* doesn't need deep domain integration.
 
+## What's expected at each level
+
+- **Mid-level:** names the three options generically (build/embed/buy) without a clear decision
+  rule between them.
+- **Senior:** identifies the real deciding question — is there a genuine cross-consumer
+  requirement — for a given, stated scenario.
+- **Staff+:** describes a real case where the decision changed mid-plan once a requirement became
+  clear, and explains why that specific requirement forced the shared-service option.
+- **Principal:** can articulate when "buy" fails even for a seemingly commodity capability — deep
+  domain-integration need, or the vendor relationship itself becoming the new coupling problem.
+
 ## Related
 
 - [ADR-011: AgentFinOps as a standalone service](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-011-agent-finops-standalone-service.md)

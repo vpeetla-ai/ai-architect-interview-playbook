@@ -1,5 +1,14 @@
 # Finding and fixing unauthenticated endpoints across six repos
 
+## The question, as it might actually be asked
+
+"Tell me about a time you found the same class of problem repeated across multiple systems and
+fixed it consistently, without breaking existing usage." This tests systemic thinking — the real
+signal isn't fixing the one instance someone reported, it's going looking for every other place
+the same pattern hides, and fixing them the same way rather than ad hoc per repo. Answer with
+your own real experience — the case study below is one real example of this competency, not the
+assignment.
+
 ## Situation
 
 Running an eagle-view architecture review of a multi-repo AI agent portfolio, I went looking
@@ -51,6 +60,19 @@ alongside the code fix, explicitly calling out which env var to set on the real 
 platform (Render) — the fix wasn't just code; it was disclosure, so the gap between "secure by
 default in production" and "secure once you remember to configure it" is visible in the same
 place someone would look before deploying, not buried in a commit message.
+
+## What's expected at each level
+
+- **Mid-level:** describes finding and fixing the issue in one or a few places; may not
+  generalize to "how many other places does this exact pattern exist."
+- **Senior:** describes actively searching for the same pattern elsewhere (not just fixing the
+  one instance reported) and applying one consistent fix across every instance found.
+- **Staff+:** explains a rollout design choice that let the fix ship without breaking existing
+  usage (e.g., opt-in only when explicitly configured), and why that mattered more than shipping
+  the "ideal" secure-by-default answer that would have broken the dev/demo experience.
+- **Principal:** discloses a second, adjacent risk found during the fix that was outside the
+  original scope, and explains why surfacing it — rather than presenting the original fix as a
+  complete guarantee — was the right call.
 
 ## Related
 

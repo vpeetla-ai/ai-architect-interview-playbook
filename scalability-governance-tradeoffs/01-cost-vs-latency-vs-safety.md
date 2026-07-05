@@ -49,6 +49,17 @@ heaviest gate available "just in case." The actual skill is knowing, per decisio
 axis is load-bearing right now — and being able to say so explicitly when asked, rather than
 defaulting to "it depends" without naming what it depends *on*.
 
+## What's expected at each level
+
+- **Mid-level:** names that these three trade off against each other; may default to "it depends"
+  without naming what it depends *on*.
+- **Senior:** correctly applies the framework to a given scenario — says which axis wins — when
+  the scenario is stated plainly.
+- **Staff+:** reasons about a novel, ambiguous scenario and names which axis is load-bearing with
+  a concrete justification (e.g., citing reversibility), not just "it feels risky."
+- **Principal:** names the trap of over-engineering every path with the heaviest gate "just in
+  case," and can cite a real system where different call types consciously got different gates.
+
 ## Related
 
 - [scalability-governance-tradeoffs/02: Build vs. buy for shared services](02-build-vs-buy-shared-services.md)

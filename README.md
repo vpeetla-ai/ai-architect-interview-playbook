@@ -67,6 +67,14 @@ behavioral/                        — STAR-method write-ups for real, cited out
 scalability-governance-tradeoffs/  — reasoning frameworks: cost vs latency vs safety, etc.
 ```
 
+Every entry in every folder, not just `ai-system-design/`, now ends with the same
+"what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
+`scalability-governance-tradeoffs/` specifically so both categories are real, gradeable rubrics,
+not just narrative content. `behavioral/` entries also open with a generic, reusable interview
+question (distinct from the real case study that follows it) — a STAR write-up is one person's
+specific real story, so answering it yourself means answering the same generic question with your
+own experience, not reciting Lucid Motors' or Volvo's.
+
 Two different interview rounds, kept as two different folders rather than one blended list:
 `ai-system-design/` is the AI/ML-specific round (LLM serving, RAG, agent orchestration, model
 training/eval); `general-system-design/` is the classic "regular" distributed-systems round

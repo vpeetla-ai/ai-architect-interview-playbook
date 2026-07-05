@@ -1,5 +1,13 @@
 # Payments and supply chain modernization at Volvo Cars
 
+## The question, as it might actually be asked
+
+"Tell me about a time you accepted more short-term complexity for a long-term platform benefit,
+instead of shipping the faster path." This tests whether you can name the specific trade-off you
+accepted and defend it under pressure to ship faster — not just claim the modernization was
+"worth it" in hindsight. Answer with your own real experience — the case study below is one real
+example of this competency, not the assignment.
+
 ## Situation
 
 Two related but distinct problems at Volvo Cars: (1) Gulf-region payment coverage needed better
@@ -57,6 +65,17 @@ integration where the team owned no part of the actual logic and every future ch
 through a vendor's licensing and support cycle. The complexity accepted upfront was specifically
 the kind that pays down over time (a platform capability, an owned service boundary) rather than
 the kind that just accumulates (a one-off integration nobody wants to touch again).
+
+## What's expected at each level
+
+- **Mid-level:** describes the modernization and the outcome; may frame it as "the old way was
+  bad" without naming the specific trade-off accepted to fix it.
+- **Senior:** names the specific short-term cost accepted (time, complexity) and the specific
+  long-term benefit gained (ownership, adaptability), with a real number or concrete example.
+- **Staff+:** explains the abstraction or boundary design that made the new approach actually
+  maintainable — not just "we own it now" — and how that design generalizes beyond this one case.
+- **Principal:** can defend the decision under a stakeholder push for the faster path, naming
+  exactly what class of failure the faster path would have locked in for good.
 
 ## Related
 

@@ -91,6 +91,18 @@ single model covers well (Apple's real, reported multi-vendor mix). None of thes
 actual business model and constraints to the right point on this spectrum, rather than
 defaulting to "train your own" as if it were always the more sophisticated answer.
 
+## What's expected at each level
+
+- **Mid-level:** names the three options (train from scratch / fine-tune / vendor API) without a
+  clear rule for choosing between them.
+- **Senior:** correctly maps a given company's business model to the right option, with a stated
+  reason tied to that company's actual economics.
+- **Staff+:** can argue for a genuinely mixed, multi-vendor strategy when a single model doesn't
+  cover the full capability surface, naming the real trade-offs of that mix.
+- **Principal:** identifies what's actually being optimized for — differentiation, ecosystem, or
+  speed-to-market — as the deciding factor, rather than defaulting to "train your own" as if it
+  were inherently the more sophisticated answer.
+
 ## Related
 
 - [scalability-governance-tradeoffs/02: Build vs. buy for shared services](02-build-vs-buy-shared-services.md) — the same build/buy tension one layer down, for infrastructure rather than models

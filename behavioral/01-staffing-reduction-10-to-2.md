@@ -1,5 +1,14 @@
 # Staffing reduction from 10 to 2 in a supply chain workflow
 
+## The question, as it might actually be asked
+
+"Tell me about a time you significantly reduced manual or operational effort through automation,
+while keeping risk and reversibility under control." This tests judgment under real operational
+stakes, not just the ability to automate — anyone can automate the easy 80%; the real signal is
+what you did about the ambiguous 20% and how you knew it was safe to scale down. Answer with your
+own real experience — the case study below is one real example of this competency, not the
+assignment.
+
 ## Situation
 
 At Lucid Motors, supply chain and operations teams were carrying high manual intensity in
@@ -60,6 +69,20 @@ open-source reference implementations of the same pattern
 [AegisAI](https://github.com/vpeetla-ai/aegisai-enterprise-agent-platform),
 [AegisLoop](https://github.com/vpeetla-ai/aegisloop-agentops-workbench)) — is the generalized,
 inspectable version of exactly this discipline.
+
+## What's expected at each level
+
+- **Mid-level:** describes what was automated and that headcount/effort went down; may not
+  spontaneously mention how safety or quality was verified before scaling the automated share.
+- **Senior:** quantifies the result with a real before/after number and names at least one
+  concrete safeguard (a review gate, an eval check) unprompted, not just "we added monitoring."
+- **Staff+:** explains why the split between fully-automated and human-gated paths was drawn
+  where it was — tied to a specific risk signal (reversibility, financial exposure), not a
+  blanket "human reviews everything risky" policy.
+- **Principal:** connects the specific decision to a broader, reusable organizational principle
+  (evals as a system layer, not an afterthought) and can defend the follow-up question — "how did
+  you know it was safe" — with evidence (pass rates per risk tier, audit trail review), not
+  confidence.
 
 ## Related
 

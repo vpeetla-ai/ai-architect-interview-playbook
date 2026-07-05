@@ -51,6 +51,17 @@ changes get slowed down by governance's review cadence (also bad, for a differen
   audit format — an incident response or compliance audit has no single place to look, and risk
   tolerance varies by which team happened to build the check, not by actual risk.
 
+## What's expected at each level
+
+- **Mid-level:** frames it as one binary choice — centralize or federate — without drawing a
+  line within a single system.
+- **Senior:** correctly identifies at least one specific thing that should centralize and one
+  that should stay federated, for a given, stated scenario.
+- **Staff+:** draws the line with a concrete, reusable rule ("centralize the decision surface,
+  federate the implementation detail") rather than a fresh case-by-case judgment call every time.
+- **Principal:** describes the concrete failure mode on both sides — over-centralized and
+  over-federated — with a real or realistic example of each, not just the theoretical risk.
+
 ## Related
 
 - [ADR-001: Orchestration vs governance split](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-001-orchestration-vs-governance-split.md)
