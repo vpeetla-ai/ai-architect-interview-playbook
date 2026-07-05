@@ -179,6 +179,6 @@ than presenting a cost-driven compromise as if it were unconditional best practi
 
 ## Related
 
-- [system-design/01: LLM inference serving at scale](../system-design/01-llm-inference-serving-at-scale.md) — the serving-side counterpart; this entry is training-side
+- [system-design/01: LLM inference serving at scale](../ai-system-design/01-llm-inference-serving-at-scale.md) — the serving-side counterpart; this entry is training-side
 - [cloud-architecture/01: GPU capacity planning and procurement](01-gpu-capacity-planning-and-procurement.md)
 - [vllm-architecture-lab](https://github.com/vpeetla-ai/vllm-architecture-lab) — real scheduler/memory-management simulator, one layer up from raw networking

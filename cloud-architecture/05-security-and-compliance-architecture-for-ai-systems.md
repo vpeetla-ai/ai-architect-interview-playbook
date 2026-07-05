@@ -158,4 +158,4 @@ security posture.
 
 - [ADR-015: Genuine hands-on AWS + GCP infra](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-015-real-aws-gcp-infra-phase-c.md) — the real placeholder-API-key bug and fix
 - [behavioral/03: Org-wide security hardening](../behavioral/03-org-wide-security-hardening.md) — the real 6-repo auth-gate pass in this org
-- [system-design/05: Content moderation & safety system](../system-design/05-content-moderation-safety-system.md)
+- [system-design/05: Content moderation & safety system](../ai-system-design/05-content-moderation-safety-system.md)

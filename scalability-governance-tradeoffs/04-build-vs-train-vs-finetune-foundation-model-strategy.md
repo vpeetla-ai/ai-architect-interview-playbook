@@ -84,5 +84,5 @@ defaulting to "train your own" as if it were always the more sophisticated answe
 ## Related
 
 - [scalability-governance-tradeoffs/02: Build vs. buy for shared services](02-build-vs-buy-shared-services.md) — the same build/buy tension one layer down, for infrastructure rather than models
-- [system-design/08: Fine-tuning/RLHF training pipeline at scale](../system-design/08-finetuning-rlhf-training-pipeline-at-scale.md)
-- [system-design/11: On-device/edge AI inference architecture](../system-design/11-on-device-edge-ai-inference-architecture.md) — Apple's real multi-vendor mix, in architectural context
+- [system-design/08: Fine-tuning/RLHF training pipeline at scale](../ai-system-design/08-finetuning-rlhf-training-pipeline-at-scale.md)
+- [system-design/11: On-device/edge AI inference architecture](../ai-system-design/11-on-device-edge-ai-inference-architecture.md) — Apple's real multi-vendor mix, in architectural context

@@ -151,5 +151,5 @@ the trade-off can be verified end-to-end in a single session rather than modeled
 ## Related
 
 - [agent-finops](https://github.com/vpeetla-ai/agent-finops) — real per-call cost metering, the same forecast-vs-actual discipline one layer down
-- [system-design/01: LLM inference serving at scale](../system-design/01-llm-inference-serving-at-scale.md) — the serving-side GPU memory/scheduling deep dive this procurement layer feeds
+- [system-design/01: LLM inference serving at scale](../ai-system-design/01-llm-inference-serving-at-scale.md) — the serving-side GPU memory/scheduling deep dive this procurement layer feeds
 - [ADR-015: Genuine hands-on AWS + GCP infra](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-015-real-aws-gcp-infra-phase-c.md)

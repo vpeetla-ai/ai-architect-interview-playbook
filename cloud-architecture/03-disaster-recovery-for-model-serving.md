@@ -140,5 +140,5 @@ quick to reprovision, not something that itself needs point-in-time recovery.
 ## Related
 
 - [golden-eval-registry](https://github.com/vpeetla-ai/golden-eval-registry) — the real CI-gating pattern that prevents bad deployments before they need a rollback
-- [system-design/07: LLM evaluation & observability platform](../system-design/07-llm-evaluation-observability-platform.md)
+- [system-design/07: LLM evaluation & observability platform](../ai-system-design/07-llm-evaluation-observability-platform.md)
 - [cloud-architecture/02: Multi-region strategy for training vs. serving](02-multi-region-strategy-training-vs-serving.md)
