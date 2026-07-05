@@ -23,7 +23,12 @@ or is a well-established archetype without one — the same grounded-or-labeled 
 to sourcing as to the org-system callbacks. One research pass for `cloud-architecture/` also
 caught and explicitly flagged a fabricated-looking, company-attributed cost figure circulating
 on SEO content — see [cloud-architecture/03](cloud-architecture/03-disaster-recovery-for-model-serving.md)
-for why it's excluded rather than quietly dropped.
+for why it's excluded rather than quietly dropped. A later gap-analysis pass (adding
+`system-design/09-11` and `scalability-governance-tradeoffs/04`) caught two more of the same
+pattern — an unsourced "Vertex AI incident" anecdote and an unattributed "Anthropic interview
+stage" characterization, both traced to blog posts with no real citation and excluded — plus a
+reported-but-unconfirmed Apple/Google dollar figure and model-size claim, both cited as
+"reported," never as fact.
 
 **Companion repo:** [ai-architecture-portfolio](https://github.com/vpeetla-ai/ai-architecture-portfolio)
 holds the ADRs and case studies this content is grounded in. This repo is the interview-format
@@ -40,7 +45,7 @@ layer on top of that — same real decisions, framed as "how would you explain t
 ## Structure
 
 ```text
-system-design/                     — 8 AI-infra system design questions, hellointerview-style depth
+system-design/                     — 11 AI-infra system design questions, hellointerview-style depth
 cloud-architecture/                — 6 AI-infra cloud/network/security questions, same depth
 behavioral/                        — STAR-method write-ups for real, cited outcomes
 scalability-governance-tradeoffs/  — reasoning frameworks: cost vs latency vs safety, etc.
@@ -58,6 +63,9 @@ scalability-governance-tradeoffs/  — reasoning frameworks: cost vs latency vs 
 | [system-design/06](system-design/06-multimodal-search-recommendation-system.md) — Multimodal search / recommendation system | 🟡 General framework; partial real analog via enterprise_rag_platform's hybrid retrieval core |
 | [system-design/07](system-design/07-llm-evaluation-observability-platform.md) — LLM evaluation & observability platform | ✅ [golden-eval-registry](https://github.com/vpeetla-ai/golden-eval-registry), ADR-014 — found a real fixture bug on first execution |
 | [system-design/08](system-design/08-finetuning-rlhf-training-pipeline-at-scale.md) — Fine-tuning/RLHF training pipeline at scale | 🟡 General framework; real callbacks to agent-finops (cost) and golden-eval-registry (eval-gating) disciplines |
+| [system-design/09](system-design/09-multi-tenant-ai-platform-architecture.md) — Multi-tenant AI platform architecture | 🟡 Real Azure/Vertex AI docs for the industry pattern; org callback via agent-finops |
+| [system-design/10](system-design/10-ai-agent-sandboxing-and-code-execution-security.md) — AI agent sandboxing & code-execution security | ✅ Real Anthropic Claude Code sandboxing docs + aegisai's real `McpGovernanceProxy` as the same principle one layer up |
+| [system-design/11](system-design/11-on-device-edge-ai-inference-architecture.md) — On-device/edge AI inference architecture | 🟡 Real Apple PCC/Google AICore/Meta Ray-Ban docs; no org-system analog at this scale |
 | [cloud-architecture/01](cloud-architecture/01-gpu-capacity-planning-and-procurement.md) — GPU capacity planning & procurement | 🟡 Real OpenAI/Meta engineering-blog evidence for the industry problem; org callback via agent-finops |
 | [cloud-architecture/02](cloud-architecture/02-multi-region-strategy-training-vs-serving.md) — Multi-region strategy: training vs. serving | 🟡 General framework; weakest company-specific sourcing in this repo, disclosed as such |
 | [cloud-architecture/03](cloud-architecture/03-disaster-recovery-for-model-serving.md) — Disaster recovery for model serving | 🟡 General framework; also documents a fabricated source caught and rejected during research |
@@ -68,9 +76,11 @@ scalability-governance-tradeoffs/  — reasoning frameworks: cost vs latency vs 
 | [behavioral/02](behavioral/02-finops-audit-and-fix.md) — FinOps audit and fix | ✅ Substack essay → self-audit → agent-finops |
 | [behavioral/03](behavioral/03-org-wide-security-hardening.md) — Org-wide security hardening | ✅ 6-repo auth-gate pass, 2026-07-03/04 |
 | [behavioral/04](behavioral/04-payments-and-edi-modernization.md) — Payments & EDI modernization | ✅ Volvo Cars gulf-payments + supply-chain-EDI case studies |
+| [behavioral/05](behavioral/05-leading-a-0-to-1-ai-product-build.md) — Leading a 0-to-1 AI product build | ✅ ai-content-factory case study, ADR-008 |
 | [scalability-governance-tradeoffs/01](scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety.md) — Cost vs. latency vs. safety | 🟡 General framework, illustrated with real examples from this org |
 | [scalability-governance-tradeoffs/02](scalability-governance-tradeoffs/02-build-vs-buy-shared-services.md) — Build vs. buy for shared services | ✅ agent-finops's "own repo vs. embed" decision (ADR-011) as the worked example |
 | [scalability-governance-tradeoffs/03](scalability-governance-tradeoffs/03-centralize-vs-federate-governance.md) — Centralize vs. federate governance | ✅ VAP/AegisAI orchestration-vs-governance split (ADR-001) as the worked example |
+| [scalability-governance-tradeoffs/04](scalability-governance-tradeoffs/04-build-vs-train-vs-finetune-foundation-model-strategy.md) — Build vs. train vs. fine-tune: foundation model strategy | 🟡 Real Meta/Anthropic/Apple strategy sourcing; org callback via vllm-architecture-lab's scope decision |
 
 ## How to use this
 
