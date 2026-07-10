@@ -62,7 +62,35 @@ POST /v1/tools/execute
 Staff+ callout: authorize ≠ execute. Tokens are single-use and audited; resume is a separate HITL API.
 
 
+## Data Flow
+
+
+Mission plan → agent work → gateway authorize → (optional HITL) → execute with short-lived token.
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant O as Orchestrator
+  participant A as Agent
+  participant G as Gateway
+  participant T as Tool
+  U->>O: POST /v1/missions
+  O->>A: assign step
+  A->>G: authorize(tool, args)
+  alt allow
+    G-->>A: execution_token
+    A->>T: execute(token)
+    T-->>O: result
+  else approval_required
+    G-->>U: interrupt
+    U->>O: resume(approve)
+    O->>A: continue
+  end
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -110,6 +138,8 @@ change rarely and auditably, since policy changes are compliance events.
 owns governance (policy, HITL, signed audit) as a genuinely separate, independently-deployable
 system. Every side-effecting tool call, regardless of which orchestrator or specialist agent
 triggered it, routes through the same gateway.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: the gateway pattern for side-effecting actions
 

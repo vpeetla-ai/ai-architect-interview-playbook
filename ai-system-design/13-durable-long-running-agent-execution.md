@@ -74,7 +74,30 @@ GET /v1/runs/{run_id}/checkpoints/{checkpoint_id}
 Staff+ callout: interrupt/resume/cancel + checkpoint fetch are the durability contract — not “retry the HTTP call”.
 
 
+## Data Flow
+
+
+Run starts, checkpoints after nodes, interrupts for HITL, resumes from checkpoint — cancel is first-class.
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant API as Run API
+  participant O as Orchestrator
+  participant CK as Checkpoint store
+  U->>API: POST /v1/runs
+  API->>O: start graph
+  O->>CK: save checkpoint
+  O-->>API: interrupted (HITL)
+  API-->>U: status=interrupted
+  U->>API: resume(approve)
+  API->>O: continue from ckpt
+  O-->>U: completed / events
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -106,6 +129,8 @@ coarse task boundaries), and every side effect is idempotency-checked against a 
 before execution — so a crash-and-restart at any point resumes from the last checkpoint and
 never re-executes an already-completed side effect, regardless of how long ago the checkpoint
 was taken.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: durable execution engines — the real, named pattern this maps to
 

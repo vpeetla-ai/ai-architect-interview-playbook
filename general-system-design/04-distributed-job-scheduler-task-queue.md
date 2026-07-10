@@ -68,7 +68,30 @@ GET /v1/queues/{queue}/stats
 Staff+ callout: lease/ack/nack is the correctness API — visibility timeouts without lease tokens are insufficient.
 
 
+## Data Flow
+
+
+Enqueue → lease → worker execute → ack/nack; leases prevent double-processing under failure.
+
+```mermaid
+sequenceDiagram
+  participant P as Producer
+  participant Q as Queue API
+  participant W as Worker
+  P->>Q: POST task
+  W->>Q: lease
+  Q-->>W: task + lease_token
+  W->>W: execute
+  alt success
+    W->>Q: ack
+  else retryable failure
+    W->>Q: nack
+  end
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -103,6 +126,8 @@ runs as a leader-elected, consensus-backed cluster (not a single instance) so a 
 failure triggers leader re-election rather than a scheduling outage — and job execution uses a
 time-bounded lease so a worker failure mid-execution results in reassignment, not a silently
 lost job.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: exactly-once execution — the actual hard guarantee
 

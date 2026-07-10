@@ -71,7 +71,27 @@ GET /v1/dr/artifacts/{service}
 Staff+ callout: failover is a sequenced API with checkpoints; drills produce measurable RTO evidence.
 
 
+## Data Flow
+
+
+Drills exercise the same failover sequence used in incidents; checkpoints make RTO measurable.
+
+```mermaid
+sequenceDiagram
+  participant SRE as SRE
+  participant DR as Failover API
+  participant P as Primary
+  participant S as Secondary
+  SRE->>DR: POST failover
+  DR->>S: warm artifacts/config
+  DR->>P: drain
+  DR->>S: shift traffic
+  DR-->>SRE: checkpoints complete
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -104,6 +124,8 @@ region) and a **regional infrastructure failure** (the region itself is degraded
 secondary region running the same last-good model). Conflating these into one recovery path is
 the most common weak answer — a bad-deployment rollback should be near-instant and needs no
 cross-region traffic shift at all.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: RTO/RPO tiering by workload, since one number doesn't fit both training and serving
 

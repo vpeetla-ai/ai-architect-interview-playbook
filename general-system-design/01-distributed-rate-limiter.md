@@ -66,7 +66,32 @@ GET /v1/rules/{rule_id}/stats?window=5m
 Staff+ callout: multi-rule check is one round-trip; fail_mode is part of the rule contract, not an ops toggle.
 
 
+## Data Flow
+
+
+Every request path calls check before work; multi-rule evaluation is one round-trip against shared atomic state.
+
+```mermaid
+sequenceDiagram
+  participant S as Service
+  participant SDK as Limiter SDK
+  participant C as Check API
+  participant R as Redis Lua
+  S->>SDK: before handler
+  SDK->>C: POST /v1/check (rules, keys)
+  C->>R: atomic consume
+  R-->>C: remaining / deny
+  alt allowed
+    C-->>S: 200 allow
+    S->>S: business logic
+  else denied
+    C-->>S: 429 retry_after
+  end
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -103,6 +128,8 @@ graph TB
 The critical design decision: the counter store must be shared across every server instance
 handling that client's traffic — an in-process counter per server undercounts a client
 distributing requests across multiple servers/regions, defeating the limiter entirely.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: algorithm choice
 

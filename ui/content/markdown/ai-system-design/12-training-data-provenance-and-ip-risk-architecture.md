@@ -78,7 +78,29 @@ POST /v1/takedowns
 Staff+ callout: approval + lineage query + takedown propagation are the compliance APIs — not a spreadsheet.
 
 
+## Data Flow
+
+
+Register dataset → provenance → dual approval → training admission checks lineage; takedowns propagate exclusions.
+
+```mermaid
+sequenceDiagram
+  participant D as Data eng
+  participant Reg as Registry
+  participant L as Legal review
+  participant Gate as Training gate
+  participant TD as Takedown
+  D->>Reg: POST /v1/datasets + provenance
+  Reg->>L: pending_review
+  L->>Reg: approve
+  Gate->>Reg: lineage query for model job
+  TD->>Reg: takedown URL
+  Reg-->>Gate: updated blocklists
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -107,6 +129,8 @@ graph TB
 The design principle: provenance is enforced at ingestion (reject data without it) and preserved
 end-to-end via the corpus-snapshot-to-model linkage — not reconstructed after the fact by
 grepping through data pipelines when a legal team asks a question.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: provenance tracking through transformation, not just at ingestion
 

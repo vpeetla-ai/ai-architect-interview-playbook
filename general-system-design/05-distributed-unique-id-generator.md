@@ -57,7 +57,26 @@ GET /v1/allocator/health
 Staff+ callout: batch allocate + decode are part of the contract; clock/worker health is observable.
 
 
+## Data Flow
+
+
+Clients allocate IDs via the service (batch optional); decode exposes datacenter/worker/time for debugging.
+
+```mermaid
+sequenceDiagram
+  participant S as Service
+  participant ID as ID API
+  participant Alloc as Worker allocator
+  S->>ID: POST /v1/ids count=N
+  ID->>Alloc: ensure worker id
+  Alloc-->>ID: worker/datacenter
+  ID-->>S: ids[]
+  S->>ID: GET decode/{id}
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -87,6 +106,8 @@ node's assigned ID is baked into every ID it generates, so as long as node IDs a
 service used only at startup, not per-request) and each node's own per-millisecond sequence
 counter doesn't overflow (12 bits = 4096 IDs per node per millisecond), no two nodes can ever
 produce the same ID without any request-time coordination between them.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: why this beats a centralized ID service
 

@@ -82,7 +82,27 @@ POST /v1/break-glass
 Staff+ callout: policy publish, findings, evidence export, and break-glass are distinct APIs with different controls.
 
 
+## Data Flow
+
+
+Policy publish → enforce at gateway → scanners open findings → evidence export for audits; break-glass is time-boxed.
+
+```mermaid
+sequenceDiagram
+  participant Sec as Security
+  participant Pol as Policy API
+  participant GW as Gateway
+  participant Scan as Scanners
+  participant Ev as Evidence
+  Sec->>Pol: publish policy
+  Pol->>GW: enforce
+  Scan->>Sec: findings
+  Sec->>Ev: export SOC2 pack
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -114,6 +134,8 @@ value asset (model weights) gets a *categorically* different access control — 
 authorization — not just a stricter version of the same single-approver flow used for lower-
 value resources. Treating all internal access uniformly (one authorization model for everything)
 misses this distinction entirely.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: model weights as a uniquely high-value asset — the AI-specific wrinkle
 

@@ -63,7 +63,29 @@ POST /v1/gates/{run_id}/override
 Staff+ callout: eval runs must deep-link to traces; overrides are audited and time-bounded.
 
 
+## Data Flow
+
+
+CI triggers an eval run against golden fixtures; failures deep-link to production-like traces.
+
+```mermaid
+sequenceDiagram
+  participant CI as CI
+  participant Gate as Gate API
+  participant Run as Eval runner
+  participant Gold as Fixtures
+  participant Tr as Trace store
+  CI->>Gate: POST /v1/eval-runs
+  Gate->>Run: start
+  Run->>Gold: load cases
+  Run->>Tr: attach / compare spans
+  Run-->>Gate: scores + failed_cases
+  Gate-->>CI: pass/fail
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -97,6 +119,8 @@ and **evaluation** (does the system still behave correctly against known cases, 
 prevention) are related but distinct systems. A common weak answer conflates them into one
 "logging" system that does neither job well — traces need to capture arbitrary production
 diversity; eval suites need to be small, curated, and stable enough to gate a merge on.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: fixtures that validate vs. fixtures that actually gate
 

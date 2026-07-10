@@ -8,10 +8,11 @@
 
 Most interview-prep content is generic: "here's how you'd design a RAG system" as a thought
 experiment. This repo is different in two ways. First, the `ai-system-design/` questions follow
-[hellointerview.com](https://www.hellointerview.com)'s answer structure — requirements, core
-entities, API design, a high-level architecture, deep dives with real trade-off tables and
-concrete numbers, and an explicit "what's expected at Mid/Senior/Staff+/Principal" breakdown —
-rather than a shallow Q&A. Second, every entry either points at a system that's actually
+[hellointerview.com](https://www.hellointerview.com)'s six-step answer structure —
+**Requirements → Core entities → API / interface → Data Flow → High-level design → Deep dives** —
+where high-level design maps back to functional requirements and deep dives target non-functional
+ones, plus real trade-off tables, concrete numbers, and an explicit "what's expected at
+Mid/Senior/Staff+/Principal" breakdown — rather than a shallow Q&A. Second, every entry either points at a system that's actually
 shipped and running (with a real ADR, a real trade-off, a real bug found in production), or is
 clearly marked as general framework content that hasn't been exercised against a specific
 shipped decision yet.
@@ -58,7 +59,7 @@ layer on top of that — same real decisions, framed as "how would you explain t
 |---------|----------------|
 | Me, before an interview | Rehearse real trade-offs I've actually made, not improvise from scratch |
 | Hiring panel / interviewer | See how a candidate reasons about trade-offs *and* verify the claims against real, running systems |
-| Another engineer prepping for AI architect interviews | Borrow the structure — requirements → entities → design → deep dives → level expectations |
+| Another engineer prepping for AI architect interviews | Borrow the structure — requirements → entities → API → data flow → HLD → deep dives → level expectations |
 
 ## Structure
 
@@ -146,9 +147,17 @@ which doesn't require any AI-specific knowledge to answer well.
 
 ## How to use this
 
-Each `ai-system-design/`, `general-system-design/`, and `cloud-architecture/` entry follows: requirements (functional +
-non-functional) → core entities → API/interface → high-level design with a diagram → 2-4 deep
-dives with real trade-off tables → what's expected at each level → common follow-up questions.
+Each `ai-system-design/`, `general-system-design/`, and `cloud-architecture/` entry follows the
+Hello Interview six-step shape:
+
+1. **Requirements** — functional + non-functional
+2. **Core entities** — main data objects / components
+3. **API / interface** — how clients interact
+4. **Data Flow** — sequence of how data moves (bridge between interface and architecture)
+5. **High-level design** — component architecture that satisfies **functional** requirements
+6. **Deep dives** — latency, scale, failure, cost, security that satisfy **non-functional** requirements
+
+Then: what's expected at each level → common follow-up questions.
 If you're prepping for a system design interview, read the question, try answering it yourself
 first — including the level breakdown, aim for the Staff+/Principal bar, not just "a working
 answer" — then compare against this one.

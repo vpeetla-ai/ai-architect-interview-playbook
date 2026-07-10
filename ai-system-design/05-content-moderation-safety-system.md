@@ -58,7 +58,30 @@ POST /v1/appeals/{appeal_id}/resolve
 Staff+ callout: return `policy_version` + machine-readable reason codes; appeals are a first-class write API.
 
 
+## Data Flow
+
+
+Sync path for chat; async path for media. Human review is a branch, not a silent drop.
+
+```mermaid
+sequenceDiagram
+  participant App as Product
+  participant Mod as Moderate API
+  participant Ens as Ensemble
+  participant Q as Review queue
+  App->>Mod: POST /v1/moderate
+  Mod->>Ens: score policies
+  alt allow/block
+    Ens-->>App: decision + policy_version
+  else review
+    Ens->>Q: enqueue
+    Q-->>App: decision=review
+  end
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -96,6 +119,8 @@ never generate a response to "here's my SSN, use it to..."). Output-side validat
 whether the *generated* content is actually grounded and safe, independent of what the input
 looked like — a perfectly innocent-looking prompt can still produce an ungrounded or unsafe
 completion.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: real, working input/output guardrails, not a placeholder
 

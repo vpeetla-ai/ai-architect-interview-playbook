@@ -74,7 +74,29 @@ Authorization: Bearer <tenant_key>
 Staff+ callout: quotas and keys are control-plane APIs; data-plane errors must name which quota fired.
 
 
+## Data Flow
+
+
+Control plane sets quotas/keys; data plane enforces on every inference call and meters usage.
+
+```mermaid
+sequenceDiagram
+  participant Adm as Admin
+  participant CP as Control plane
+  participant T as Tenant app
+  participant GW as Gateway
+  participant Pool as Model pool
+  Adm->>CP: PUT quotas / create keys
+  T->>GW: POST completions (tenant key)
+  GW->>GW: enforce RPM/TPM
+  GW->>Pool: route
+  Pool-->>T: response
+  GW->>CP: usage events
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -110,6 +132,8 @@ The critical design decision: quota enforcement happens at the gate, before sche
 a post-hoc billing reconciliation. A design that only tracks usage *after* the GPU has already
 done the work has already let the noisy-neighbor problem happen; it can bill for it accurately,
 but it hasn't prevented it.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: shared vs. dedicated capacity, and the real mitigation for noisy neighbors
 

@@ -71,7 +71,34 @@ GET /v1/cache/stats
 Staff+ callout: tag-based invalidation + CDN purge are separate APIs with different blast radii.
 
 
+## Data Flow
+
+
+Read-through on miss; writes set TTL; tag invalidation and CDN purge are separate, higher-blast-radius paths.
+
+```mermaid
+sequenceDiagram
+  participant App as App
+  participant L1 as L1 cache
+  participant L2 as L2 Redis
+  participant O as Origin
+  participant CDN as CDN
+  App->>L1: GET key
+  alt hit
+    L1-->>App: value
+  else miss
+    L1->>L2: GET
+    L2->>O: fetch
+    O-->>L2: value
+    L2-->>App: value
+  end
+  App->>L2: invalidate tags
+  App->>CDN: purge URLs
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -98,6 +125,8 @@ graph TB
   Inv --> L2
   Inv --> CDN
 ```
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: cache invalidation strategy
 

@@ -83,7 +83,31 @@ POST /v1/fallback/cloud-infer
 Staff+ callout: on-device path is default; cloud fallback is an explicit, privacy-scoped API.
 
 
+## Data Flow
+
+
+Device pulls signed model package; inference stays on-device unless privacy-scoped cloud fallback is invoked.
+
+```mermaid
+sequenceDiagram
+  participant App as App
+  participant Man as Manifest API
+  participant CDN as Model CDN
+  participant RT as On-device runtime
+  participant FB as Cloud fallback
+  App->>Man: GET manifest
+  App->>CDN: download-ticket + fetch
+  CDN-->>RT: signed model
+  App->>RT: infer
+  opt cloud fallback
+    RT->>FB: POST fallback/cloud-infer
+    FB-->>App: result (no_store)
+  end
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -111,6 +135,8 @@ The design principle Apple's published PCC architecture makes explicit: escalati
 tier is not the same privacy trade-off as a typical "call an API" cloud request — the design
 goal is that the cloud tier processes the request and discards it, with no operator visibility
 into content, as close to on-device privacy guarantees as a cloud tier can architecturally get.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: on-device vs. cloud-first, and why the trade-off differs from classic edge computing
 

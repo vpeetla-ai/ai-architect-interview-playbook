@@ -71,7 +71,28 @@ POST /v1/conversations/{id}/read
 Staff+ callout: client_msg_id + seq give idempotent send and gap-free sync; read receipts are a separate write.
 
 
+## Data Flow
+
+
+Send writes an ordered message, fanout updates inboxes, websocket pushes to online devices, acks advance cursors.
+
+```mermaid
+sequenceDiagram
+  participant A as Sender
+  participant API as Chat API
+  participant Store as Message store
+  participant Fan as Fanout
+  participant B as Recipient WS
+  A->>API: POST message (idempotency key)
+  API->>Store: append seq
+  API->>Fan: fanout
+  Fan-->>B: push message
+  B->>API: ack seq
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -104,6 +125,8 @@ The core design problem this diagram makes explicit: sender and recipient are ve
 connected to *different* gateway servers, so message delivery requires a routing layer that
 knows which server currently holds which user's connection — a stateful routing problem, unlike
 a typical stateless request/response API.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: connection management at scale
 

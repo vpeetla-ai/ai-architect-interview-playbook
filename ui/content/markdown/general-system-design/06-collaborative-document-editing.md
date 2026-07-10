@@ -66,7 +66,28 @@ POST /v1/docs/{doc_id}/acl
 Staff+ callout: ops are revision-addressed; ACL changes are versioned separately from content revs.
 
 
+## Data Flow
+
+
+Clients send ops against a base revision; server transforms, assigns rev, broadcasts; snapshots compact history.
+
+```mermaid
+sequenceDiagram
+  participant A as Editor A
+  participant GW as Session GW
+  participant OT as OT/CRDT svc
+  participant Log as Op log
+  A->>GW: op(base_rev)
+  GW->>OT: transform
+  OT->>Log: append rev
+  OT-->>GW: ack rev
+  GW-->>A: ack
+  GW-->>A: peer ops
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -96,6 +117,8 @@ The central design problem this diagram is built around: two users type at nearl
 in overlapping parts of the document, and each op needs to be *transformed* against the other so
 that applying both, in either order, produces the identical final document — this is the core
 guarantee operational transformation and CRDTs are each, differently, designed to provide.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: operational transformation vs. CRDTs
 

@@ -68,7 +68,28 @@ GET /v1/replication/status?dataset=corpus_v5
 Staff+ callout: serving traffic policy and training placement are different APIs — do not share one “multi-region” knob.
 
 
+## Data Flow
+
+
+Serving traffic weights shift independently from training placement; replication lag is observed, not assumed zero.
+
+```mermaid
+sequenceDiagram
+  participant Op as Operator
+  participant TP as Traffic policy
+  participant US as US serving
+  participant EU as EU serving
+  participant Tr as Training placement
+  Op->>TP: PUT weights
+  TP->>US: 70%
+  TP->>EU: 30%
+  Op->>Tr: place training job
+  Tr-->>Op: region=us-east
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -101,6 +122,8 @@ serving region selection is driven by **user proximity and failover** — and th
 artifact itself is the boundary between them, since a model (unlike raw training data) is
 usually not subject to the same residency constraints once training is complete, unless
 regulation specifically extends to model weights (an emerging, not yet settled, area).
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: why training and serving region strategy are not the same problem
 

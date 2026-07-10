@@ -67,7 +67,33 @@ POST /v1/feedback
 Staff+ callout: search vs recommend share retrieval but differ in ranking contracts; feedback closes the loop.
 
 
+## Data Flow
+
+
+Query encoding → multi-channel retrieval → L1 merge → L2 rank → feedback loop.
+
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant S as Search API
+  participant ANN as ANN index
+  participant Lex as Lexical
+  participant R as Ranker
+  C->>S: POST /v1/search
+  par
+    S->>ANN: dense candidates
+    S->>Lex: sparse / filters
+  end
+  ANN-->>S: ids
+  Lex-->>S: ids
+  S->>R: L1 merge + L2 score
+  R-->>C: ranked results
+  C->>S: POST /v1/feedback
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -107,6 +133,8 @@ RAG's retrieve-then-rerank pattern (see [system-design/02](02-rag-platform-at-sc
 is worth saying out loud in the interview: the underlying trade-off (you cannot afford to run
 your most expensive model over your entire catalog per request) is identical whether the
 "catalog" is documents or products or videos.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: ANN index choice at billion-item scale — the actual serving-time bottleneck
 

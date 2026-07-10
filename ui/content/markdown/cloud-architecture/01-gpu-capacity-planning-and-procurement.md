@@ -71,7 +71,28 @@ POST /v1/placement/recommendations
 Staff+ callout: forecast → reservation → approval → utilization feedback is a closed control-plane loop.
 
 
+## Data Flow
+
+
+Forecast → reservation request → dual approval → provider submit → utilization feeds the next forecast.
+
+```mermaid
+sequenceDiagram
+  participant F as Forecast
+  participant R as Reservations API
+  participant A as Approvers
+  participant C as Cloud quota
+  participant U as Utilization
+  F->>R: gap_units
+  R->>A: pending_approval
+  A->>R: approve
+  R->>C: submit reservation
+  U-->>F: util + waste signals
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -101,6 +122,8 @@ capacity has real lead time), a scheduler binds actual workloads against whateve
 at request time with an explicit fallback chain, and every allocation's real consumption feeds
 back into the next forecast — not a one-time capacity plan that goes stale the moment traffic
 shifts.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: reserved vs. on-demand vs. secondary-provider trade-offs
 

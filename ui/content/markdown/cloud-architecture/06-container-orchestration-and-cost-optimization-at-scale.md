@@ -67,7 +67,27 @@ GET /v1/clusters/{cluster}/binpack
 Staff+ callout: cost and rightsizing are product APIs next to deploy — not a monthly spreadsheet.
 
 
+## Data Flow
+
+
+Deploy workload → autoscale on RPS → meter cost → rightsizing recommendation → apply change.
+
+```mermaid
+sequenceDiagram
+  participant Dev as App team
+  participant WL as Workload API
+  participant Sch as Scheduler
+  participant Cost as Cost API
+  Dev->>WL: POST workload
+  WL->>Sch: schedule pods
+  Sch-->>Cost: usage
+  Cost-->>Dev: rightsizing
+  Dev->>WL: apply rightsizing
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -92,6 +112,8 @@ graph TB
   Pods --> Sidecar --> Meter --> Recs --> Cost
   Cost --> Deploy
 ```
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: managed orchestration vs. Kubernetes, with real numbers from actually deploying both
 

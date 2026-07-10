@@ -66,7 +66,30 @@ GET /v1/metrics/serving?model=llama-3.1-70b
 Staff+ callout: expose queue depth / TTFT breach as client-visible signals so callers can shed load.
 
 
+## Data Flow
+
+
+Happy path for an interactive completion (functional), then where NFRs show up (queueing, KV reuse).
+
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant GW as API Gateway
+  participant Adm as Admission
+  participant Sch as Scheduler
+  participant GPU as GPU worker
+  C->>GW: POST /v1/chat/completions (stream)
+  GW->>Adm: auth + priority=interactive
+  Adm->>Sch: enqueue / admit
+  Sch->>GPU: continuous batch step
+  GPU-->>Sch: tokens
+  Sch-->>C: SSE token stream
+  Note over Adm,Sch: NFR: TTFT, queue depth, KV-cache hit
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -107,6 +130,8 @@ batch to fully complete before starting new requests (static batching — the na
 answer), the scheduler adds new sequences into the batch at every decode step as soon as GPU
 memory allows, and removes completed sequences immediately. This is the difference between GPU
 utilization in the 20-30% range and the 70-90%+ range real serving systems achieve.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: KV cache memory management (the actual bottleneck)
 

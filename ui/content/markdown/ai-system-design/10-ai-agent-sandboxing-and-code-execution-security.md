@@ -73,7 +73,27 @@ GET /v1/sandboxes/{sandbox_id}/audit
 Staff+ callout: create/exec/terminate lifecycle + deny-by-default network are explicit APIs, not container flags alone.
 
 
+## Data Flow
+
+
+Gateway mints sandbox → exec under allowlisted network/resources → terminate + audit.
+
+```mermaid
+sequenceDiagram
+  participant G as Gateway
+  participant M as Sandbox manager
+  participant S as Sandbox
+  G->>M: POST /v1/sandboxes
+  M-->>G: sandbox_id
+  G->>S: POST exec (execution_token)
+  S-->>G: stdout/stderr/exit
+  G->>M: terminate
+  M-->>G: audit events
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -107,6 +127,8 @@ tool *results* flow back into the agent's context as if they were trusted reason
 they need to be treated with the same suspicion as the tool *call* itself — a fetched web page
 or a file's contents can carry an embedded instruction just as easily as a malicious direct
 prompt can.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: isolation technology choices
 

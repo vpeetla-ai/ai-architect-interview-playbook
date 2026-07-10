@@ -75,7 +75,26 @@ POST /v1/incidents/network
 Staff+ callout: topology + intent + telemetry are the network APIs; “fast network” without intents is incomplete.
 
 
+## Data Flow
+
+
+Declare fabric intent → provision rails → jobs run collectives; telemetry detects hangs/loss.
+
+```mermaid
+sequenceDiagram
+  participant Op as Operator
+  participant Net as Network API
+  participant Fab as Fabric controller
+  participant Job as Training job
+  Op->>Net: POST network + intents
+  Net->>Fab: provision RoCE rails
+  Job->>Fab: allreduce traffic
+  Fab-->>Net: telemetry (rtt, loss)
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -106,6 +125,8 @@ cross-zone) traffic for the collective operations a specific parallelism strateg
 Tensor-parallel ranks (which communicate on every layer, the tightest coupling) should be
 co-located within a rack; data-parallel ranks (which only communicate gradients once per step, a
 much looser coupling) can tolerate being spread across racks or zones.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: RDMA/RoCE and InfiniBand vs. standard Ethernet
 

@@ -75,7 +75,30 @@ POST /v1/rlhf-jobs
 Staff+ callout: promote is gated by eval suite + budget; preference data has its own versioned API.
 
 
+## Data Flow
+
+
+Dataset + base model → training workers → eval gate → promote to registry (budget-aware).
+
+```mermaid
+sequenceDiagram
+  participant Op as Operator
+  participant Or as Job orchestrator
+  participant W as GPU workers
+  participant Ev as Eval gate
+  participant Reg as Model registry
+  Op->>Or: POST /v1/training-jobs
+  Or->>W: schedule
+  W-->>Or: metrics / checkpoints
+  Or->>Ev: run suite
+  Ev-->>Or: pass/fail
+  Op->>Or: POST promote
+  Or->>Reg: register artifact
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -107,6 +130,8 @@ one monolithic training job. This is the answer to "what could possibly go wrong
 single-pass design": if you only evaluate the final aligned model, a bug in the reward model
 (the middle stage) is invisible until it's already baked into a policy model that's expensive
 to retrain — evaluating each stage independently catches the cheaper failure earlier.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: reward model quality is its own first-class problem
 

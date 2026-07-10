@@ -62,7 +62,33 @@ Authorization: Bearer <token>
 Staff+ callout: ingest, answer, and invalidation are separate contracts — ACL changes after index time need an explicit API path.
 
 
+## Data Flow
+
+
+Two flows: ingest (write path) and answer (read path). Access filter runs **before** ranking on the answer path.
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant GW as Gateway
+  participant In as Ingest
+  participant Idx as Indexes
+  participant Ans as Answer
+  participant LLM as LLM
+  U->>GW: POST /v1/documents
+  GW->>In: validate contract
+  In->>Idx: chunk + embed + upsert
+  U->>GW: POST /v1/answer
+  GW->>Ans: Principal from JWT
+  Ans->>Idx: access-filtered retrieve
+  Idx-->>Ans: candidates
+  Ans->>LLM: grounded generation
+  LLM-->>U: answer + citations
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -109,6 +135,8 @@ first pass (hybrid lexical + dense/semantic search over a vector index) followed
 expensive reranker over a much smaller candidate set — this two-stage pattern is the standard
 answer to "how do you get both recall and precision without running an expensive reranker over
 millions of candidates."
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: access control ordering (the detail that separates Staff+ from Senior)
 

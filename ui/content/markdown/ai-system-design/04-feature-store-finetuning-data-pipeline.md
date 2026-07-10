@@ -64,7 +64,29 @@ GET /v1/training-datasets/{dataset_id}
 Staff+ callout: point-in-time correctness belongs in the training-dataset API contract, not a notebook convention.
 
 
+## Data Flow
+
+
+Offline materialization feeds training datasets; online path serves low-latency feature vectors at inference.
+
+```mermaid
+sequenceDiagram
+  participant P as Producer job
+  participant M as Materializer
+  participant Off as Offline store
+  participant On as Online store
+  participant Tr as Training builder
+  participant Inf as Inference
+  P->>M: new events / batch
+  M->>Off: point-in-time tables
+  M->>On: serve features
+  Tr->>Off: build training dataset
+  Inf->>On: GET online-features
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -101,6 +123,8 @@ build training datasets) and an online store (optimized for point lookups by ent
 at inference time). The alternative — compute features differently for training vs. serving —
 is the single most common root cause of training-serving skew in real ML systems, and a strong
 answer should name this explicitly as the failure mode being designed against.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: point-in-time correctness
 

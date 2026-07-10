@@ -64,7 +64,29 @@ GET /v1/feed/debug/{user_id}   # staff-only
 Staff+ callout: feed read is cursor-based; ranking debug is a privileged API for incident response.
 
 
+## Data Flow
+
+
+Candidate generation → rank → blend → cache; client feedback trains the next ranker iteration.
+
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant F as Feed API
+  participant Cand as Candidates
+  participant Rank as Ranker
+  participant Cache as Feed cache
+  C->>F: GET /v1/feed
+  F->>Cand: friends/groups/...
+  Cand->>Rank: score
+  Rank->>Cache: store page
+  Cache-->>C: items + cursor
+  C->>F: POST /v1/feed/events
+```
+
 ## High-level design
+
+Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
 
 ```mermaid
 graph TB
@@ -95,6 +117,8 @@ graph TB
 This is Meta's own real, published architecture pattern (the Aggregator/Leaf/Tailer design):
 separate the fan-out mechanism by author type rather than using one uniform strategy for every
 post.
+
+Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
 
 ## Deep dive 1: fan-out-on-write vs. fan-out-on-read — the celebrity problem
 
