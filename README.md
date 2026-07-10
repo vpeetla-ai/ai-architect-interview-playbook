@@ -2,6 +2,7 @@
 
 [![check-links](https://github.com/vpeetla-ai/ai-architect-interview-playbook/actions/workflows/check-links.yml/badge.svg)](https://github.com/vpeetla-ai/ai-architect-interview-playbook/actions/workflows/check-links.yml)
 [![Org](https://img.shields.io/badge/GitHub-vpeetla--ai-blue)](https://github.com/vpeetla-ai)
+[![Study UI](https://img.shields.io/badge/study-notebook-0b5fff)](https://github.com/vpeetla-ai/ai-architect-interview-playbook#structure)
 
 Most interview-prep content is generic: "here's how you'd design a RAG system" as a thought
 experiment. This repo is different in two ways. First, the `ai-system-design/` questions follow
@@ -65,9 +66,12 @@ general-system-design/             — 7 classic distributed-systems questions, 
 cloud-architecture/                — 6 AI-infra cloud/network/security questions, same depth
 behavioral/                        — 5 STAR-method write-ups for real, cited outcomes
 scalability-governance-tradeoffs/  — 4 reasoning frameworks: cost vs latency vs safety, etc.
+coding/                            — 11 Staff+ coding entries (bar + 10 problems)
+staff-plus-interview-craft/        — 3 guides: signals, questions to ask, what not to waste time on
+ui/                                — Study notebook (tables + reader) — Vercel static export
 ```
 
-**35 graded questions total** (13 + 7 + 6 + 5 + 4) — source of truth for Practice Arena rubric coverage.
+**49 graded study entries** (35 prior + 11 coding + 3 craft) — markdown is source of truth; [study UI](https://github.com/vpeetla-ai/ai-architect-interview-playbook) deploys from `ui/`. Practice Arena grades the original 35 system/behavioral/tradeoff set and syncs new coding/craft rubrics when the submodule is bumped.
 
 Every entry in every folder, not just `ai-system-design/`, now ends with the same
 "what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
@@ -122,6 +126,21 @@ which doesn't require any AI-specific knowledge to answer well.
 | [scalability-governance-tradeoffs/02](scalability-governance-tradeoffs/02-build-vs-buy-shared-services.md) — Build vs. buy for shared services | ✅ agent-finops's "own repo vs. embed" decision (ADR-011) as the worked example |
 | [scalability-governance-tradeoffs/03](scalability-governance-tradeoffs/03-centralize-vs-federate-governance.md) — Centralize vs. federate governance | ✅ VAP/AegisAI orchestration-vs-governance split (ADR-001) as the worked example |
 | [scalability-governance-tradeoffs/04](scalability-governance-tradeoffs/04-build-vs-train-vs-finetune-foundation-model-strategy.md) — Build vs. train vs. fine-tune: foundation model strategy | 🟡 Real Meta/Anthropic/Apple strategy sourcing; org callback via vllm-architecture-lab's scope decision |
+| [coding/00](coding/00-staff-plus-coding-bar.md) — Staff+ coding bar | 🟡 Interview-craft / grading guide for the coding round |
+| [coding/01](coding/01-lru-cache-with-concurrency.md) — LRU cache + concurrency | 🟡 High-signal archetype (HashMap+DLL); Staff extension = locking/sharding |
+| [coding/02](coding/02-rate-limiter-token-bucket.md) — Token-bucket rate limiter | 🟡 Coding sibling of general-system-design/01 |
+| [coding/03](coding/03-time-based-kv-store.md) — Time-based KV store | 🟡 Common FAANG-style medium; Staff = API + memory bounds |
+| [coding/04](coding/04-concurrent-bounded-queue.md) — Concurrent bounded queue | 🟡 Producer/consumer classic |
+| [coding/05](coding/05-top-k-frequent-stream.md) — Top-K frequent (stream-aware) | 🟡 Heap + Staff streaming/sketch follow-up |
+| [coding/06](coding/06-merge-k-sorted-iterators.md) — Merge K sorted iterators | 🟡 K-way merge / external sort narrative |
+| [coding/07](coding/07-graph-clone-and-cycle-safe.md) — Clone graph (cycle-safe) | 🟡 Graph medium with memoization |
+| [coding/08](coding/08-debug-broken-cache-eviction.md) — Debug broken cache eviction | 🟡 Debug/extend style (2025–2026 loop trend) |
+| [coding/09](coding/09-design-inmemory-pubsub.md) — In-memory pub/sub LLD | 🟡 API + concurrency + backpressure |
+| [coding/10](coding/10-prefix-sum-subarray-patterns.md) — Prefix-sum subarray patterns | 🟡 Pattern family with Staff follow-ups |
+| [staff-plus-interview-craft/01](staff-plus-interview-craft/01-what-staff-plus-actually-signals.md) — What Staff+ signals | 🟡 Meta guide for Staff+/Principal loops |
+| [staff-plus-interview-craft/02](staff-plus-interview-craft/02-questions-you-should-ask.md) — Questions you should ask | 🟡 Clarifying + HM questions |
+| [staff-plus-interview-craft/03](staff-plus-interview-craft/03-what-not-to-waste-time-on.md) — What not to waste time on | 🟡 Timebox + anti-patterns |
+
 
 ## How to use this
 
@@ -132,6 +151,10 @@ If you're prepping for a system design interview, read the question, try answeri
 first — including the level breakdown, aim for the Staff+/Principal bar, not just "a working
 answer" — then compare against this one.
 
-The other two folders (`behavioral/`, `scalability-governance-tradeoffs/`) follow a lighter
-shape: the question, the real decision, why it was made, and the follow-up an interviewer would
-likely ask next.
+The other folders follow lighter shapes:
+
+- `behavioral/` / `scalability-governance-tradeoffs/` — question, decision, follow-up
+- `coding/` — clarifying questions → approach ladder → Python reference → Staff+ deep dive → what not to discuss
+- `staff-plus-interview-craft/` — tables for signals, questions to ask, and timebox anti-patterns
+
+**Study UI:** from `ui/` run `npm install && npm run build` (runs `scripts/build_catalog.py`). Deploy with Vercel root `.`, output `ui/out` (see `vercel.json`).

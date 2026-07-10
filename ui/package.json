@@ -1,0 +1,25 @@
+{
+  "name": "interview-playbook-ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "prebuild": "python3 ../scripts/build_catalog.py",
+    "dev": "python3 ../scripts/build_catalog.py && next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-markdown": "^9.0.0",
+    "rehype-highlight": "^7.0.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.6.0"
+  }
+}

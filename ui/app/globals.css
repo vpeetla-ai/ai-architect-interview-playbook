@@ -1,0 +1,238 @@
+:root {
+  --bg: #f6f1e8;
+  --bg-deep: #ebe4d6;
+  --ink: #1a1f24;
+  --muted: #5a6570;
+  --line: rgba(26, 31, 36, 0.12);
+  --accent: #0b5fff;
+  --accent-soft: #dce8ff;
+  --surface: #fffcf7;
+  --font-display: "IBM Plex Serif", "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Avenir Next", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background:
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  background-attachment: fixed;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.shell {
+  width: min(1080px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2.5rem 0 4rem;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  line-height: 1;
+  margin: 0 0 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  margin: 0 0 1.75rem;
+  max-width: 54ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1.75rem;
+  font-size: 0.95rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+table.catalog {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+table.catalog th,
+table.catalog td {
+  text-align: left;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+table.catalog th {
+  font-weight: 600;
+  background: rgba(11, 95, 255, 0.06);
+}
+
+table.catalog tr:last-child td { border-bottom: none; }
+
+.muted { color: var(--muted); }
+.count { font-variant-numeric: tabular-nums; }
+
+.search {
+  width: 100%;
+  max-width: 28rem;
+  margin-bottom: 1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font: inherit;
+}
+
+.notebook {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .notebook { grid-template-columns: 1fr; }
+  .toc { position: static !important; }
+}
+
+.toc {
+  position: sticky;
+  top: 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 0.9rem 1rem;
+  font-size: 0.86rem;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+}
+
+.toc h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  line-height: 1.55;
+}
+
+.article {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1.4rem 1.5rem 2rem;
+  min-width: 0;
+}
+
+.article h1 {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+.article h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 1.75rem 0 0.65rem;
+  scroll-margin-top: 1rem;
+}
+
+.article h3 {
+  font-size: 1.05rem;
+  margin: 1.2rem 0 0.45rem;
+}
+
+.article p, .article li {
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0 1rem;
+  font-size: 0.92rem;
+}
+
+.article th, .article td {
+  border: 1px solid var(--line);
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article pre {
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  background: #f0f3f7;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.article code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.article :not(pre) > code {
+  background: #eef2f7;
+  padding: 0.1rem 0.3rem;
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.crumb {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  font: inherit;
+  color: var(--muted);
+}
+
+.chip[data-active="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
