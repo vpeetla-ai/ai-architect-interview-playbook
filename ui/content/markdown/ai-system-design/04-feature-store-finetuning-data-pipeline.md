@@ -73,15 +73,15 @@ Offline materialization feeds training datasets; online path serves low-latency 
 sequenceDiagram
   participant P as Producer job
   participant M as Materializer
-  participant Off as Offline store
-  participant On as Online store
+  participant Offline as Offline store
+  participant Online as Online store
   participant Tr as Training builder
   participant Inf as Inference
   P->>M: new events / batch
-  M->>Off: point-in-time tables
-  M->>On: serve features
-  Tr->>Off: build training dataset
-  Inf->>On: GET online-features
+  M->>Offline: point-in-time tables
+  M->>Online: serve features
+  Tr->>Offline: build training dataset
+  Inf->>Online: GET online-features
 ```
 
 ## High-level design
