@@ -52,6 +52,8 @@ execution).
 **Companion repo:** [ai-architecture-portfolio](https://github.com/vpeetla-ai/ai-architecture-portfolio)
 holds the ADRs and case studies this content is grounded in. This repo is the interview-format
 layer on top of that — same real decisions, framed as "how would you explain this out loud."
+Product repos link back here via `## Interview map` sections; the org matrix lives at
+[REPO_INTERVIEW_MAP.md](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/docs/REPO_INTERVIEW_MAP.md).
 
 ## Who this serves
 
