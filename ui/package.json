@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "python3 ../scripts/build_catalog.py",
+    "prebuild": "python3 ../scripts/build_catalog.py || echo 'using committed catalog.json'",
     "dev": "python3 ../scripts/build_catalog.py && next dev",
     "build": "next build",
     "start": "next start"
