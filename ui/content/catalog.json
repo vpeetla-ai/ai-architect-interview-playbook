@@ -223,6 +223,10 @@
           "heading": "Deep dive 3: freshness vs. index rebuild cost"
         },
         {
+          "id": "deep-dive-4-overload-and-stale-index-degradation-45-min-critical",
+          "heading": "Deep dive 4: overload and stale-index degradation (45-min critical)"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -339,6 +343,10 @@
         {
           "id": "deep-dive-4-exact-reproducibility-as-a-bit-level-contract-not-a-policy-statement",
           "heading": "Deep dive 4: exact reproducibility as a bit-level contract, not a policy statement"
+        },
+        {
+          "id": "deep-dive-5-schema-evolution-dual-write-sync-and-rtbf-interview-critical-keep-short",
+          "heading": "Deep dive 5: schema evolution, dual-write sync, and RTBF (interview-critical, keep short)"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -459,6 +467,10 @@
           "heading": "Deep dive 4: feedback loops and position bias \u2014 the mechanism, not just the observation"
         },
         {
+          "id": "deep-dive-4-serving-degradation-and-deletion-blast-radius",
+          "heading": "Deep dive 4: serving degradation and deletion blast radius"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -514,6 +526,10 @@
         {
           "id": "deep-dive-3-cost-as-an-evaluation-dimension-not-a-separate-concern",
           "heading": "Deep dive 3: cost as an evaluation dimension, not a separate concern"
+        },
+        {
+          "id": "deep-dive-4-trace-privacy-and-volume-interview-critical",
+          "heading": "Deep dive 4: trace privacy and volume (interview-critical)"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -630,6 +646,10 @@
           "heading": "Deep dive 3: the AI-specific isolation problem generic multi-tenancy design doesn't cover"
         },
         {
+          "id": "deep-dive-4-quota-ledger-failure-mode-must-say-out-loud",
+          "heading": "Deep dive 4: quota-ledger failure mode (must say out loud)"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -685,6 +705,10 @@
         {
           "id": "deep-dive-3-the-org-s-own-governance-gate-precedent-one-layer-up-the-stack",
           "heading": "Deep dive 3: the org's own governance-gate precedent, one layer up the stack"
+        },
+        {
+          "id": "deep-dive-4-pool-exhaustion-under-burst",
+          "heading": "Deep dive 4: pool exhaustion under burst"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -858,6 +882,10 @@
           "heading": "Deep dive 3: observability into an in-progress, not-yet-complete task"
         },
         {
+          "id": "deep-dive-4-tenant-blast-radius-on-checkpoints",
+          "heading": "Deep dive 4: tenant blast radius on checkpoints"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -913,6 +941,10 @@
         {
           "id": "deep-dive-3-safety-without-killing-latency",
           "heading": "Deep dive 3: safety without killing latency"
+        },
+        {
+          "id": "deep-dive-4-overload-retention-and-45-min-composition",
+          "heading": "Deep dive 4: overload, retention, and 45-min composition"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1029,6 +1061,10 @@
           "heading": "Deep dive 3: knowledge freshness"
         },
         {
+          "id": "deep-dive-4-containment-slos-and-human-queue-saturation",
+          "heading": "Deep dive 4: containment SLOs and human-queue saturation"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1084,6 +1120,10 @@
         {
           "id": "deep-dive-3-making-regionally-approximate-a-concrete-mechanism-not-a-hand-wave",
           "heading": "Deep dive 3: making \"regionally approximate\" a concrete mechanism, not a hand-wave"
+        },
+        {
+          "id": "deep-dive-4-hot-keys-and-the-limiter-s-own-slo",
+          "heading": "Deep dive 4: hot keys and the limiter's own SLO"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1143,6 +1183,10 @@
           "heading": "Deep dive 3: delivery guarantees and deduplication"
         },
         {
+          "id": "deep-dive-4-hot-conversations-and-backpressure",
+          "heading": "Deep dive 4: hot conversations and backpressure"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1196,6 +1240,10 @@
           "heading": "Deep dive 2: ranking as a separate, ML-driven stage"
         },
         {
+          "id": "deep-dive-4-author-read-after-write-and-feed-latency-budgets",
+          "heading": "Deep dive 4: author read-after-write and feed latency budgets"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1247,6 +1295,10 @@
         {
           "id": "deep-dive-2-scheduler-high-availability-via-consensus",
           "heading": "Deep dive 2: scheduler high availability via consensus"
+        },
+        {
+          "id": "deep-dive-4-lease-tuning-and-poison-pills",
+          "heading": "Deep dive 4: lease tuning and poison pills"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1306,6 +1358,10 @@
           "heading": "Deep dive 3: hybrid logical clocks \u2014 the unifying fix, not a patch per symptom"
         },
         {
+          "id": "deep-dive-4-worker-id-reuse-and-ordering-honesty",
+          "heading": "Deep dive 4: worker-ID reuse and ordering honesty"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1361,6 +1417,10 @@
         {
           "id": "deep-dive-3-the-real-cost-crdts-don-t-advertise-tombstone-growth",
           "heading": "Deep dive 3: the real cost CRDTs don't advertise \u2014 tombstone growth"
+        },
+        {
+          "id": "deep-dive-4-sequencing-ha-and-divergence-detection",
+          "heading": "Deep dive 4: sequencing HA and divergence detection"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1477,6 +1537,10 @@
           "heading": "Deep dive 3: preference and abuse"
         },
         {
+          "id": "deep-dive-4-delivery-slos-and-provider-circuit-breaking",
+          "heading": "Deep dive 4: delivery SLOs and provider circuit breaking"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1532,6 +1596,10 @@
         {
           "id": "deep-dive-3-abuse",
           "heading": "Deep dive 3: abuse"
+        },
+        {
+          "id": "deep-dive-4-viral-hot-links-and-create-path-races",
+          "heading": "Deep dive 4: viral hot links and create-path races"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1591,6 +1659,10 @@
           "heading": "Deep dive 3: cost and cold storage"
         },
         {
+          "id": "deep-dive-4-signed-playback-and-origin-protection",
+          "heading": "Deep dive 4: signed playback and origin protection"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1646,6 +1718,10 @@
         {
           "id": "deep-dive-3-parser-safety",
           "heading": "Deep dive 3: parser safety"
+        },
+        {
+          "id": "deep-dive-4-canonicalization-and-lease-based-frontier",
+          "heading": "Deep dive 4: canonicalization and lease-based frontier"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1819,6 +1895,10 @@
           "heading": "Deep dive 3: what \"recovery\" means when the asset is mostly stateless"
         },
         {
+          "id": "deep-dive-4-warm-standby-vs-cold-rto-reality",
+          "heading": "Deep dive 4: warm standby vs cold RTO reality"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1880,6 +1960,10 @@
           "heading": "Deep dive 4: the control-plane network this contrast is against, made real"
         },
         {
+          "id": "deep-dive-4-collective-hang-runbook",
+          "heading": "Deep dive 4: collective hang runbook"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1935,6 +2019,10 @@
         {
           "id": "deep-dive-3-compliance-certifications-as-market-access-gates-not-engineering-choices",
           "heading": "Deep dive 3: compliance certifications as market-access gates, not engineering choices"
+        },
+        {
+          "id": "deep-dive-4-inference-time-boundary-and-data-lineage",
+          "heading": "Deep dive 4: inference-time boundary and data lineage"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1994,6 +2082,10 @@
           "heading": "Deep dive 3: bin-packing and idle-GPU cost as the AI-specific optimization"
         },
         {
+          "id": "deep-dive-4-preemption-tiers-and-gpu-node-loss",
+          "heading": "Deep dive 4: preemption tiers and GPU node loss"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -2049,6 +2141,10 @@
         {
           "id": "deep-dive-3-finops-enforcement",
           "heading": "Deep dive 3: FinOps enforcement"
+        },
+        {
+          "id": "deep-dive-4-streaming-cache-budget-races-failover-shedding",
+          "heading": "Deep dive 4: streaming cache, budget races, failover shedding"
         },
         {
           "id": "what-s-expected-at-each-level",

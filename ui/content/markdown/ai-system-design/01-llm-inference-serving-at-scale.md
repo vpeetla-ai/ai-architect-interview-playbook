@@ -211,6 +211,7 @@ distinction, one layer down the stack.
 - "How do you roll out a new model version without downtime?" (Answer: blue/green replica
   pools behind the router, drain old-version replicas of in-flight requests before removing
   them, not a hard cutover.)
+- "What is out of scope in 45 minutes?" (Answer: stop after scheduler + KV + admission; defer full multi-region/tenant platform to 09.)
 
 ## Related
 

@@ -195,6 +195,7 @@ asserted.
 - "How do you handle moderation for a new risk category you didn't anticipate at launch?"
   (Answer: the risk-signal architecture needs to support adding new named flags without a full
   redeploy of the classification pipeline — a config/policy change, not a code change.)
+- "What do you skip?" (Answer: training a new classifier from scratch; cover input/output split + routing + one fail-open/closed decision.)
 
 ## Related
 

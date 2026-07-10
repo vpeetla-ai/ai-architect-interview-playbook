@@ -161,6 +161,13 @@ still need its tombstone to resolve correctly), trading a small risk of rare con
 edge cases for bounded metadata growth — a real engineering trade-off, not a detail CRDT
 adoption gets for free.
 
+## Deep dive 4: sequencing HA and divergence detection
+
+OT needs a single ordering authority per doc — leader election + revision fencing so two servers
+cannot mint conflicting revs after a partition. Periodically checksum document state per session;
+on mismatch, force resync from snapshot + op-log tail. In 45 minutes, pick OT **or** CRDT deeply;
+don't implement both.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes last-write-wins or a simple locking scheme (only one user can edit at

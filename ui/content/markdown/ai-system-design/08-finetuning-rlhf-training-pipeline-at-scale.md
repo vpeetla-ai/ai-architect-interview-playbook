@@ -219,6 +219,7 @@ catch.
   to the previous checkpoint — the same kill-switch pattern as
   [system-design/03](03-agent-tool-use-orchestration-platform.md), applied to model versions
   instead of agent actions.)
+- "45-minute scope?" (Answer: compare DPO vs PPO in two minutes — do not derive PPO math; point to 12 for provenance depth.)
 
 ## Related
 

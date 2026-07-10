@@ -173,6 +173,14 @@ quantifiable trade-off (e.g., "up to 2 seconds of staleness means at most ~2 ext
 worth of over-limit traffic can slip through across all regions combined") rather than an
 unstated approximation.
 
+## Deep dive 4: hot keys and the limiter's own SLO
+
+A single hot API key/IP can pin one Redis counter and melt a shard — Staff+ mentions sub-key
+sharding, local shadow buckets, or edge pre-throttle before the shared store. Also define an SLO
+**for the check path itself** (e.g., p99 <2–5ms): store errors and check latency should drive
+fail-open/closed automatically, not just a dashboard. In 45 minutes, pick one algorithm deeply;
+do not survey every variant.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a fixed-window counter without addressing the boundary-burst problem

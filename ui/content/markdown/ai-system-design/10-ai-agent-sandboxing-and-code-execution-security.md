@@ -171,6 +171,13 @@ decision-making can be wrong or manipulated, so the enforcement has to live outs
 allow-lists (this entry) and tool-call authorization gates (AegisAI's real, shipped design) are
 the same principle applied at two different layers of an agent stack.
 
+## Deep dive 4: pool exhaustion under burst
+
+Keep a warm sandbox pool with a hard per-tenant concurrency cap. On exhaustion return **429** with
+`retry_after` — never fall back to host execution. Cold-start cost is a real trade-off (lighter
+isolation ~100–300ms vs stronger microVM ~500ms+). In 45 minutes, name isolation tier + allow-list +
+injection model; do not red-team every CVE class.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes running agent code in "a sandbox" or "a container" without naming a

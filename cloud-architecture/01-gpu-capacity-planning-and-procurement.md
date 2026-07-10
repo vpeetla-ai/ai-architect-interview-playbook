@@ -195,6 +195,7 @@ the trade-off can be verified end-to-end in a single session rather than modeled
   cloud-native?" (Answer: owned data centers shift the trade-off from "reserved vs. on-demand
   pricing" to "capital expenditure and multi-year build lead time vs. flexibility" — the same
   reserved-vs-elastic tension, one layer further out.)
+- "Spot preemption?" (Answer: only for checkpointed training; checkpoint frequency is effective RPO — serving stays on reserved/on-demand.)
 
 ## Related
 

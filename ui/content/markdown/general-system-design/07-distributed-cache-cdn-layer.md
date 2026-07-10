@@ -189,6 +189,7 @@ staggered/jittered TTLs so popular entries don't all expire in the same instant.
   like Memcache sits close to the application/database tier, caching computed or queried data
   that changes more dynamically — different placement in the stack for a related but distinct
   latency problem.)
+- "Multi-tenant cache poisoning?" (Answer: tenant-prefix keys; never share negative-cache across authz boundaries; purge is a blast-radius event — rate-limit it.)
 
 ## Related
 

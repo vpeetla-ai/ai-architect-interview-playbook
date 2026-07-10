@@ -60,6 +60,11 @@ GET /v1/usage
 
 Staff+ callout: regenerate creates a **branch**, not an overwrite — history and audit need both.
 
+```http
+DELETE /v1/conversations/{id}
+→ 204  (GDPR / user delete; tombstone messages per retention policy)
+```
+
 ## Data Flow
 
 Client opens/continues a conversation; gateway checks auth+quota; safety inspects input; inference
@@ -151,6 +156,13 @@ categories. Output classifiers can stream-with-delay (buffer N tokens) or post-c
 switch mid-stream. Human review queue for borderline cases — same discipline as moderation deep
 dives, but tied to conversation UX (show "content filtered" without leaking the blocked span).
 
+## Deep dive 4: overload, retention, and 45-min composition
+
+Under overload: **429 + retry-after**, or shed to a smaller model with a user-visible banner — never
+corrupt session state. Keep TTFT ~200ms P50; budget context (summarize/truncate older turns). Ship
+retention (e.g., 30/90 day) + delete for GDPR. In 45 minutes, **compose** serving (01), safety (05),
+quotas (09) — do not redraw the inference scheduler from scratch.
+
 ## What's expected at each level
 
 - **Mid-level:** client → LLM API → store messages; mentions streaming.
@@ -165,6 +177,7 @@ dives, but tied to conversation UX (show "content filtered" without leaking the 
   dependent assistant turns.)
 - "What if inference is overloaded?" (Priority queues, 429 with retry-after, optional model downgrade.)
 - "How do attachments change the design?" (Async extract → chunk → attach as context refs; virus scan.)
+- "What do you refuse to redesign in 45 minutes?" (Answer: the GPU scheduler — reference 01 and spend time on sessions, streaming UX, safety, and quotas.)
 
 ## Related
 

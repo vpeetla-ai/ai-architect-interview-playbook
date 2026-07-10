@@ -163,6 +163,13 @@ to achieve exactly-once delivery at the server layer alone — this is either im
 requires far more coordination overhead than the at-least-once-plus-client-dedup pattern real
 systems actually use.
 
+## Deep dive 4: hot conversations and backpressure
+
+Shard message storage by `conversation_id`; large groups/bots are hot partitions — call them out.
+Under overload, shed typing/presence before durable messages; cap offline inbox growth and fall
+back to pull-sync. In 45 minutes, cover fanout + ordering + offline sync; defer full E2E crypto
+unless asked.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a database-backed message store with polling or basic pub/sub, without

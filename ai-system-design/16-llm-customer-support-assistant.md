@@ -136,6 +136,14 @@ Policy articles need effective dating; stale KB is a hallucination source. Inval
 publish; cite article version in the answer. Eval suite of golden tickets as a merge gate
 ([07](07-llm-evaluation-observability-platform.md)).
 
+## Deep dive 4: containment SLOs and human-queue saturation
+
+Escalate when confidence is low (e.g., <0.7) or after repeated failed tool attempts — do not optimize
+only for deflection. Target containment in a realistic band (often ~40–60%) **with** a CSAT/reopen
+guardrail, not 90% at any cost. Under load, stop aggressive deflection and route to humans with an
+explicit `queue_depth_high` reason; name a pickup SLA (e.g., minutes for chat). Reuse RAG (02) and
+gateway (03); do not rebuild them.
+
 ## What's expected at each level
 
 - **Mid-level:** FAQ chatbot over docs.

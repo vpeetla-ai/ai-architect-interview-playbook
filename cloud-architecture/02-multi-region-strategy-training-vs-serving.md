@@ -199,6 +199,7 @@ accuracy-vs-compliance trade-off with a number attached, not a free architectura
   requests to the failed region are lost — the load balancer needs health-check-driven failover
   fast enough that new requests route around it, and the client/application layer needs to
   retry, not assume exactly-once delivery across a regional failure.)
+- "45-minute scope?" (Answer: separate training (data gravity/residency) from serving (latency/failover) — do not force one topology for both.)
 
 ## Related
 

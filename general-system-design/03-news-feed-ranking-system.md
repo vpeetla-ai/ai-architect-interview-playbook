@@ -146,6 +146,13 @@ recency-and-engagement-score step, missing that real systems separate candidate 
 (a cheap, broad first pass) from ranking (an expensive, narrow scoring pass) specifically to
 keep the expensive step's input size bounded.
 
+## Deep dive 4: author read-after-write and feed latency budgets
+
+After a post, the **author** must see their own content immediately (write-through or merge-on-read)
+even if follower feeds tolerate seconds of staleness. Define a p99 feed-load budget; under load,
+shrink candidate pools / skip expensive L2 / serve cached page with background refresh — and
+observe which tier served. In 45 minutes, nail hybrid fan-out + ranking stages; don't rebuild ads.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes pure fan-out-on-write with simple reverse-chronological ordering,

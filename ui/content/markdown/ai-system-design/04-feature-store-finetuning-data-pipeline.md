@@ -194,6 +194,21 @@ backfill it," and considers whether a cheaper, approximate backfill (computed on
 actually needed by the current training run, not the full historical population) is acceptable
 given the reproducibility contract above.
 
+## Deep dive 5: schema evolution, dual-write sync, and RTBF (interview-critical, keep short)
+
+**Schema / backfill:** never mutate a feature definition in place for breaking changes — bump a SemVer
+(`user_engagement@2.0.0`) and materialize into a new offline partition. Legacy training snapshots keep
+pointing at v1; new jobs opt into v2. That isolates backfill blast radius without rewriting history.
+
+**Streaming dual-write:** one computation path fans out to online + offline. Online writes must be
+**idempotent** (`entity_id + event_time`); offline commits via checkpointed batches. On crash, replay
+the log — Redis/Dynamo overwrites safely; uncommitted lake files are abandoned. Do **not** invent a
+full XA/2PC story unless asked — idempotent online + checkpointed offline is the Staff+ answer.
+
+**GDPR vs immutability:** "immutable snapshot" conflicts with right-to-be-forgotten. Prefer
+pseudonymization at ingest, or rebuild a scrubbed snapshot with a **new** content hash — never silently
+rewrite a published lineage id. Say this in one breath when compliance comes up.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a single feature table used for both training and serving; may not
@@ -220,6 +235,8 @@ given the reproducibility contract above.
   tabular ML feature store?" (Answer: the "features" become prompt/completion pairs or
   preference comparisons, but point-in-time correctness and lineage requirements are identical
   in spirit — you still need to know exactly what data a given fine-tuned checkpoint saw.)
+- "How do prompt templates / tokenization fit a fine-tuning feature store?" (Answer: version the prompt template as a first-class artifact; prefer tokenizing in the training job unless you need bit-exact token arrays in the store — changing a tokenizer is a major feature version.)
+- "In 45 minutes, what do you refuse to design?" (Answer: a full Feast/Tecton product catalog. Anchor on dual-store + PIT join + immutable snapshot + one of: schema versioning, dual-write sync, or RTBF.)
 
 ## Related
 

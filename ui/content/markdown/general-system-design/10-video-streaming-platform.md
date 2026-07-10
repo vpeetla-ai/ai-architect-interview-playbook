@@ -121,6 +121,13 @@ measure rebuffer ratio as the product SLO, not just CDN hit rate. See cache/CDN 
 Move cold videos to cheaper storage class; keep hot segments on CDN. Precompute vs just-in-time
 transcode trade-off for long-tail catalogs.
 
+## Deep dive 4: signed playback and origin protection
+
+Private/unlisted playback uses short-lived **signed URLs** (upload creds ≠ playback creds). On CDN
+cold start for a viral title, use origin shield + request coalescing so origin survives a global
+miss storm — otherwise rebuffer SLOs die while "RTO" looks fine. In 45 minutes, upload→transcode→ABR;
+live streaming is a separate follow-up.
+
 ## What's expected at each level
 
 - **Mid-level:** upload to S3, play from URL.

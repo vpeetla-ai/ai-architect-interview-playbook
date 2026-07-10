@@ -119,6 +119,13 @@ Sandbox HTML parsers; size limits; no executing JS by default (or isolated headl
 strict budgets). Connects to training-data provenance when crawl feeds models
 ([../ai-system-design/12](../ai-system-design/12-training-data-provenance-and-ip-risk-architecture.md)).
 
+## Deep dive 4: canonicalization and lease-based frontier
+
+Normalize URLs before frontier insert (host, slash, tracking params, redirects, `rel=canonical`)
+or you either storm duplicates or miss pages. Workers **lease** URLs with visibility timeout
+(same pattern as job queues) so death doesn't lose work or politeness state. In 45 minutes, cover
+frontier + politeness + dedupe; JS-rendering is an expensive optional tier.
+
 ## What's expected at each level
 
 - **Mid-level:** queue of URLs + HTTP GET + store.

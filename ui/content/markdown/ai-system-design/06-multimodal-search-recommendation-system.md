@@ -210,6 +210,13 @@ model learning "rank 1 gets clicks" as a spurious feature), and **explicit explo
 under-scores, so genuinely relevant new content gets a real chance to accumulate engagement
 signal rather than being permanently suppressed by its own cold start).
 
+## Deep dive 4: serving degradation and deletion blast radius
+
+If the L2 ranker breaches SLA, return L1 candidates with `degraded=true` rather than timing out the
+whole feed; shrink exploration budget under load. User deletion / consent revoke must propagate to
+embedding indexes **and** feature caches — a vector orphan is a privacy incident. In 45 minutes,
+lead with two-stage candidate→rank; treat multimodal fusion as a short follow-up, not the headline.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a single retrieval + ranking pipeline; may not raise cold start,

@@ -203,6 +203,7 @@ so retention is structurally impossible, not just against policy).
   a real operational constraint distinct from cloud model updates — on-device models typically
   ship via a separate, smaller downloadable update mechanism, decoupled from the OS release
   cycle, precisely so capability improvements don't wait on a full platform release.)
+- "Offline / no-network behavior?" (Answer: on-device-only returns bounded capability + user-visible limitation; do not design federated learning in 45 minutes.)
 
 ## Related
 

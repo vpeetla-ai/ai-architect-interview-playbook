@@ -177,6 +177,13 @@ after completion, so a human deciding whether to cancel a task partway through h
 (what's been done, what side effects have already occurred) rather than a black box they can
 only kill blindly.
 
+## Deep dive 4: tenant blast radius on checkpoints
+
+Checkpoint and event stores are **tenant-namespaced** (and encrypted at rest). Workers must refuse
+cross-tenant checkpoint loads. Side-effect idempotency keys are scoped to
+`(tenant_id, run_id, tool, args_hash)`. Compare to Temporal in one minute; do not invent a workflow DSL
+in 45 minutes.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes storing conversation history in a database for resume, without

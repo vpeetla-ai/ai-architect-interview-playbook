@@ -173,6 +173,13 @@ requests never share a batch with another tenant's at all. This is the genuinely
 wrinkle: isolation has to be reasoned about one layer deeper than the request/response boundary
 most multi-tenant system designs stop at.
 
+## Deep dive 4: quota-ledger failure mode (must say out loud)
+
+If the quota ledger is unavailable, **fail closed** (503 / reject) — never open unlimited inference.
+Dedicated pools isolate noisy neighbors for batch; shared pools need scheduler fairness. Name a
+concrete interference budget (e.g., neighbor burst adds ≤50ms to interactive P99 TTFT vs dedicated).
+Skip billing/invoicing design in 45 minutes; cover gate-before-schedule + tier table.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes per-tenant API keys and rate limits without addressing GPU-batching-

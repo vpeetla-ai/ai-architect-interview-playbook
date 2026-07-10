@@ -192,6 +192,12 @@ training-network contrast is testing for at a different layer: knowing the textb
 *and* being able to say when and why a deliberate deviation from it is the correct call, rather
 than presenting a cost-driven compromise as if it were unconditional best practice.
 
+## Deep dive 4: collective hang runbook
+
+NCCL/allreduce stalls often have no useful per-request timeout. Staff+ names step watchdogs /
+per-rank heartbeats, abort + resume from checkpoint, and fabric telemetry that excludes bad nodes.
+In 45 minutes, topology + bisection + one hang story beats a full RoCE PHY lecture.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes "use a fast network" without identifying collective operations as

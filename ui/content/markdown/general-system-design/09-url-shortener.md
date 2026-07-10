@@ -119,6 +119,13 @@ product choice for Bitly-like services.
 Rate-limit creates per owner/IP; scan destinations against malware lists asynchronously (mark
 suspended). Cap custom alias namespace squatting.
 
+## Deep dive 4: viral hot links and create-path races
+
+Shard by `short_code`; a viral link can melt one shard — edge/CDN cache + read replicas + redirect
+rate limits. Custom aliases need transactional uniqueness; if DB write succeeds and cache fill
+fails, a reconcile job must repair (avoid redirect 404). In 45 minutes, IDs + cache + 301/302 is
+the core; analytics is async.
+
 ## What's expected at each level
 
 - **Mid-level:** hash URL, store map, redirect.

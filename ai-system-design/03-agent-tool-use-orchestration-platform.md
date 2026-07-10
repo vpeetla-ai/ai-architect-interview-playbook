@@ -219,6 +219,7 @@ and financial), not one generic "something's wrong, page someone" alert.
 - "How would you let a human approver see enough context to make a good decision in seconds,
   not minutes?" (Answer: the HITL queue needs the risk signals and a summary, not a raw tool-call
   payload — this is a UX design question disguised as a systems one.)
+- "45-minute scope?" (Answer: mission API + gateway + HITL; defer full MCP/A2A protocol design unless steered there.)
 
 ## Related
 

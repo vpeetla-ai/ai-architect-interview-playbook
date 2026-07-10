@@ -149,6 +149,13 @@ because an HLC-based ID stays monotonic per node even under skew, cross-node cau
 (did event A happen before event B, when A and B originated on different nodes with imperfectly
 synchronized clocks) becomes answerable in a way a raw physical timestamp alone cannot guarantee.
 
+## Deep dive 4: worker-ID reuse and ordering honesty
+
+Do not immediately recycle a dead worker's ID — lease registration with TTL/fencing until clock
+state is safe. IDs are **roughly** time-sortable, not globally causal across datacenters; pagination
+should not assume strict cross-DC order without an explicit tie-break. In 45 minutes, Snowflake +
+clock skew is enough; HLC is a Principal flourish if time remains.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a centralized counter or database auto-increment without recognizing

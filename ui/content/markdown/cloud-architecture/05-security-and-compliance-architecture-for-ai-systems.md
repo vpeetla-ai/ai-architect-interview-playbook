@@ -179,6 +179,13 @@ retention periods, specific encryption standards, documented incident response p
 a technically excellent but uncertified system simply doesn't have, regardless of its actual
 security posture.
 
+## Deep dive 4: inference-time boundary and data lineage
+
+Infra/weight security is not enough — the gateway must enforce input/output policy and deny-by-default
+tool side effects; tenant prompts must not leak via shared caches/logs. Propagate residency /
+classification tags through fine-tune jobs and define deletion proofs. In 45 minutes, cover MPA +
+secrets + one inference boundary; defer a full GRC tool catalog.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes standard application security (auth, secrets in a vault, encryption)

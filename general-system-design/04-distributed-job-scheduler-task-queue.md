@@ -160,6 +160,13 @@ leader firing jobs, the others stand by ready to take over if the leader fails, 
 ensuring only one leader is ever active at a time (avoiding a split-brain scenario where two
 schedulers both believe they're the leader and double-fire jobs).
 
+## Deep dive 4: lease tuning and poison pills
+
+Too-short leases → duplicate execution; too-long → stuck recovery. Heartbeat to extend; set
+visibility timeout from p99 job duration. After N failures, quarantine to a **DLQ** with alert and
+a replay policy guarded by idempotency — infinite retries are an outage. In 45 minutes, cover
+lease/ack/idempotency; don't design a full workflow engine.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes a single scheduler process with a jobs database, without addressing

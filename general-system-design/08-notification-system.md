@@ -122,6 +122,13 @@ marketing: fail open to skip is acceptable. Track provider SLA breaches separate
 Frequency caps prevent notification fatigue and SMS cost blowups. Quiet hours defer normal priority
 but not security. Rate-limit producers that spam a single user.
 
+## Deep dive 4: delivery SLOs and provider circuit breaking
+
+Track `queued → sent → delivered → bounced` per notification; set SLOs by priority (security:
+minutes; marketing: hours). On provider degradation, **circuit-break** — stop global retry storms,
+use capped backoff, and only cross-channel fallback where policy allows. In 45 minutes, cover
+fan-out + preferences + idempotency + one provider-failure story.
+
 ## What's expected at each level
 
 - **Mid-level:** one queue → email API.

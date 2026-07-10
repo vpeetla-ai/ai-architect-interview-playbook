@@ -166,6 +166,12 @@ in a finance review. This is the same "real numbers, not guessed" discipline as
 aggregated alongside quality scores, so a candidate model change is evaluated on both axes
 together.
 
+## Deep dive 4: trace privacy and volume (interview-critical)
+
+Production traces are **async + sampled** under load — they must never block the user path. Redact
+PII at ingest; scope trace namespaces by tenant. Eval gates block **promote/merge**; traces are for
+debug. In 45 minutes, cover the trace/eval split + one real CI gate — do not design a full Langfuse clone.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes logging + a manual QA review process.

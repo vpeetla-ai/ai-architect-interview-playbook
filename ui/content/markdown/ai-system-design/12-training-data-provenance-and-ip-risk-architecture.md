@@ -201,6 +201,7 @@ dimension, not folding it into the same category as licensed human data.
   provenance risk exists in the base model's own training corpus, which you generally can't
   audit directly, making the base-model vendor's own data practices a real due-diligence
   question before choosing to build on top of it.)
+- "Takedown SLO?" (Answer: block new training within hours; corpus removal may take days; do not claim machine unlearning is solved — retrain is real remediation.)
 
 ## Related
 

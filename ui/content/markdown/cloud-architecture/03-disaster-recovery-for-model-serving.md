@@ -164,6 +164,13 @@ version of this same principle — Postgres-backed state (`PostgresFinOpsStore`,
 the compute layer around it (ECS tasks, Cloud Run revisions) is treated as disposable and
 quick to reprovision, not something that itself needs point-in-time recovery.
 
+## Deep dive 4: warm standby vs cold RTO reality
+
+DNS/traffic shift is not user-visible RTO if the secondary still loads weights and has a cold KV
+cache — p99 latency can break for minutes after "failover complete." Pre-load models and optionally
+warm prefix/KV; quantify warm vs cold cost. In 45 minutes, separate bad-deploy rollback from region
+failover; don't design a full multi-cloud mesh.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes "have backups and a secondary region" without distinguishing RTO from

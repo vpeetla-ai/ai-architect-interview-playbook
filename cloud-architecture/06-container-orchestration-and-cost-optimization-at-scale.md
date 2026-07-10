@@ -159,6 +159,13 @@ generic bin-packing algorithm without accounting for the fact that a partially-u
 (actively repacking jobs onto fewer, fuller nodes) a much higher-value optimization than it
 would be for CPU-only workloads, where partial node usage is a much smaller cost leak.
 
+## Deep dive 4: preemption tiers and GPU node loss
+
+Spot/preemptible only for checkpointed training; serving on on-demand/reserved. Priority classes +
+SIGTERM→checkpoint so preemption doesn't silently burn GPU-hours. On node loss, reschedule with
+topology awareness from last checkpoint — interval is your training RPO. In 45 minutes, bin-pack +
+cost loop + one failure story.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes "use Kubernetes" or "use a managed container service" without

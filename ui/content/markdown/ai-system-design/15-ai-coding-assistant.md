@@ -146,6 +146,7 @@ patterns. Online metrics: acceptance rate, persistence@30m — offline HumanEval
 - "How do you index a 10M-LOC monorepo?" (Incremental tree-sitter; embed symbols not files; dirty queue.)
 - "What if the model suggests a secret?" (Output filters + never train on customer code by default.)
 - "Agent mode vs autocomplete?" (Different models, tools, latency SLOs — shared indexer only.)
+- "Overload on complete?" (Answer: return 204/429 fast; isolate chat/agent GPU pool so agent traffic never blows inline 50–200ms P99.)
 
 ## Related
 

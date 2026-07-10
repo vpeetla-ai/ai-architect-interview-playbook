@@ -188,6 +188,14 @@ state across replicas for a short window — acceptable for most RAG use cases, 
 if the corpus includes fast-moving safety-critical content (e.g., a revoked-document list),
 which needs a separate, faster invalidation path.
 
+## Deep dive 4: overload and stale-index degradation (45-min critical)
+
+Under retrieval/rerank overload, **shed quality before inventing answers**: fall back to lexical-only
+or smaller `top_k`, return `degraded=true` + `trace_id`, and never skip the access filter to "go faster."
+Brief replica lag after ACL or ingest updates is usually acceptable if you name the staleness window;
+silent cross-tenant leakage is not. In 45 minutes, do not spend the round on chunking algorithms or
+embedding-model bake-offs unless the interviewer steers there.
+
 ## What's expected at each level
 
 - **Mid-level:** proposes retrieval → generation with citations; may not raise access control
@@ -211,6 +219,7 @@ which needs a separate, faster invalidation path.
 - "What changes if the corpus is multi-tenant with per-tenant embeddings models?" (Answer:
   the vector index needs tenant-scoped namespaces or separate indices, and the reranker can't
   assume a single shared embedding space.)
+- "What do you skip in 45 minutes?" (Answer: chunking/embedding bake-off; cover access-before-rank + hybrid retrieve + grounding + one overload path.)
 
 ## Related
 

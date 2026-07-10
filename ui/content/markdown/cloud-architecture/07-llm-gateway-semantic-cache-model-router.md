@@ -129,6 +129,14 @@ hedged requests carefully (cost). Circuit-break bad providers; shed to smaller m
 Budgets checked pre-flight; soft vs hard limits. Cache hits still meter "saved_usd" for exec
 dashboards. Align with agent-finops discipline used elsewhere in the org.
 
+## Deep dive 4: streaming cache, budget races, failover shedding
+
+Semantic cache is for **complete** responses — streaming either buffers-to-complete or skips cache;
+say how `X-Cache: HIT` works for SSE. Pre-flight **budget reservation** (hold→commit) prevents
+check-then-act overspend under concurrency. On provider outage, circuit-break + jitter + per-tenant
+caps so the fallback model isn't thundering-herded. In 45 minutes, cover route + cache safety +
+budget gate.
+
 ## What's expected at each level
 
 - **Mid-level:** reverse proxy to OpenAI.
