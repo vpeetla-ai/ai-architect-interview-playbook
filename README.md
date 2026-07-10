@@ -63,9 +63,11 @@ layer on top of that — same real decisions, framed as "how would you explain t
 ai-system-design/                  — 13 AI/ML system design questions, hellointerview-style depth
 general-system-design/             — 7 classic distributed-systems questions, non-AI-specific, same depth
 cloud-architecture/                — 6 AI-infra cloud/network/security questions, same depth
-behavioral/                        — STAR-method write-ups for real, cited outcomes
-scalability-governance-tradeoffs/  — reasoning frameworks: cost vs latency vs safety, etc.
+behavioral/                        — 5 STAR-method write-ups for real, cited outcomes
+scalability-governance-tradeoffs/  — 4 reasoning frameworks: cost vs latency vs safety, etc.
 ```
+
+**35 graded questions total** (13 + 7 + 6 + 5 + 4) — source of truth for Practice Arena rubric coverage.
 
 Every entry in every folder, not just `ai-system-design/`, now ends with the same
 "what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
