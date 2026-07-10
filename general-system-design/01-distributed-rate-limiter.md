@@ -83,7 +83,7 @@ graph TB
   end
   subgraph dataPlane [Data plane]
     Check[Check API]
-    Redis[(Redis cluster<br/>atomic Lua)]
+    Redis[(Redis cluster atomic Lua)]
   end
   subgraph regions [Multi-region]
     R1[Region limit shard]

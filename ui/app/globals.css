@@ -201,6 +201,30 @@ table.catalog tr:last-child td { border-bottom: none; }
   padding: 0.1rem 0.3rem;
 }
 
+.mermaid-diagram {
+  margin: 1rem 0 1.25rem;
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: #fffcf7;
+}
+
+.mermaid-diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.mermaid-loading {
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+.mermaid-fallback pre {
+  margin-top: 0.5rem;
+}
+
 .pager {
   display: flex;
   justify-content: space-between;
