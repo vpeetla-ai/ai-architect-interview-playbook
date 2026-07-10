@@ -64,17 +64,17 @@ layer on top of that — same real decisions, framed as "how would you explain t
 ## Structure
 
 ```text
-ai-system-design/                  — 13 AI/ML system design questions, hellointerview-style depth
-general-system-design/             — 7 classic distributed-systems questions, non-AI-specific, same depth
-cloud-architecture/                — 6 AI-infra cloud/network/security questions, same depth
-behavioral/                        — 5 STAR-method write-ups for real, cited outcomes
+ai-system-design/                  — 16 AI/ML system design questions, hellointerview-style depth
+general-system-design/             — 11 classic distributed-systems questions, non-AI-specific, same depth
+cloud-architecture/                — 7 AI-infra cloud/network/security questions, same depth
+behavioral/                        — 7 STAR-method write-ups for real, cited outcomes
 scalability-governance-tradeoffs/  — 4 reasoning frameworks: cost vs latency vs safety, etc.
-coding/                            — 11 Staff+ coding entries (bar + 10 problems)
+coding/                            — 14 Staff+ coding entries (bar + 13 problems)
 staff-plus-interview-craft/        — 3 guides: signals, questions to ask, what not to waste time on
 ui/                                — Study notebook (tables + reader) — Vercel static export
 ```
 
-**49 graded study entries** (35 prior + 11 coding + 3 craft) — markdown is source of truth; live study UI: [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
+**62 graded study entries** (49 prior + 13 high-frequency Staff+ gap fills: ChatGPT/coding-assistant/support, notifications/URL/video/crawler, consistent hashing + elevator/parking LLD, influence/failed-bet behavioral, LLM gateway) — markdown is source of truth; live study UI: [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
 
 Every entry in every folder, not just `ai-system-design/`, now ends with the same
 "what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
@@ -107,6 +107,9 @@ which doesn't require any AI-specific knowledge to answer well.
 | [ai-system-design/11](ai-system-design/11-on-device-edge-ai-inference-architecture.md) — On-device/edge AI inference architecture | 🟡 Real Apple PCC/Google AICore/Meta Ray-Ban docs; no org-system analog at this scale |
 | [ai-system-design/12](ai-system-design/12-training-data-provenance-and-ip-risk-architecture.md) — Training-data provenance & IP-risk architecture | 🟡 Real public litigation (NYT v. OpenAI, Getty v. Stability); org callback via enterprise_rag_platform's real lineage-fix bug |
 | [ai-system-design/13](ai-system-design/13-durable-long-running-agent-execution.md) — Durable long-running agent execution | 🟡 General framework (durable-execution pattern); real callback via ai-content-factory's shipped `interrupt_before` + Redis checkpointer |
+| [ai-system-design/14](ai-system-design/14-chatgpt-style-conversational-service.md) — ChatGPT-style conversational service | 🟡 High-frequency product archetype; composes org patterns from serving/chat/safety/multi-tenant entries |
+| [ai-system-design/15](ai-system-design/15-ai-coding-assistant.md) — AI coding assistant (Copilot-style) | 🟡 High-frequency GenAI product archetype (FIM/latency/index); adjacent to sandboxing + on-device entries |
+| [ai-system-design/16](ai-system-design/16-llm-customer-support-assistant.md) — LLM customer-support assistant | 🟡 High-frequency product archetype; composes RAG + gateway + escalation |
 | [general-system-design/01](general-system-design/01-distributed-rate-limiter.md) — Distributed rate limiter | 🟡 General archetype; real Google Cloud Armor grounding, no confirmed company attribution |
 | [general-system-design/02](general-system-design/02-realtime-chat-messaging-at-scale.md) — Real-time chat/messaging at scale | ✅ Real WhatsApp/Meta engineering-blog sourcing (Erlang scaling talks, Messenger's "Iris" architecture) |
 | [general-system-design/03](general-system-design/03-news-feed-ranking-system.md) — News feed / ranking system | ✅ Real Meta engineering-blog sourcing (Multifeed architecture, ML ranking pipeline) |
@@ -114,17 +117,24 @@ which doesn't require any AI-specific knowledge to answer well.
 | [general-system-design/05](general-system-design/05-distributed-unique-id-generator.md) — Distributed unique ID generator | 🟡 General archetype; honestly discloses Snowflake is a Twitter system, not one of the six companies |
 | [general-system-design/06](general-system-design/06-collaborative-document-editing.md) — Collaborative document editing | 🟡 Real Google Wave OT whitepaper grounding; corrects a mislabeled Netflix→Google attribution found during research |
 | [general-system-design/07](general-system-design/07-distributed-cache-cdn-layer.md) — Distributed cache / CDN layer | ✅ Real Meta "Scaling Memcache at Facebook" NSDI paper; corrects a mislabeled Amazon→generic attribution found during research |
+| [general-system-design/08](general-system-design/08-notification-system.md) — Notification system | 🟡 Top classic archetype (multi-channel fan-out); no single-company primary attribution claimed |
+| [general-system-design/09](general-system-design/09-url-shortener.md) — URL shortener | 🟡 Canonical warm-up archetype (Bitly-style) |
+| [general-system-design/10](general-system-design/10-video-streaming-platform.md) — Video streaming platform | 🟡 Classic hard archetype (YouTube/Netflix-style ABR + CDN) |
+| [general-system-design/11](general-system-design/11-web-crawler.md) — Web crawler | 🟡 Classic polite-crawler archetype; ties to training-data provenance when used for corpora |
 | [cloud-architecture/01](cloud-architecture/01-gpu-capacity-planning-and-procurement.md) — GPU capacity planning & procurement | 🟡 Real OpenAI/Meta engineering-blog evidence for the industry problem; org callback via agent-finops |
 | [cloud-architecture/02](cloud-architecture/02-multi-region-strategy-training-vs-serving.md) — Multi-region strategy: training vs. serving | 🟡 General framework; weakest company-specific sourcing in this repo, disclosed as such |
 | [cloud-architecture/03](cloud-architecture/03-disaster-recovery-for-model-serving.md) — Disaster recovery for model serving | 🟡 General framework; also documents a fabricated source caught and rejected during research |
 | [cloud-architecture/04](cloud-architecture/04-network-architecture-for-distributed-training.md) — Network architecture for distributed training | ✅ Real Meta/OpenAI engineering-blog sourcing (RoCE, MRC) + real AWS VPC/security-group work (Phase C) |
 | [cloud-architecture/05](cloud-architecture/05-security-and-compliance-architecture-for-ai-systems.md) — Security & compliance architecture for AI systems | ✅ Anthropic RSP, Meta Llama-weights leak, Apple PCC blog + real placeholder-API-key bug found and fixed |
 | [cloud-architecture/06](cloud-architecture/06-container-orchestration-and-cost-optimization-at-scale.md) — Container orchestration & cost optimization at scale | ✅ Both ECS Fargate and Cloud Run actually deployed, verified, and torn down (Phase C) |
+| [cloud-architecture/07](cloud-architecture/07-llm-gateway-semantic-cache-model-router.md) — LLM gateway + semantic cache + model router | 🟡 Rising 2026 infra archetype; org callbacks via multi-tenant + agent-finops + cost/latency tradeoff |
 | [behavioral/01](behavioral/01-staffing-reduction-10-to-2.md) — Staffing reduction (10→2) | ✅ Lucid Motors case study |
 | [behavioral/02](behavioral/02-finops-audit-and-fix.md) — FinOps audit and fix | ✅ Substack essay → self-audit → agent-finops |
 | [behavioral/03](behavioral/03-org-wide-security-hardening.md) — Org-wide security hardening | ✅ 6-repo auth-gate pass, 2026-07-03/04 |
 | [behavioral/04](behavioral/04-payments-and-edi-modernization.md) — Payments & EDI modernization | ✅ Volvo Cars gulf-payments + supply-chain-EDI case studies |
 | [behavioral/05](behavioral/05-leading-a-0-to-1-ai-product-build.md) — Leading a 0-to-1 AI product build | ✅ ai-content-factory case study, ADR-008 |
+| [behavioral/06](behavioral/06-influence-without-authority.md) — Influence without authority | ✅ Cross-repo gateway/skills standardization across vpeetla-ai |
+| [behavioral/07](behavioral/07-technical-bet-that-failed.md) — Technical bet that failed | ✅ Playbook sourcing reverse (fabricated attributions rejected) + disclosed product scope |
 | [scalability-governance-tradeoffs/01](scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety.md) — Cost vs. latency vs. safety | 🟡 General framework, illustrated with real examples from this org |
 | [scalability-governance-tradeoffs/02](scalability-governance-tradeoffs/02-build-vs-buy-shared-services.md) — Build vs. buy for shared services | ✅ agent-finops's "own repo vs. embed" decision (ADR-011) as the worked example |
 | [scalability-governance-tradeoffs/03](scalability-governance-tradeoffs/03-centralize-vs-federate-governance.md) — Centralize vs. federate governance | ✅ VAP/AegisAI orchestration-vs-governance split (ADR-001) as the worked example |
@@ -140,6 +150,9 @@ which doesn't require any AI-specific knowledge to answer well.
 | [coding/08](coding/08-debug-broken-cache-eviction.md) — Debug broken cache eviction | 🟡 Debug/extend style (2025–2026 loop trend) |
 | [coding/09](coding/09-design-inmemory-pubsub.md) — In-memory pub/sub LLD | 🟡 API + concurrency + backpressure |
 | [coding/10](coding/10-prefix-sum-subarray-patterns.md) — Prefix-sum subarray patterns | 🟡 Pattern family with Staff follow-ups |
+| [coding/11](coding/11-consistent-hashing.md) — Consistent hashing + virtual nodes | 🟡 Staff coding/LLD bridge for caches and shard routers |
+| [coding/12](coding/12-elevator-system-lld.md) — Elevator system LLD | 🟡 High-frequency machine-coding / state-machine classic |
+| [coding/13](coding/13-parking-lot-lld.md) — Parking lot LLD | 🟡 High-frequency OOP + Strategy + concurrency classic |
 | [staff-plus-interview-craft/01](staff-plus-interview-craft/01-what-staff-plus-actually-signals.md) — What Staff+ signals | 🟡 Meta guide for Staff+/Principal loops |
 | [staff-plus-interview-craft/02](staff-plus-interview-craft/02-questions-you-should-ask.md) — Questions you should ask | 🟡 Clarifying + HM questions |
 | [staff-plus-interview-craft/03](staff-plus-interview-craft/03-what-not-to-waste-time-on.md) — What not to waste time on | 🟡 Timebox + anti-patterns |
