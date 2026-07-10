@@ -2,9 +2,9 @@
 
 [![check-links](https://github.com/vpeetla-ai/ai-architect-interview-playbook/actions/workflows/check-links.yml/badge.svg)](https://github.com/vpeetla-ai/ai-architect-interview-playbook/actions/workflows/check-links.yml)
 [![Org](https://img.shields.io/badge/GitHub-vpeetla--ai-blue)](https://github.com/vpeetla-ai)
-[![Live Study UI](https://img.shields.io/badge/demo-live-brightgreen)](https://ai-architect-interview-playbook-9xs.vercel.app)
+[![Live Study UI](https://img.shields.io/badge/demo-live-brightgreen)](https://ai-architect-interview-playbook.vercel.app)
 
-**Live study notebook:** [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app) · Graded practice: [Practice Arena](https://ai-architect-practice-arena.vercel.app)
+**Live study notebook:** [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app) · Graded practice: [Practice Arena](https://ai-architect-practice-arena.vercel.app)
 
 Most interview-prep content is generic: "here's how you'd design a RAG system" as a thought
 experiment. This repo is different in two ways. First, the `ai-system-design/` questions follow
@@ -76,7 +76,7 @@ staff-plus-interview-craft/        — 3 guides: signals, questions to ask, what
 ui/                                — Study notebook (tables + reader) — Vercel static export
 ```
 
-**62 graded study entries** (49 prior + 13 high-frequency Staff+ gap fills: ChatGPT/coding-assistant/support, notifications/URL/video/crawler, consistent hashing + elevator/parking LLD, influence/failed-bet behavioral, LLM gateway) — markdown is source of truth; live study UI: [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
+**62 graded study entries** (49 prior + 13 high-frequency Staff+ gap fills: ChatGPT/coding-assistant/support, notifications/URL/video/crawler, consistent hashing + elevator/parking LLD, influence/failed-bet behavioral, LLM gateway) — markdown is source of truth; live study UI: [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
 
 Every entry in every folder, not just `ai-system-design/`, now ends with the same
 "what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
@@ -186,4 +186,4 @@ The other folders follow lighter shapes:
 **Study UI:** from `ui/` run `npm install && npm run build` (runs `scripts/build_catalog.py`).
 
 **Vercel deploy:** project **Root Directory** must be `ui` (not repo root). Framework Preset **Other**, Output Directory **`out`**, Install/Build = `npm install` / `npm run build`.  
-If Root is `.` and Output is `ui/out` without a real Next build, production returns **404** (empty deploy). Live: [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app).
+If Root is `.` and Output is `ui/out` without a real Next build, production returns **404** (empty deploy). Live: [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app).
