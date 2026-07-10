@@ -157,4 +157,6 @@ The other folders follow lighter shapes:
 - `coding/` — clarifying questions → approach ladder → Python reference → Staff+ deep dive → what not to discuss
 - `staff-plus-interview-craft/` — tables for signals, questions to ask, and timebox anti-patterns
 
-**Study UI:** from `ui/` run `npm install && npm run build` (runs `scripts/build_catalog.py`). Deploy with Vercel root `.`, output `ui/out` (see `vercel.json`).
+**Study UI:** from `ui/` run `npm install && npm run build` (runs `scripts/build_catalog.py`).
+
+**Vercel deploy:** set **Root Directory** to `ui` (not repo root). Framework Preset **Other**, Output **`out`**. Config lives in [`ui/vercel.json`](ui/vercel.json) — do **not** use `cd ui && …` install/build commands (that fails when Root is already `ui`).
