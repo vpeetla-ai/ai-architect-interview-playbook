@@ -49,30 +49,56 @@ which otherwise addresses synchronous or short-lived agent interactions.
   arbitrarily long, unbounded duration without holding any compute resource idle.
 
 ## API / interface
+Auth: user token for start/resume; workers use run-scoped credentials.
 
-```text
-POST /tasks { goal, tools_allowed } → { task_id }
-GET  /tasks/{task_id}/status → { status, progress_summary, last_checkpoint_at }
-POST /tasks/{task_id}/resume_with_human_input { input } → { status }
-POST /tasks/{task_id}/cancel → { status: "cancelled" }
+```http
+POST /v1/runs
+{"graph_id":"content_pipeline","input":{...},"checkpoint_ns":"tenant_acme"}
+→ 201 {"run_id":"run_...","status":"running"}
+
+GET /v1/runs/{run_id}
+→ {"status":"interrupted","interrupt":{"node":"publish","reason":"hitl_required"},"checkpoint_id":"ckpt_..."}
+
+POST /v1/runs/{run_id}/resume
+{"decision":"approve","payload":{...}} → 200 {"status":"running"}
+
+POST /v1/runs/{run_id}/cancel → 200 {"status":"cancelled"}
+
+GET /v1/runs/{run_id}/events?after=120
+→ {"events":[{"ts":"...","node":"research","type":"completed"},{"ts":"...","type":"interrupt"}]}
+
+GET /v1/runs/{run_id}/checkpoints/{checkpoint_id}
+→ {"state_uri":"redis://...","created_at":"...","nodes_completed":["research","draft"]}
 ```
+
+Staff+ callout: interrupt/resume/cancel + checkpoint fetch are the durability contract — not “retry the HTTP call”.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    START[Task starts] --> STEP[Agent reasoning step]
-    STEP --> SIDEEFFECT{Side effect needed?}
-    SIDEEFFECT -->|yes| IDEMPOTENT[Check side-effect log<br/>before executing]
-    IDEMPOTENT --> EXECUTE[Execute + record]
-    SIDEEFFECT -->|no| CHECKPOINT[Durable checkpoint]
-    EXECUTE --> CHECKPOINT
-    CHECKPOINT --> MORE{More steps needed?}
-    MORE -->|yes| STEP
-    MORE -->|needs human input| PAUSE[Pause — no compute held]
-    PAUSE -.->|human responds, hours/days later| RESUME[Resume from last checkpoint]
-    RESUME --> STEP
-    MORE -->|done| RESULT[Final result]
+graph TB
+  subgraph clients [Clients]
+    UI[Operator UI]
+    API[Run API]
+  end
+  subgraph runtime [Durable runtime]
+    Orch[Graph orchestrator]
+    Workers[Node workers]
+    HITL[HITL interrupt bridge]
+  end
+  subgraph durability [Durability]
+    CKPT[(Checkpoint store)]
+    Bus[(Event log)]
+  end
+  subgraph sideEffects [Side effects]
+    GW[Gateway-gated tools]
+  end
+  UI --> API --> Orch --> Workers
+  Workers --> CKPT
+  Workers --> Bus
+  Workers -->|interrupt| HITL --> API
+  Workers -->|tool calls| GW
 ```
 
 The core design principle: checkpointing happens after *every* meaningful step (not just at

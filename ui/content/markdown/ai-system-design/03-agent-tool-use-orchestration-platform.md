@@ -36,26 +36,65 @@ products in 2026, rather than a single pinned question.
 - **Audit record**: a signed, immutable log entry for every policy decision and executed action.
 
 ## API / interface
+Auth: user session + agent identity. Side effects require a short-lived gateway execution token.
 
-```text
-POST /orchestrator/run { user_message, intent? }
-→ { response, delegated_to?, gateway_decisions[] }
+```http
+POST /v1/missions
+Authorization: Bearer <user_token>
+{"message":"Summarize overnight incidents and notify Slack","thread_id":"thr_..."}
+→ 200 {"mission_id":"mis_...","status":"running|awaiting_approval","interrupt":null|{...}}
 
-POST /gateway/tool-request { agent_id, tool_name, args, risk_signals }
-→ { decision: "allow" | "approval_required" | "deny", execution_token? }
+POST /v1/missions/{mission_id}/resume
+{"decision":"approve","approver_id":"u_..."} → 200 {"status":"running"}
+
+POST /v1/gateway/authorize
+Authorization: Bearer <agent_token>
+{"mission_id":"mis_...","agent_id":"notifier","tool":"slack.notify","args":{...},"risk_signals":{...}}
+→ 200 {"decision":"allow","execution_token":"et_...","expires_in_sec":30}
+→ 200 {"decision":"approval_required","approval_id":"ap_..."}
+→ 403 {"decision":"deny","reason":"policy_violation","rule_id":"..."}
+
+POST /v1/tools/execute
+{"execution_token":"et_...","tool":"slack.notify","args":{...}}
+→ 200 {"result":{...},"audit_id":"aud_..."}
 ```
+
+Staff+ callout: authorize ≠ execute. Tokens are single-use and audited; resume is a separate HITL API.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    U[User request] --> ORCH[Orchestrator: intent classify + route]
-    ORCH --> SP[Specialist agents]
-    SP -->|side-effecting call| GW[Governance gateway]
-    GW --> POL[Policy engine + HITL]
-    POL --> EX[Tool execution]
-    GW --> AUD[Signed audit log]
-    SP -->|pure generation| OUT[Response]
+graph TB
+  subgraph clients [Clients]
+    User[User / UI]
+  end
+  subgraph orch [Orchestration]
+    Orch[Mission orchestrator]
+    Plan[Planner / graph]
+    Agents[Specialist agents]
+  end
+  subgraph gov [Governance]
+    TGW[Tool gateway]
+    Pol[Policy engine]
+    HITL[Approval queue]
+    Audit[(Signed audit log)]
+  end
+  subgraph tools [External tools]
+    Slack[Slack notify]
+    HTTP[Allowlisted HTTP]
+    Code[Sandbox exec]
+  end
+  User --> Orch --> Plan --> Agents
+  Agents -->|tool intent| TGW
+  TGW --> Pol
+  Pol -->|allow + token| Exec[Tool execute]
+  Pol -->|approval_required| HITL
+  HITL -->|resume| Orch
+  Exec --> Slack
+  Exec --> HTTP
+  Exec --> Code
+  TGW --> Audit
 ```
 
 The first design decision that separates a strong answer from a generic one: **orchestration

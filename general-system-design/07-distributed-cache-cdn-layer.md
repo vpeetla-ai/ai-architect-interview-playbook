@@ -47,23 +47,56 @@ standard of real-world grounding found anywhere in this repo's research. Meta's 
   serving cached content close to users.
 
 ## API / interface
+Auth: service identity for cache admin; CDN purge is dual-controlled in production.
 
-```text
-Get(key) → { value, hit: bool }
-Set(key, value, ttl)
-Invalidate(key)
+```http
+GET /v1/cache/{key}
+→ 200 {"value":"...","hit":true,"ttl_remaining_sec":42}
+→ 404 {"hit":false}
+
+PUT /v1/cache/{key}
+{"value":"...","ttl_sec":300,"tags":["user:42"]} → 200 {"stored":true}
+
+DELETE /v1/cache/{key} → 200 {"deleted":true}
+POST /v1/cache/invalidate
+{"tags":["user:42"]} → 202 {"invalidation_id":"inv_..."}
+
+POST /v1/cdn/purge
+{"urls":["https://cdn.example/a.js"],"approver_id":"u_..."} → 202 {"purge_id":"pg_..."}
+
+GET /v1/cache/stats
+→ {"hit_ratio":0.93,"evictions_per_min":120,"replication_lag_ms":5}
 ```
+
+Staff+ callout: tag-based invalidation + CDN purge are separate APIs with different blast radii.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    REQ[Request] --> CACHE{Cache lookup}
-    CACHE -->|hit| RETURN[Return cached value]
-    CACHE -->|miss| ORIGIN[(Origin / database)]
-    ORIGIN --> POPULATE[Populate cache]
-    POPULATE --> RETURN
-    WRITE[Data write] --> INVALIDATE[Invalidate/update cache entry]
+graph TB
+  subgraph clients [Clients]
+    App[App servers]
+    Users[Browsers]
+  end
+  subgraph edge [Edge]
+    CDN[CDN POP]
+  end
+  subgraph cache [Cache tier]
+    L1[Local / node cache]
+    L2[Regional Redis / Memcache]
+    Inv[Invalidation bus]
+  end
+  subgraph origin [Origin]
+    OriginSvc[Origin services]
+    DB[(Primary store)]
+  end
+  Users --> CDN --> OriginSvc
+  App --> L1 --> L2 --> OriginSvc
+  OriginSvc --> DB
+  Inv --> L1
+  Inv --> L2
+  Inv --> CDN
 ```
 
 ## Deep dive 1: cache invalidation strategy

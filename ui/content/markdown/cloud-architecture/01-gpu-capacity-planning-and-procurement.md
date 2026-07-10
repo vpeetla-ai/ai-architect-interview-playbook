@@ -48,27 +48,52 @@ rarely hit this constraint as the dominant cost and availability bottleneck.
   cost accounting and the next forecasting cycle.
 
 ## API / interface
+Auth: FinOps + ML-platform admins; reservations require dual approval above a spend threshold.
 
-```text
-POST /capacity/request { workload_id, gpu_type, gpu_hours_forecast, priority, deadline }
-  → { allocation: pool_id, fallback_pools: [...], estimated_cost }
-GET  /capacity/utilization?pool_id= → { reserved_hours, consumed_hours, idle_hours, cost }
+```http
+GET /v1/capacity/forecast?sku=h100_80gb&days=90
+→ {"demand":[...],"supply":[...],"gap_units":120,"confidence":0.74}
+
+POST /v1/reservations
+{"sku":"h100_80gb","units":64,"start":"2026-09-01","term_months":12,"regions":["us-east"]}
+→ 201 {"reservation_id":"res_...","status":"pending_approval","est_cost_usd":...}
+
+POST /v1/reservations/{id}/approve
+{"approver_ids":["u_finops","u_ml"],"budget_code":"AI-2026"} → 200 {"status":"submitted_to_cloud"}
+
+GET /v1/fleet/utilization?sku=h100_80gb&window=7d
+→ {"avg_util":0.61,"p95_queue_wait_sec":42,"idle_waste_usd":18000}
+
+POST /v1/placement/recommendations
+{"job_class":"training","priority":"high"} → 200 {"region":"us-east","pool":"reserved","reason":"sla_queue"}
 ```
+
+Staff+ callout: forecast → reservation → approval → utilization feedback is a closed control-plane loop.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    FCST[Demand forecaster] --> PLANNER[Procurement planner]
-    PLANNER --> RES[Reserved capacity pools]
-    PLANNER --> OND[On-demand / spot quota]
-    PLANNER --> SEC[Secondary provider / neocloud]
-    WORK[Workload request] --> SCHED[Scheduler]
-    SCHED --> RES
-    SCHED -->|primary exhausted| OND
-    OND -->|still exhausted| SEC
-    SCHED --> UTIL[(Utilization ledger)]
-    UTIL -.-> FCST
+graph TB
+  subgraph planning [Planning]
+    Forecast[Demand forecast]
+    Reserv[Reservation API]
+    Approve[Dual approval]
+  end
+  subgraph cloud [Cloud providers]
+    Quota[Quota / capacity APIs]
+    Market[Spot / on-demand]
+  end
+  subgraph fleet [Fleet]
+    Pools[GPU pools]
+    Sched[Workload scheduler]
+    Util[Utilization metering]
+  end
+  Forecast --> Reserv --> Approve --> Quota
+  Quota --> Pools
+  Market --> Pools
+  Sched --> Pools
+  Util --> Forecast
 ```
 
 The core loop is closed: a forecaster drives procurement decisions ahead of demand (reserved

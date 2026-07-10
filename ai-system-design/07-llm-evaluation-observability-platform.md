@@ -39,22 +39,57 @@ preparing regardless of exact attribution.
   service), producing pass/fail per case.
 
 ## API / interface
+Auth: CI service account for gates; humans for overrides.
 
-```text
-POST /eval/run { suite_id, target_base_url } → { suite_id, results: [{case_id, passed, detail}] }
-GET  /traces?run_id= → full trace tree for one production request
+```http
+POST /v1/eval-suites
+{"name":"rag-grounding-v4","suite_uri":"s3://golden/rag_v4.jsonl","thresholds":{"grounding":0.92}}
+→ 201 {"suite_id":"suite_...","version":4}
+
+POST /v1/eval-runs
+{"suite_id":"suite_...","target":{"service":"rag-answer","git_sha":"abc123"},"mode":"ci_gate"}
+→ 202 {"run_id":"run_..."}
+
+GET /v1/eval-runs/{run_id}
+→ {"status":"failed","scores":{"grounding":0.88},"failed_cases":["case_17"],"trace_links":["https://..."]}
+
+POST /v1/traces
+{"trace_id":"tr_...","spans":[...],"eval_case_id":"case_17"} → 202 {"accepted":true}
+
+POST /v1/gates/{run_id}/override
+{"reason":"known flaky fixture","approver_id":"u_..."} → 200 {"gate":"waived","expires_at":"..."}
 ```
+
+Staff+ callout: eval runs must deep-link to traces; overrides are audited and time-bounded.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    PROD[Production request] -.->|async trace export| TRACE[(Trace store)]
-    SUITE[Versioned golden suites] --> RUNNER[Scorer / runner]
-    RUNNER -->|calls| TARGET[Target: real service under test]
-    RUNNER --> RESULT[Pass/fail + score per case]
-    RESULT -->|fails| GATE[CI merge gate]
-    TRACE -.-> DASH[Observability dashboard]
+graph TB
+  subgraph producers [Producers]
+    CI[CI pipelines]
+    Prod[Online traces]
+  end
+  subgraph eval [Eval platform]
+    Suites[Suite registry]
+    Runner[Eval runner]
+    Gate[CI gate service]
+    Judge[LLM / metric judges]
+  end
+  subgraph stores [Stores]
+    Gold[(Golden fixtures)]
+    Runs[(Run results)]
+    Traces[(Trace store)]
+  end
+  CI --> Gate --> Runner
+  Prod --> Traces
+  Suites --> Gold
+  Runner --> Gold
+  Runner --> Judge
+  Runner --> Runs
+  Runner --> Traces
+  Gate --> Runs
 ```
 
 The critical design split: **tracing** (what actually happened in production, for debugging)

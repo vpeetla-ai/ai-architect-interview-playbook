@@ -47,24 +47,55 @@ unconfirmed-at-these-specific-companies, extension of that archetype.
   to, which must always exist and be known-good by construction, not discovered under pressure.
 
 ## API / interface
+Auth: SRE break-glass roles; drills are scheduled and scored.
 
-```text
-POST /deploy { model_artifact_id, traffic_pct } → { deployment_id, status }
-POST /rollback { deployment_id } → { restored_deployment_id, eta_seconds }
-GET  /health/region/{region} → { status: healthy | degraded | down }
+```http
+GET /v1/dr/plans/{service}
+→ {"rto_min":15,"rpo_min":5,"active_ Passive":["us-east","us-west"],"last_drill_at":"..."}
+
+POST /v1/dr/drills
+{"service":"model-serving","scenario":"region_loss","dry_run":false}
+→ 202 {"drill_id":"dr_..."}
+
+GET /v1/dr/drills/{drill_id}
+→ {"status":"passed","actual_rto_min":11,"gaps":[]}
+
+POST /v1/dr/failover
+{"service":"model-serving","target_region":"us-west","ticket":"INC-..."}
+→ 202 {"change_id":"chg_...","checkpoints":["dns","model_artifacts","kv_warm"]}
+
+GET /v1/dr/artifacts/{service}
+→ {"artifact_replicas":{"us-east":"ok","us-west":"ok"},"config_sync_lag_sec":3}
 ```
+
+Staff+ callout: failover is a sequenced API with checkpoints; drills produce measurable RTO evidence.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    NEW[New model deployment] -->|canary %| PROD[Production traffic]
-    PROD --> MON[Health + quality monitor]
-    MON -->|regression detected| ROLLBACK[Automatic rollback]
-    ROLLBACK --> LASTGOOD[Last known-good deployment]
-    subgraph Regional DR
-    PRIMARY[Primary region] -.->|health check fails| SECONDARY[Secondary region]
-    end
+graph TB
+  subgraph control [DR control]
+    Plan[DR plan registry]
+    Drill[Drill runner]
+    Failover[Failover orchestrator]
+  end
+  subgraph primary [Primary region]
+    ServeP[Serving]
+    ArtP[(Model artifacts)]
+    CfgP[(Config)]
+  end
+  subgraph secondary [Secondary region]
+    ServeS[Serving warm/standby]
+    ArtS[(Artifact replica)]
+    CfgS[(Config replica)]
+  end
+  Plan --> Drill
+  Plan --> Failover
+  ArtP --> ArtS
+  CfgP --> CfgS
+  Failover --> ServeS
+  Failover --> ServeP
 ```
 
 The design splits into two failure classes that get handled differently: a **bad deployment**

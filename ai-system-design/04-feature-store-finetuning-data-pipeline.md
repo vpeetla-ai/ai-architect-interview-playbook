@@ -38,24 +38,61 @@ confirmed big-tech-specific prompt. Answer it on its technical merits.
   query.
 
 ## API / interface
+Auth: service identity for writers; training jobs read via scoped dataset tokens.
 
-```text
-GET  /features/online?entity_id=&feature_set=       (real-time inference path)
-POST /features/offline/materialize { feature_set, time_range }  (batch training path)
-POST /datasets/snapshot { feature_set, label_source, as_of_time }
-→ { snapshot_id, row_count, schema_hash }
+```http
+POST /v1/feature-sets
+{"name":"user_engagement_v3","entity_keys":["user_id"],"ttl_hours":24}
+→ 201 {"feature_set_id":"fs_...","version":1}
+
+POST /v1/feature-sets/{id}/materialize
+{"mode":"offline","as_of":"2026-07-01T00:00:00Z"} → 202 {"job_id":"mat_..."}
+
+GET /v1/online-features
+{"feature_set_id":"fs_...","entities":[{"user_id":"u_1"}],"features":["click_7d"]}
+→ 200 {"entities":[{"user_id":"u_1","values":{"click_7d":0.12},"event_time":"..."}]}
+
+POST /v1/training-datasets
+{"feature_set_id":"fs_...","label_source":"s3://labels/...","point_in_time":true,
+ "train_window":{"start":"...","end":"..."}}
+→ 202 {"dataset_id":"ds_...","lineage_id":"lin_..."}
+
+GET /v1/training-datasets/{dataset_id}
+→ {"status":"ready","uri":"s3://...","row_count":12000000,"lineage":{...}}
 ```
+
+Staff+ callout: point-in-time correctness belongs in the training-dataset API contract, not a notebook convention.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    SRC[Raw data sources] --> COMP[Feature computation]
-    COMP --> OFF[(Offline store<br/>batch, historical)]
-    COMP --> ON[(Online store<br/>low-latency, current)]
-    OFF --> SNAP[Dataset snapshot builder]
-    SNAP --> TRAIN[Training / fine-tuning job]
-    ON --> SERVE[Real-time inference]
+graph TB
+  subgraph producers [Producers]
+    Batch[Batch pipelines]
+    Stream[Streaming events]
+  end
+  subgraph platform [Feature platform]
+    Reg[Feature registry]
+    Mat[Materialization jobs]
+    Val[Schema + DQ gates]
+  end
+  subgraph serving [Serving]
+    Online[(Online store)]
+    Offline[(Offline lakehouse)]
+  end
+  subgraph consumers [Consumers]
+    Train[Training dataset builder]
+    Inf[Online inference]
+  end
+  Batch --> Mat
+  Stream --> Mat
+  Mat --> Val --> Reg
+  Mat --> Online
+  Mat --> Offline
+  Reg --> Train
+  Offline --> Train
+  Online --> Inf
 ```
 
 The core architectural decision is the **dual-store pattern**: the same feature computation

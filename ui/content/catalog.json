@@ -2406,6 +2406,14 @@
       "path": "coding/10-prefix-sum-subarray-patterns.md",
       "sections": [
         {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "the-framework",
+          "heading": "The framework"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },

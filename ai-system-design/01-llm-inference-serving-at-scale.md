@@ -40,27 +40,64 @@ not recite a specific company's stack.
 - **Model replica**: one loaded copy of model weights on one or more GPUs (tensor-parallel shards).
 
 ## API / interface
+Auth: `Authorization: Bearer <tenant_token>`. Interactive vs batch is a routing signal on the wire.
 
-A single core method captures the essential complexity — everything else is routing and auth:
+```http
+POST /v1/chat/completions
+Authorization: Bearer <token>
+Idempotency-Key: <uuid>
+{
+  "model": "llama-3.1-70b",
+  "messages": [{"role":"user","content":"..."}],
+  "max_tokens": 1024,
+  "stream": true,
+  "priority": "interactive",
+  "metadata": {"request_id":"...","tenant_id":"..."}
+}
+→ 200 text/event-stream (token deltas) | 429 capacity_exhausted | 503 model_warming
 
-```text
-POST /v1/completions
-{ model, prompt, max_tokens, stream: bool, priority: "interactive" | "batch" }
-→ stream of { token, finish_reason }
+GET /v1/models
+→ {"data":[{"id":"llama-3.1-70b","status":"ready","p50_ttft_ms":120,"inflight":42}]}
+
+GET /v1/metrics/serving?model=llama-3.1-70b
+→ {"ttft_p99_ms":...,"tpot_p50_ms":...,"gpu_util":0.81,"kv_cache_used_pct":0.64}
 ```
+
+Staff+ callout: expose queue depth / TTFT breach as client-visible signals so callers can shed load.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    C[Client] --> LB[Load balancer / router]
-    LB --> Q[Priority queue: interactive vs batch]
-    Q --> SCHED[Scheduler]
-    SCHED --> ENG1[Model replica 1<br/>GPU + KV cache]
-    SCHED --> ENG2[Model replica 2<br/>GPU + KV cache]
-    ENG1 -.-> METRICS[Queue depth, TTFT, GPU util]
-    ENG2 -.-> METRICS
-    METRICS -.-> AUTOSCALE[Autoscaler]
+graph TB
+  subgraph clients [Clients]
+    App[Interactive apps]
+    Batch[Batch jobs]
+  end
+  subgraph edge [Edge]
+    GW[API Gateway / auth]
+    Adm[Admission control]
+  end
+  subgraph control [Control plane]
+    Sched[Continuous batch scheduler]
+    KV[KV-cache allocator]
+    Scale[Autoscaler / model router]
+  end
+  subgraph dataPlane [Data plane]
+    GPU1[GPU pool A]
+    GPU2[GPU pool B]
+  end
+  subgraph obs [Observability]
+    Met[TTFT TPOT util metrics]
+  end
+  App --> GW
+  Batch --> GW
+  GW --> Adm --> Sched
+  Sched --> KV
+  Sched --> GPU1
+  Sched --> GPU2
+  Scale --> Sched
+  Sched --> Met
 ```
 
 Requests land on a router that classifies them by model and priority tier, then a scheduler

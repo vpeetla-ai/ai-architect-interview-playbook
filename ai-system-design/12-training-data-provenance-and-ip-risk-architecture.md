@@ -53,31 +53,55 @@ which company's loop asks it most directly.
   model trained on it) that traces back to a specific source.
 
 ## API / interface
+Auth: compliance + data-platform roles; writes require dual control for high-risk corpora.
 
-```text
-POST /corpus/ingest { source_id, examples: [...] }
-  → { rejected: [examples missing required consent/license metadata] }
-GET /provenance/query?source_id= → { training_examples: [...], models_trained: [...] }
+```http
+POST /v1/datasets
+{"name":"web_crawl_2026q2","license":"cc-by-4.0","source_uri":"s3://...","risk_tier":"medium"}
+→ 201 {"dataset_id":"data_...","status":"pending_review"}
+
+POST /v1/datasets/{id}/provenance
+{"spdx":"...","collectors":["crawl_v2"],"exclusions":["news_domain_blocklist_v9"]}
+→ 200 {"provenance_id":"prov_..."}
+
+POST /v1/datasets/{id}/approve
+{"approver_ids":["u_legal","u_ml"],"attestation":"license_reviewed"}
+→ 200 {"status":"approved","usable_for":["pretrain","sft"]}
+
+POST /v1/lineage/query
+{"model_id":"mdl_..."} → 200 {"datasets":[{"dataset_id":"data_...","license":"cc-by-4.0"}],"gaps":[]}
+
+POST /v1/takedowns
+{"url":"https://...","reason":"copyright"} → 202 {"takedown_id":"td_...","propagation":["crawl_index","pending_train_sets"]}
 ```
 
-The `rejected` response on ingestion is deliberate: a real system rejects data missing required
-provenance metadata at the boundary, rather than accepting it and hoping to reconstruct
-provenance later — the same "validate at the boundary" principle this repo's data-contract
-content applies elsewhere.
+Staff+ callout: approval + lineage query + takedown propagation are the compliance APIs — not a spreadsheet.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    RAW[Raw data sources] --> GATE[Ingestion gate: license/consent check]
-    GATE -->|missing required metadata| REJECT[Rejected, not silently dropped]
-    GATE -->|passes| TAG[Tag with source + content-hash]
-    TAG --> CORPUS[(Versioned corpus snapshot)]
-    CORPUS --> TRAIN[Training run]
-    TRAIN --> MODEL[Trained model, linked to corpus snapshot ID]
-    LEGAL[Legal/compliance query] --> PROVQUERY[Provenance query service]
-    PROVQUERY --> CORPUS
-    PROVQUERY --> MODEL
+graph TB
+  subgraph intake [Intake]
+    Reg[Dataset registry]
+    Prov[Provenance service]
+    Review[Legal / risk review]
+  end
+  subgraph enforcement [Enforcement]
+    Gate[Training admission gate]
+    TD[Takedown service]
+  end
+  subgraph stores [Stores]
+    Meta[(Dataset metadata)]
+    Lineage[(Model-data lineage)]
+    Block[(Block / exclusion lists)]
+  end
+  Reg --> Prov --> Review --> Meta
+  Gate --> Meta
+  Gate --> Lineage
+  TD --> Block
+  TD --> Meta
+  Gate --> Block
 ```
 
 The design principle: provenance is enforced at ingestion (reject data without it) and preserved

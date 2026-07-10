@@ -61,26 +61,50 @@ absence is real data, not a research gap.
   to the cloud tier for requests that stay on-device.
 
 ## API / interface
+Auth: device attestation token; model packages signed by the platform.
 
-This is mostly an internal, on-device decision rather than a public API — the interface that
-matters is the handoff contract between tiers:
+```http
+GET /v1/models/manifest?device_class=phone_npus&app_version=4.2
+→ {"models":[{"id":"asr_small_v3","size_mb":42,"digest":"sha256:...","min_os":"17"}]}
 
-```text
-LocalInfer(request, context) → { result } | { escalate: true, reason }
-CloudInfer(request, context, privacy_policy: "ephemeral_no_retention")
-  → { result }
+POST /v1/models/{model_id}/download-ticket
+{"device_id":"dev_...","attestation":"..."}
+→ 200 {"url":"https://cdn/...","expires_in_sec":600,"signature":"..."}
+
+POST /v1/telemetry/inference
+{"device_id":"dev_...","model_id":"asr_small_v3","latency_ms":90,"outcome":"ok","on_device":true}
+→ 202 {"accepted":true}
+
+POST /v1/fallback/cloud-infer
+{"model":"asr_large","audio_ref":"...","privacy_mode":"no_store"}
+→ 200 {"transcript":"...","processed_in":"region_us"}
 ```
+
+Staff+ callout: on-device path is default; cloud fallback is an explicit, privacy-scoped API.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    REQ[User request] --> CLASSIFY[On-device escalation classifier]
-    CLASSIFY -->|within capability| LOCAL[On-device model]
-    CLASSIFY -->|exceeds capability| CLOUD[Cloud tier — ephemeral, no retention]
-    LOCAL --> RESULT[Result to user]
-    CLOUD --> RESULT
-    CLOUD -.->|never persisted, not inspectable| AUDIT[No stored logs of request content]
+graph TB
+  subgraph device [Device]
+    App[App]
+    Runtime[On-device runtime]
+    NPU[NPU / GPU / CPU]
+    Local[(Local model store)]
+  end
+  subgraph edgeCloud [Cloud edge]
+    Manifest[Model manifest API]
+    CDN[Signed model CDN]
+    FB[Cloud fallback infer]
+    Tel[Telemetry intake]
+  end
+  App --> Runtime --> NPU
+  Runtime --> Local
+  App --> Manifest
+  Manifest --> CDN --> Local
+  Runtime -->|fallback| FB
+  Runtime --> Tel
 ```
 
 The design principle Apple's published PCC architecture makes explicit: escalating to the cloud

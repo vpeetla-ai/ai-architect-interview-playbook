@@ -42,23 +42,62 @@ without a confirmed interview attribution.
   piece that must be shared/synchronized across servers.
 
 ## API / interface
+Auth: service identity; limit keys are explicit (api_key / user_id / ip) — never inferred silently.
 
-```text
-CheckLimit(client_id, rule_id) → { allowed: bool, remaining: int, retry_after_seconds: int }
+```http
+PUT /v1/rules/{rule_id}
+{"key_template":"user:{user_id}","algorithm":"token_bucket","capacity":100,"refill_per_sec":10,
+ "fail_mode":"closed"}
+→ 200 {"rule_id":"...","version":3}
+
+POST /v1/check
+{"rule_ids":["rpm_user","daily_user"],"key_values":{"user_id":"u_42"},"cost":1}
+→ 200 {"allowed":true,"results":[{"rule_id":"rpm_user","remaining":91,"reset_at":"..."}]}
+→ 429 {"allowed":false,"results":[{"rule_id":"rpm_user","remaining":0,"retry_after_sec":2}]}
+
+POST /v1/check:batch
+{"checks":[{"rule_ids":["rpm_user"],"key_values":{"user_id":"u_1"}},{"rule_ids":["rpm_user"],"key_values":{"user_id":"u_2"}}]}
+→ 200 {"results":[...]}
+
+GET /v1/rules/{rule_id}/stats?window=5m
+→ {"allows":12040,"denies":330,"store_errors":0,"p99_check_ms":1.8}
 ```
 
-Every request path calls this before doing any real work — a rejected check should cost as
-close to nothing as possible.
+Staff+ callout: multi-rule check is one round-trip; fail_mode is part of the rule contract, not an ops toggle.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    REQ[Incoming request] --> GATE[Rate limit check]
-    GATE -->|query| STORE[(Shared counter store — Redis/Memcached)]
-    GATE -->|within limit| APP[Application logic]
-    GATE -->|over limit| REJECT[429 Too Many Requests]
-    STORE -.->|TTL expiry| RESET[Window reset]
+graph TB
+  subgraph clients [Request paths]
+    SvcA[Service A]
+    SvcB[Service B]
+  end
+  subgraph edge [Edge]
+    SDK[Limiter SDK / sidecar]
+  end
+  subgraph control [Control plane]
+    Rules[Rules API]
+    Config[(Rule config store)]
+  end
+  subgraph dataPlane [Data plane]
+    Check[Check API]
+    Redis[(Redis cluster<br/>atomic Lua)]
+  end
+  subgraph regions [Multi-region]
+    R1[Region limit shard]
+    R2[Region limit shard]
+    Gossip[Async reconciliation]
+  end
+  SvcA --> SDK --> Check
+  SvcB --> SDK
+  Rules --> Config --> Check
+  Check --> Redis
+  Check --> R1
+  Check --> R2
+  R1 <--> Gossip
+  R2 <--> Gossip
 ```
 
 The critical design decision: the counter store must be shared across every server instance

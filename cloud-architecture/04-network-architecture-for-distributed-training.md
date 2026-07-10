@@ -50,33 +50,55 @@ of a question every cloud architect gets asked.
   physical nodes, ideally co-locating tightly-communicating ranks close in the topology.
 
 ## API / interface
+Auth: infra operators; network intents are declarative and reviewed.
 
-Distributed training doesn't expose a public request/response API in the traditional sense —
-the relevant interface is internal, between the scheduler and the training framework:
+```http
+POST /v1/training-networks
+{"cluster":"train-a","backend":"roce","rails":8,"topology":"rail_optimized"}
+→ 201 {"network_id":"net_...","status":"provisioning"}
 
-```text
-POST /scheduler/place { job_id, world_size, gpus_per_node }
-  → { rank_to_node_mapping, topology_score }
+GET /v1/training-networks/{network_id}
+→ {"status":"ready","bandwidth_gbps_per_host":400,"observed_loss_pct":0.001}
+
+POST /v1/training-networks/{network_id}/intents
+{"allow":[{"from":"gpu_rack_*","to":"gpu_rack_*","proto":"rdma"}],
+ "deny_public_egress": true}
+→ 200 {"intent_version":4}
+
+GET /v1/training-networks/{network_id}/telemetry?window=15m
+→ {"p99_rtt_us":12,"ecn_ce_rate":0.02,"retransmits":0.0,"collective_hang_suspects":0}
+
+POST /v1/incidents/network
+{"cluster":"train-a","symptom":"allreduce_stall"} → 201 {"incident_id":"ni_...","runbook":"..."}
 ```
 
-`topology_score` (e.g., the fraction of communication that stays within a rack vs. crosses a
-spine switch) is the actual signal a topology-aware placement algorithm optimizes.
+Staff+ callout: topology + intent + telemetry are the network APIs; “fast network” without intents is incomplete.
+
 
 ## High-level design
 
 ```mermaid
-flowchart TB
-    subgraph Rack A
-    N1[Node — GPUs] ---|RDMA/RoCE, top-of-rack switch| N2[Node — GPUs]
-    end
-    subgraph Rack B
-    N3[Node — GPUs] ---|RDMA/RoCE, top-of-rack switch| N4[Node — GPUs]
-    end
-    N1 -.->|spine switch, lower bandwidth, higher latency| N3
-    SCHED[Topology-aware scheduler] --> N1
-    SCHED --> N2
-    SCHED --> N3
-    SCHED --> N4
+graph TB
+  subgraph control [Network control]
+    NetAPI[Network intent API]
+    FabCtrl[Fabric controller]
+  end
+  subgraph fabric [GPU fabric]
+    Rail[Rail-optimized switches]
+    NIC[RDMA NICs]
+    GPU[GPU hosts]
+  end
+  subgraph security [Security]
+    SG[Security groups / ACLs]
+    Eg[Egress deny-by-default]
+  end
+  subgraph obs [Observability]
+    Tele[Fabric telemetry]
+  end
+  NetAPI --> FabCtrl --> Rail
+  Rail --> NIC --> GPU
+  FabCtrl --> SG --> Eg
+  Rail --> Tele
 ```
 
 The design principle: rank-to-node placement should minimize cross-rack (and especially

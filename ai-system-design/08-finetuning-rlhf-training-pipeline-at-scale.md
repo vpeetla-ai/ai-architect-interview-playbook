@@ -44,27 +44,62 @@ gating) that generalize to this domain, not to a training pipeline I've actually
 - **Policy checkpoint**: the model being aligned, at a specific point in RLHF training.
 
 ## API / interface
+Auth: ML platform admins create jobs; workers use job-scoped credentials.
 
-```text
-POST /training/sft { base_model, dataset_snapshot_id } → { checkpoint_id }
-POST /training/reward-model { preference_dataset_id } → { reward_model_id, eval_scores }
-POST /training/rlhf { policy_checkpoint_id, reward_model_id } → { new_checkpoint_id, eval_scores }
+```http
+POST /v1/training-jobs
+{
+  "base_model":"llama-3.1-8b",
+  "method":"qlora",
+  "dataset_id":"ds_...",
+  "hyperparams":{"lr":2e-4,"epochs":3},
+  "eval_suite_id":"suite_...",
+  "budget_usd":1200
+}
+→ 201 {"job_id":"tj_...","status":"queued"}
+
+GET /v1/training-jobs/{job_id}
+→ {"status":"running","metrics":{"step":1200,"eval_loss":0.42},"cost_usd":310}
+
+POST /v1/training-jobs/{job_id}/promote
+{"artifact":"adapter_v3","gates_passed":true}
+→ 200 {"registry_model_id":"mdl_...","stage":"staging"}
+
+POST /v1/preference-datasets
+{"pairs_uri":"s3://prefs/...","rubric":"helpfulness_v2"} → 201 {"pref_id":"pref_..."}
+
+POST /v1/rlhf-jobs
+{"sft_model_id":"mdl_...","pref_id":"pref_...","algo":"dpo"} → 201 {"job_id":"rj_..."}
 ```
+
+Staff+ callout: promote is gated by eval suite + budget; preference data has its own versioned API.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    RAW[Raw instruction + preference data] --> SFT[Supervised fine-tuning]
-    SFT --> SFTCKPT[SFT checkpoint]
-    PREF[Preference dataset] --> RM[Reward model training]
-    RM --> RMEVAL[Reward model eval]
-    SFTCKPT --> RLHF[RLHF / DPO training]
-    RMEVAL --> RLHF
-    RLHF --> POLICY[Aligned policy checkpoint]
-    POLICY --> EVALGATE[Eval + safety gate]
-    EVALGATE -->|pass| DEPLOY[Promote to serving]
-    EVALGATE -->|fail| ROLLBACK[Rollback / iterate]
+graph TB
+  subgraph inputs [Inputs]
+    Data[SFT / preference datasets]
+    Base[Base model registry]
+  end
+  subgraph train [Training plane]
+    Orchestrator[Job orchestrator]
+    Workers[GPU training workers]
+    Eval[Eval gate]
+  end
+  subgraph artifacts [Artifacts]
+    Ckpt[(Checkpoints)]
+    Reg[Model registry]
+  end
+  subgraph control [Control]
+    Budget[Budget / FinOps]
+    Promo[Promotion API]
+  end
+  Data --> Orchestrator
+  Base --> Orchestrator --> Workers --> Ckpt
+  Workers --> Eval --> Promo --> Reg
+  Budget --> Orchestrator
 ```
 
 The pipeline is a **staged sequence with an independent evaluation gate at each stage**, not

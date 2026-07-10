@@ -39,23 +39,55 @@ been reported as an exact interview prompt.
   re-deriving the risk signals from scratch.
 
 ## API / interface
+Auth: service mTLS for sync checks; async callbacks HMAC-signed.
 
-```text
-inspect_input(text) → { redacted_text, flags: ["sensitive_input_redacted", "human_approval_required"] }
-validate_output(answer, context) → { grounded: bool, flags: ["missing_citation", "unknown_citation"] }
+```http
+POST /v1/moderate
+Idempotency-Key: <uuid>
+{"content_id":"c_...","modality":"text","text":"...","policies":["hate","self_harm","pii"],
+ "context":{"user_id":"u_...","surface":"chat"}}
+→ 200 {"decision":"allow|block|review","scores":{...},"actions":[...],"policy_version":"2026-07-01"}
+
+POST /v1/moderate/async
+{"content_id":"c_...","callback_url":"https://app/hooks/moderation"} → 202 {"job_id":"mod_..."}
+
+POST /v1/appeals/{appeal_id}/resolve
+{"decision":"overturn","reviewer_id":"r_..."} → 200 {"content_id":"c_...","new_decision":"allow"}
 ```
+
+Staff+ callout: return `policy_version` + machine-readable reason codes; appeals are a first-class write API.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    IN[User input] --> INSPECT[Input inspection:<br/>PII redaction, destructive-intent detection]
-    INSPECT --> GEN[Generation]
-    GEN --> VALIDATE[Output validation:<br/>grounding check, citation check]
-    VALIDATE --> DECIDE{Risk signals}
-    DECIDE -->|low risk| OUT[Return to user]
-    DECIDE -->|high risk| HITL[Human review queue]
-    HITL --> AUDIT[(Signed audit log)]
+graph TB
+  subgraph clients [Product surfaces]
+    Chat[Chat / UGC]
+    Upload[Media upload]
+  end
+  subgraph edge [Edge]
+    GW[API Gateway]
+  end
+  subgraph safety [Safety plane]
+    Sync[Sync moderate API]
+    Async[Async workers]
+    Ens[Model ensemble]
+    Rules[Policy rules engine]
+    Queue[Human review queue]
+  end
+  subgraph data [Data]
+    Dec[(Decisions + appeals)]
+    Feat[(Signals store)]
+  end
+  Chat --> GW --> Sync
+  Upload --> GW --> Async
+  Sync --> Ens --> Rules
+  Async --> Ens
+  Rules -->|allow_block| Dec
+  Rules -->|review| Queue
+  Queue --> Dec
+  Ens --> Feat
 ```
 
 The key structural decision: moderation is **two separate checkpoints**, not one. Input-side

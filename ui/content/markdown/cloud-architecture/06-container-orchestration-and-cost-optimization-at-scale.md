@@ -43,27 +43,54 @@ role would never raise, because idle CPU waste is a rounding error compared to i
   (unschedulable) workload demand.
 
 ## API / interface
+Auth: platform admins for cluster policies; app teams deploy via constrained APIs.
 
-```text
-POST /schedule { workload_id, gpu_count, gpu_type, priority }
-  → { node_id, wait_time_estimate }
-GET  /cluster/utilization → { total_gpus, allocated_gpus, idle_allocated_gpus }
+```http
+POST /v1/workloads
+{"name":"rag-answer","image":"ghcr.io/...","cpu":2,"mem_gb":8,"min_replicas":2,"max_replicas":20,
+ "scale_metric":"rps","budget_usd_day":200}
+→ 201 {"workload_id":"wl_..."}
+
+PUT /v1/workloads/{id}/autoscaling
+{"min":2,"max":40,"target_rps":80} → 200 {"version":5}
+
+GET /v1/workloads/{id}/cost?window=7d
+→ {"cost_usd":940,"idle_pct":0.22,"rightsizing":{"cpu":1.5,"mem_gb":6}}
+
+POST /v1/workloads/{id}/rightsizing:apply
+{"cpu":1.5,"mem_gb":6,"ticket":"COST-..."} → 202 {"change_id":"chg_..."}
+
+GET /v1/clusters/{cluster}/binpack
+→ {"fragmentation":0.18,"suggested_moves":3}
 ```
 
-`idle_allocated_gpus` (GPUs reserved by a workload but not actually computing) is the number
-that matters most for cost — distinct from simply "unallocated" GPUs, which are at least
-available for new work.
+Staff+ callout: cost and rightsizing are product APIs next to deploy — not a monthly spreadsheet.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    WORK[Workload: training or serving] --> SCHED[GPU-aware scheduler]
-    SCHED -->|fits existing node| NODE[Existing GPU node]
-    SCHED -->|no fit| AUTOSCALE[Cluster autoscaler]
-    AUTOSCALE -->|provision| NEWNODE[New GPU node]
-    NODE --> UTIL[(Utilization tracker)]
-    UTIL -.->|idle GPU alert| RIGHTSIZE[Rightsizing / bin-packing pass]
+graph TB
+  subgraph control [Platform control]
+    Deploy[Workload API]
+    Auto[Autoscaling]
+    Cost[Cost / rightsizing API]
+  end
+  subgraph orch [Orchestrator]
+    Sched[Scheduler / binpack]
+    Nodes[Node pools]
+  end
+  subgraph runtime [Runtime]
+    Pods[Service pods]
+    Sidecar[Mesh / metrics sidecars]
+  end
+  subgraph finops [FinOps]
+    Meter[Usage metering]
+    Recs[Rightsizing recommendations]
+  end
+  Deploy --> Auto --> Sched --> Nodes --> Pods
+  Pods --> Sidecar --> Meter --> Recs --> Cost
+  Cost --> Deploy
 ```
 
 ## Deep dive 1: managed orchestration vs. Kubernetes, with real numbers from actually deploying both

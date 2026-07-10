@@ -38,22 +38,47 @@ not one of the six companies' own.
   per-millisecond sequence component — the real Snowflake structure.
 
 ## API / interface
+Auth: internal service mesh; clients should not mint IDs in app code ad hoc.
 
-```text
-GenerateID() → uint64
+```http
+POST /v1/ids
+{"namespace":"orders","count":1} → 200 {"ids":["4192837461029384"]}
+
+POST /v1/ids
+{"namespace":"orders","count":100} → 200 {"ids":["..."],"batch_id":"b_..."}
+
+GET /v1/ids/decode/{id}
+→ {"namespace":"orders","datacenter":3,"worker":12,"timestamp_ms":...,"sequence":42}
+
+GET /v1/allocator/health
+→ {"workers":[{"id":12,"datacenter":3,"status":"ok","last_tick_ms":...}]}
 ```
 
-No network call is involved on the hot path — this is the entire point of the design.
+Staff+ callout: batch allocate + decode are part of the contract; clock/worker health is observable.
+
 
 ## High-level design
 
 ```mermaid
-flowchart TB
-    subgraph "64-bit ID structure (Snowflake-style)"
-    TS[41 bits: timestamp, ms since epoch] --> NODE[10 bits: node/worker ID]
-    NODE --> SEQ[12 bits: per-ms sequence counter]
-    end
-    GEN[Generator node] -->|no coordination needed| ID[Unique 64-bit ID]
+graph TB
+  subgraph clients [Clients]
+    Svc[Order / write services]
+  end
+  subgraph idgen [ID service]
+    API[ID API]
+    Alloc[Worker ID allocator]
+    Gen[Snowflake-style generator]
+  end
+  subgraph coord [Coordination]
+    ZK[(Etcd / ZooKeeper)]
+  end
+  subgraph ops [Ops]
+    Health[Health / skew monitors]
+  end
+  Svc --> API --> Gen
+  Alloc --> ZK
+  Gen --> Alloc
+  Gen --> Health
 ```
 
 The key design insight: uniqueness is achieved by construction, not by coordination — each

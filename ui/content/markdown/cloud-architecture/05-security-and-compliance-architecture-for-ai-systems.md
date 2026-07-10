@@ -57,26 +57,56 @@ product.
   processed.
 
 ## API / interface
+Auth: security engineering + compliance; evidence export is auditable.
 
-Security architecture is mostly policy, not a public API — the relevant interface is the
-authorization check every sensitive operation must pass through:
+```http
+POST /v1/policies
+{"name":"no_raw_pii_in_prompts","applies_to":["inference","agents"],"effect":"deny"}
+→ 201 {"policy_id":"pol_...","version":1}
 
-```text
-POST /access/request { resource: "model_weights" | "training_data" | "secret", requestor, justification }
-  → { approved: bool, requires_second_approver: bool, audit_log_id }
+POST /v1/policies/{id}/publish → 200 {"status":"active"}
+
+GET /v1/findings?severity=high&status=open
+→ {"findings":[{"id":"f_...","resource":"api_key_leak","severity":"critical"}]}
+
+POST /v1/findings/{id}/remediate
+{"action":"rotate_key","ticket":"SEC-..."} → 202 {"remediation_id":"rem_..."}
+
+POST /v1/evidence/export
+{"framework":"SOC2","period":"2026-Q2"} → 202 {"export_id":"ev_...","uri":"s3://..."}
+
+POST /v1/break-glass
+{"resource":"prod_infer","reason":"SEV1","approver_id":"u_..."} → 201 {"session_id":"bg_...","expires_in_sec":3600}
 ```
+
+Staff+ callout: policy publish, findings, evidence export, and break-glass are distinct APIs with different controls.
+
 
 ## High-level design
 
 ```mermaid
-flowchart TB
-    ENG[Engineer / service] --> AUTHZ[Authorization layer]
-    AUTHZ -->|standard resource| GRANT[Scoped, time-bound grant]
-    AUTHZ -->|model weights: multi-party| APPROVER2[Second approver required]
-    APPROVER2 --> GRANT
-    GRANT --> AUDIT[(Audit log — every access)]
-    SECRET[Secret manager] -->|scoped IAM role, rotated| SVC[Production service]
-    SVC -.->|never a static/checked-in credential| SECRET
+graph TB
+  subgraph control [Security control plane]
+    Pol[Policy API]
+    Find[Findings API]
+    Ev[Evidence export]
+    BG[Break-glass]
+  end
+  subgraph enforce [Enforcement]
+    GW[Gateway / WAF]
+    Secrets[Secrets manager]
+    Scan[CI + runtime scanners]
+  end
+  subgraph data [Data]
+    Audit[(Audit lake)]
+    Inv[(Asset inventory)]
+  end
+  Pol --> GW
+  Scan --> Find --> Audit
+  Secrets --> GW
+  Ev --> Audit
+  BG --> Secrets
+  Inv --> Find
 ```
 
 The design principle directly reflected in Anthropic's published ASL-3 standards: the highest-

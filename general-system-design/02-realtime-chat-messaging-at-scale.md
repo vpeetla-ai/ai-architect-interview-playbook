@@ -45,25 +45,59 @@ sources, not aggregator claims.
 - **Presence record**: a user's current online/offline/last-seen status.
 
 ## API / interface
+Auth: user session; device-scoped connections.
 
-```text
-Connect() → persistent WebSocket/MQTT connection, authenticated
-SendMessage(conversation_id, content, client_message_id) → { server_message_id, status: "sent" }
-  → pushed to recipient(s): { message, delivery_status }
-Ack(message_id, status: "delivered" | "read") → propagated back to sender
+```http
+POST /v1/conversations
+{"member_ids":["u_1","u_2"],"type":"direct"} → 201 {"conversation_id":"cv_..."}
+
+POST /v1/conversations/{id}/messages
+Idempotency-Key: <uuid>
+{"client_msg_id":"cmsg_...","body":"hello","reply_to":null}
+→ 201 {"message_id":"msg_...","seq":1842,"server_ts":"..."}
+
+GET /v1/conversations/{id}/messages?after_seq=1800&limit=50
+→ {"messages":[...],"next_after_seq":1850}
+
+WebSocket /v1/realtime?device_id=dev_...
+→ server pushes {"type":"message","conversation_id":"cv_...","message":{...}}
+→ client sends {"type":"ack","conversation_id":"cv_...","seq":1842}
+→ client sends {"type":"typing","conversation_id":"cv_..."}
+
+POST /v1/conversations/{id}/read
+{"up_to_seq":1842} → 200 {"ok":true}
 ```
+
+Staff+ callout: client_msg_id + seq give idempotent send and gap-free sync; read receipts are a separate write.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    C1[Client A] -->|persistent connection| GW1[Gateway server 1]
-    C2[Client B] -->|persistent connection| GW2[Gateway server 2]
-    GW1 --> ROUTER[Connection routing service]
-    ROUTER -->|B is on GW2| GW2
-    GW2 --> C2
-    GW1 --> QUEUE[(Per-user ordered queue — offline delivery)]
-    QUEUE -.->|on reconnect| GW2
+graph TB
+  subgraph clients [Clients]
+    Mobile[Mobile]
+    Web[Web]
+  end
+  subgraph edge [Edge]
+    GW[API + WS gateway]
+    Pres[Presence service]
+  end
+  subgraph messaging [Messaging]
+    Fanout[Fanout / inbox writers]
+    Conv[Conversation service]
+  end
+  subgraph stores [Stores]
+    Msg[(Message store)]
+    Inbox[(Per-user inbox)]
+    Conn[(Connection registry)]
+  end
+  Mobile --> GW
+  Web --> GW
+  GW --> Conv --> Msg
+  Conv --> Fanout --> Inbox
+  GW --> Pres --> Conn
+  Fanout --> GW
 ```
 
 The core design problem this diagram makes explicit: sender and recipient are very often

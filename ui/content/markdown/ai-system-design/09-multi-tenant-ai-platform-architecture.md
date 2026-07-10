@@ -49,29 +49,61 @@ service question.
   configured limit.
 
 ## API / interface
+Auth: tenant-scoped API keys or org JWT with `tenant_id` claim verified server-side.
 
-```text
-POST /v1/completions
-Headers: { Authorization: Bearer <tenant_api_key> }
-{ model, prompt, max_tokens }
-→ 200 { completion } | 429 { error: "rate_limit_exceeded", retry_after }
+```http
+POST /v1/tenants
+{"name":"acme","plan":"enterprise","isolation":"namespace"} → 201 {"tenant_id":"ten_..."}
+
+PUT /v1/tenants/{tenant_id}/quotas
+{"rpm":600,"tpm":2e6,"max_concurrent":50,"budget_usd_day":500}
+→ 200 {"quotas":{...},"effective_at":"..."}
+
+POST /v1/tenants/{tenant_id}/keys
+{"scopes":["inference:chat"],"expires_at":"..."} → 201 {"key_id":"key_...","secret":"..."}  # secret once
+
+GET /v1/tenants/{tenant_id}/usage?window=24h
+→ {"rpm_used":120,"tpm_used":4.2e5,"cost_usd":88.4,"throttled_requests":12}
+
+POST /v1/chat/completions
+Authorization: Bearer <tenant_key>
+{"model":"...","messages":[...]}
+→ 200 ... | 429 {"error":"quota_exceeded","quota":"tpm","reset_at":"..."}
 ```
 
-The tenant identity and quota check happen before the request ever reaches the shared scheduling
-layer — a rejected request should never consume GPU capacity.
+Staff+ callout: quotas and keys are control-plane APIs; data-plane errors must name which quota fired.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    T1[Tenant A request] --> GATE[Auth + quota gate]
-    T2[Tenant B request] --> GATE
-    GATE -->|within quota| SCHED[Shared GPU scheduler]
-    GATE -->|dedicated tier| DEDICATED[Dedicated GPU pool — Tenant C]
-    GATE -->|over quota| REJECT[429, before any GPU work]
-    SCHED --> POOL[Multiplexed GPU pool — batched across tenants]
-    POOL --> LEDGER[(Per-tenant quota ledger)]
-    LEDGER -.-> GATE
+graph TB
+  subgraph clients [Tenants]
+    T1[Tenant A apps]
+    T2[Tenant B apps]
+  end
+  subgraph controlPlane [Control plane]
+    TenAPI[Tenant / quota APIs]
+    Keys[Key management]
+    Bill[Usage metering]
+  end
+  subgraph dataPlane [Data plane]
+    GW[Gateway + quota enforce]
+    Router[Model router]
+    Pool[Shared / dedicated pools]
+  end
+  subgraph isolation [Isolation]
+    NS[Namespaces / projects]
+    Net[Network policies]
+  end
+  T1 --> GW
+  T2 --> GW
+  TenAPI --> Keys
+  TenAPI --> Bill
+  GW --> Router --> Pool
+  GW --> Bill
+  Pool --> NS
+  NS --> Net
 ```
 
 The critical design decision: quota enforcement happens at the gate, before scheduling — not as

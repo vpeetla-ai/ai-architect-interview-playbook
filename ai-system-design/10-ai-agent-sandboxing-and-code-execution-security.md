@@ -50,26 +50,56 @@ retrieved content, not just malicious direct user input) has no pre-LLM security
   filesystem paths a given sandbox instance may access.
 
 ## API / interface
+Auth: agent execution token from gateway; sandbox never sees long-lived cloud creds.
 
-```text
-POST /agent/execute { task, allowed_tools: ["code_exec", "web_fetch"], policy_id }
-  → { sandbox_id, status }
-POST /sandbox/{sandbox_id}/tool_call { tool, args }
-  → { result } | { denied: true, reason: "not in allow-list" }
+```http
+POST /v1/sandboxes
+{"mission_id":"mis_...","image":"python:3.11-slim","network":"allowlist","timeout_sec":30,"cpu_mc":500,"mem_mb":512}
+→ 201 {"sandbox_id":"sbx_...","status":"ready","endpoints":{"exec":"/v1/sandboxes/sbx_.../exec"}}
+
+POST /v1/sandboxes/{sandbox_id}/exec
+{"execution_token":"et_...","language":"python","code":"print(1+1)","files":[]}
+→ 200 {"stdout":"2
+","stderr":"","exit_code":0,"duration_ms":40}
+→ 403 {"error":"network_denied","host":"evil.example"}
+→ 413 {"error":"resource_limit","resource":"mem"}
+
+POST /v1/sandboxes/{sandbox_id}/terminate → 200 {"status":"terminated"}
+
+GET /v1/sandboxes/{sandbox_id}/audit
+→ {"events":[{"type":"exec","ts":"..."},{"type":"net_deny","host":"..."}]}
 ```
+
+Staff+ callout: create/exec/terminate lifecycle + deny-by-default network are explicit APIs, not container flags alone.
+
 
 ## High-level design
 
 ```mermaid
-flowchart TB
-    AGENT[Agent reasoning loop] --> TOOLCALL[Tool call request]
-    TOOLCALL --> POLICY[Allow-list policy check]
-    POLICY -->|denied| REJECT[Rejected, agent informed]
-    POLICY -->|allowed| SANDBOX[Isolated sandbox — gVisor/microVM]
-    SANDBOX --> EXEC[Code execution / tool action]
-    EXEC --> RESULT[Tool result]
-    RESULT -->|treated as untrusted| SCAN[Injection-pattern check]
-    SCAN --> AGENT
+graph TB
+  subgraph control [Control]
+    GW[Tool gateway]
+    Policy[Sandbox policy]
+  end
+  subgraph runtime [Sandbox runtime]
+    Mgr[Sandbox manager]
+    Pool[Warm pool]
+    Isol[gVisor / microVM]
+  end
+  subgraph limits [Enforcement]
+    Net[Egress allowlist]
+    Res[CPU mem time limits]
+    FS[Ephemeral filesystem]
+  end
+  subgraph audit [Audit]
+    Log[(Exec audit log)]
+  end
+  GW --> Policy --> Mgr
+  Mgr --> Pool --> Isol
+  Isol --> Net
+  Isol --> Res
+  Isol --> FS
+  Mgr --> Log
 ```
 
 The design principle that distinguishes a real agent sandbox from a generic container sandbox:

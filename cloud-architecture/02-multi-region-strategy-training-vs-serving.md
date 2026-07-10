@@ -43,28 +43,57 @@ candidate who treats them identically is missing the actual point of the questio
   legally allowed to process or store that data.
 
 ## API / interface
+Auth: platform operators; traffic shifts are change-managed.
 
-```text
-POST /training/schedule { job_id, dataset_residency_tag, gpu_requirement }
-  → { region: "us-central1" | "europe-west4" | ..., reason }
-GET  /serving/route?client_region= → { primary_region, failover_region, estimated_latency_ms }
+```http
+GET /v1/regions
+→ {"regions":[{"id":"us-east","roles":["serving","training"]},{"id":"eu-west","roles":["serving"]}]}
+
+PUT /v1/serving/traffic-policy
+{"model":"chat-v4","weights":{"us-east":0.7,"eu-west":0.3},"sticky":"user_id"}
+→ 200 {"version":12,"status":"applied"}
+
+POST /v1/serving/failover
+{"from":"us-east","to":"eu-west","reason":"region_outage","ticket":"INC-..."}
+→ 202 {"change_id":"chg_..."}
+
+POST /v1/training/placements
+{"job_id":"tj_...","prefer":["us-east"],"allow_preempt":false}
+→ 200 {"region":"us-east","cluster":"train-a"}
+
+GET /v1/replication/status?dataset=corpus_v5
+→ {"regions":{"us-east":"complete","eu-west":"lagging","lag_minutes":18}}
 ```
+
+Staff+ callout: serving traffic policy and training placement are different APIs — do not share one “multi-region” knob.
+
 
 ## High-level design
 
 ```mermaid
-flowchart TB
-    subgraph Training
-    DATA[(Training data, residency-tagged)] --> TSCHED[Training scheduler]
-    TSCHED -->|GPU capacity + residency match| TREGION[Training region]
-    end
-    subgraph Serving
-    USER[User request] --> GLB[Global load balancer]
-    GLB -->|nearest healthy region| SREGION_A[Serving region A]
-    GLB -.->|region A degraded| SREGION_B[Serving region B — failover]
-    end
-    TREGION -.->|model artifact, region-agnostic once trained| SREGION_A
-    TREGION -.-> SREGION_B
+graph TB
+  subgraph global [Global control]
+    Traffic[Traffic policy API]
+    Place[Training placement]
+    Repl[Data replication control]
+  end
+  subgraph us [Region US]
+    ServeUS[Serving cluster]
+    TrainUS[Training cluster]
+    DataUS[(Regional data)]
+  end
+  subgraph eu [Region EU]
+    ServeEU[Serving cluster]
+    DataEU[(Regional data)]
+  end
+  Traffic --> ServeUS
+  Traffic --> ServeEU
+  Place --> TrainUS
+  Repl --> DataUS
+  Repl --> DataEU
+  DataUS --> ServeUS
+  DataEU --> ServeEU
+  DataUS --> TrainUS
 ```
 
 The key design split: training region selection is driven by **data gravity and residency**,

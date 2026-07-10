@@ -34,24 +34,74 @@ concurrent users" — as close to universal across every company in this list.
 - **Citation**: a chunk referenced in a generated answer, with a pointer back to its source.
 
 ## API / interface
+Auth: verified JWT → server-derived `Principal` (never trust client-asserted ACLs alone).
 
-```text
-POST /v1/ingest  { document, owner, classification, allowed_groups }
-POST /v1/answer  { query, principal }
-→ { answer, citations[], grounded: bool }
+```http
+POST /v1/documents
+Authorization: Bearer <token>
+{
+  "source_uri": "s3://corp-wiki/page-42",
+  "owner": "team-platform",
+  "classification": "internal",
+  "allowed_groups": ["eng","support"],
+  "content_hash": "sha256:..."
+}
+→ 202 {"document_id":"doc_...","ingestion_job_id":"job_...","status":"queued"}
+→ 422 {"error":"ingestion_contract_failed","violations":["missing_owner"]}
+
+GET /v1/documents/{document_id} → {"status":"indexed","chunk_count":128}
+DELETE /v1/documents/{document_id} → 202 {"invalidation_job_id":"..."}
+
+POST /v1/answer
+Authorization: Bearer <token>
+{"query":"...","top_k":8,"require_citations":true}
+→ 200 {"answer":"...","citations":[...],"grounded":true,"declined":false,"trace_id":"tr_..."}
+→ 200 {"answer":null,"declined":true,"reason":"insufficient_grounding","trace_id":"tr_..."}
 ```
+
+Staff+ callout: ingest, answer, and invalidation are separate contracts — ACL changes after index time need an explicit API path.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    Q[Query + Principal] --> AF[Access filter]
-    AF --> RET[Hybrid retriever<br/>lexical + semantic]
-    RET --> RR[Reranker]
-    RR --> CTX[Context assembly]
-    CTX --> GEN[LLM + citations]
-    GEN --> GUARD[Output grounding check]
-    GUARD -.-> OBS[Trace-linked eval scores]
+graph TB
+  subgraph clients [Clients]
+    UI[Apps / agents]
+  end
+  subgraph edge [Edge]
+    GW[API Gateway]
+    Auth[Identity verify]
+  end
+  subgraph ingestPath [Ingest path]
+    Ingest[Ingest API]
+    Val[Contract validation]
+    Chunk[Chunk + embed]
+  end
+  subgraph queryPath [Query path]
+    Ans[Answer API]
+    AF[Access filter before rank]
+    Ret[Hybrid retriever]
+    RR[Reranker]
+    Gen[LLM + citations]
+    Guard[Grounding check]
+  end
+  subgraph stores [Stores]
+    Doc[(Document + ACL store)]
+    Vec[(Vector index)]
+    Lex[(Lexical index)]
+  end
+  UI --> GW --> Auth
+  Auth --> Ingest
+  Auth --> Ans
+  Ingest --> Val --> Chunk
+  Chunk --> Doc
+  Chunk --> Vec
+  Chunk --> Lex
+  Ans --> AF --> Ret
+  Ret --> Vec
+  Ret --> Lex
+  Ret --> RR --> Gen --> Guard
 ```
 
 Query comes in with a claimed identity. Retrieval happens in two stages: a cheap, high-recall

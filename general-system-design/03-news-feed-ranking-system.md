@@ -44,25 +44,52 @@ to ground truth as this repo's research has found anywhere.
   candidate posts per user.
 
 ## API / interface
+Auth: end-user token; ranking features never accept client-trusted scores.
 
-```text
-GetFeed(user_id, cursor) → { posts: [ranked_post, ...], next_cursor }
-CreatePost(author_id, content) → { post_id, fan_out_status }
+```http
+GET /v1/feed?cursor=eyJ...&limit=20
+→ 200 {"items":[{"post_id":"p_...","score":0.81,"reasons":["affinity","recency"]}],"next_cursor":"..."}
+
+POST /v1/feed/events
+{"post_id":"p_...","event":"impression|click|hide","request_id":"req_...","position":3}
+→ 202 {"accepted":true}
+
+POST /v1/posts
+{"author_id":"u_...","body":"...","visibility":"friends"} → 201 {"post_id":"p_..."}
+
+GET /v1/feed/debug/{user_id}   # staff-only
+→ {"candidate_sources":["friends","groups"],"ranker":"v7","excluded":[{"post_id":"...","reason":"seen"}]}
 ```
+
+Staff+ callout: feed read is cursor-based; ranking debug is a privileged API for incident response.
+
 
 ## High-level design
 
 ```mermaid
-flowchart TB
-    POST[New post created] --> FANOUT{Fan-out decision}
-    FANOUT -->|normal author| WRITE[Fan-out on write: push to followers' feed caches]
-    FANOUT -->|celebrity author, huge follower count| SKIP[Skip fan-out-on-write]
-    WRITE --> FEEDCACHE[(Per-user feed cache)]
-    REQ[GetFeed request] --> AGG[Aggregator]
-    AGG --> FEEDCACHE
-    AGG -->|celebrity posts, fetched on read| CELEBFEED[(Celebrity post index)]
-    AGG --> RANK[Ranking pass]
-    RANK --> RESULT[Ranked feed]
+graph TB
+  subgraph clients [Clients]
+    App[Feed client]
+  end
+  subgraph edge [Edge]
+    GW[API Gateway]
+  end
+  subgraph feed [Feed system]
+    Cand[Candidate generators]
+    Rank[Ranker / L2]
+    Blend[Blender + diversity]
+  end
+  subgraph stores [Stores]
+    Graph[(Social graph)]
+    Posts[(Post store)]
+    Feat[(Feature store)]
+    Cache[(Feed cache)]
+  end
+  App --> GW --> Cand
+  Cand --> Graph
+  Cand --> Posts
+  Cand --> Rank
+  Feat --> Rank --> Blend --> Cache --> GW
 ```
 
 This is Meta's own real, published architecture pattern (the Aggregator/Leaf/Tailer design):

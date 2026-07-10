@@ -1,5 +1,13 @@
 # Prefix-sum subarray patterns (Staff+ follow-ups)
 
+## The question, as it might actually be asked
+
+Given `nums` and `k`, return the number of contiguous subarrays whose sum equals `k`.
+
+## The framework
+
+Clarify constraints → correct end-to-end solution → narrate complexity and tests → offer a Staff+ extension (concurrency, API contract, or failure mode) without turning a coding round into distributed system design. See Approach ladder and Staff+ deep dive below.
+
 ## Where this actually gets asked
 
 Meta/Google-style medium family: subarray sum equals K, etc. Staff+ is graded on **pattern recognition** and stating which variant they are solving — not memorizing 10 solutions blindly.

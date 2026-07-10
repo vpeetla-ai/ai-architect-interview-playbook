@@ -43,22 +43,59 @@ Google infrastructure, rather than a confirmed company-specific interview prompt
 - **Worker**: a machine capable of executing jobs, reporting health/liveness to the scheduler.
 
 ## API / interface
+Auth: service accounts; workers claim with lease tokens.
 
-```text
-ScheduleJob(cron_expr | run_at, job_spec, retry_policy) → { job_id }
-GET /jobs/{job_id}/executions → [{ execution_id, status, started_at, worker_id }]
+```http
+POST /v1/queues/{queue}/tasks
+Idempotency-Key: <uuid>
+{"payload":{...},"delay_sec":0,"max_attempts":5,"timeout_sec":60}
+→ 201 {"task_id":"task_...","status":"queued"}
+
+POST /v1/queues/{queue}/lease
+{"worker_id":"w_...","max_tasks":10,"lease_sec":30}
+→ 200 {"tasks":[{"task_id":"...","lease_token":"lt_...","payload":{...}}]}
+
+POST /v1/tasks/{task_id}/ack
+{"lease_token":"lt_...","result":{...}} → 200 {"status":"succeeded"}
+
+POST /v1/tasks/{task_id}/nack
+{"lease_token":"lt_...","retryable":true,"error":"..."} → 200 {"status":"queued","attempt":2}
+
+GET /v1/queues/{queue}/stats
+→ {"queued":1203,"leased":80,"dlq":4,"oldest_age_sec":12}
 ```
+
+Staff+ callout: lease/ack/nack is the correctness API — visibility timeouts without lease tokens are insufficient.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    DEF[Job definitions store] --> LEADER[Scheduler leader]
-    LEADER -->|leader election, Paxos/Raft| STANDBY[Standby schedulers]
-    LEADER -->|fires due jobs| QUEUE[(Execution queue)]
-    QUEUE --> WORKER1[Worker — leases execution]
-    WORKER1 -->|heartbeat| LEADER
-    WORKER1 -->|lease expires without completion| REASSIGN[Reassign to another worker]
+graph TB
+  subgraph producers [Producers]
+    API[Enqueue API]
+  end
+  subgraph scheduler [Scheduler]
+    QMgr[Queue manager]
+    Disp[Dispatcher]
+    DLQ[Dead-letter handler]
+  end
+  subgraph workers [Workers]
+    W1[Worker pool A]
+    W2[Worker pool B]
+  end
+  subgraph stores [Stores]
+    Queue[(Task queue store)]
+    Meta[(Task metadata)]
+  end
+  API --> QMgr --> Queue
+  Disp --> Queue
+  Disp --> W1
+  Disp --> W2
+  W1 -->|ack_nack| QMgr
+  W2 -->|ack_nack| QMgr
+  QMgr --> DLQ
+  QMgr --> Meta
 ```
 
 The design principle Google's own real cron-service architecture reflects: the scheduler itself

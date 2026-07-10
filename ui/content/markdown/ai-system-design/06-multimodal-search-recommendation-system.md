@@ -46,21 +46,59 @@ recommendation system.
   (user, item) pair.
 
 ## API / interface
+Auth: end-user token; tenant-scoped indexes.
 
-```text
-GET /recommendations?user_id=&surface=feed&limit=20
-→ { items: [{ item_id, score, modality_signals }] }
+```http
+POST /v1/index/items
+{"item_id":"sku_42","modalities":{"text":"Red running shoe","image_uri":"s3://...","attributes":{"price_cents":8999}}}
+→ 202 {"index_job_id":"idx_..."}
+
+POST /v1/search
+{"query":{"text":"trail shoes"},"filters":{"price_cents":{"lte":12000}},"limit":20,"personalize":true}
+→ 200 {"results":[{"item_id":"sku_42","score":0.83,"reasons":["text_match","visual_sim"]}],"request_id":"req_..."}
+
+POST /v1/recommend
+{"user_id":"u_...","surface":"home","limit":10} → 200 {"items":[...],"experiment_arm":"B"}
+
+POST /v1/feedback
+{"request_id":"req_...","item_id":"sku_42","event":"click"} → 202 {"accepted":true}
 ```
+
+Staff+ callout: search vs recommend share retrieval but differ in ranking contracts; feedback closes the loop.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    U[User request] --> RETRIEVE[Candidate generation<br/>multiple retrieval sources]
-    RETRIEVE --> MERGE[Candidate merge + dedup]
-    MERGE --> RANK[Ranking model<br/>full feature set]
-    RANK --> DIVERSITY[Diversity / business-rule pass]
-    DIVERSITY --> OUT[Final ranked list]
+graph TB
+  subgraph clients [Clients]
+    Web[Web / mobile]
+  end
+  subgraph edge [Edge]
+    GW[API Gateway]
+  end
+  subgraph retrieval [Retrieval]
+    QEnc[Query encoder]
+    ANN[ANN index]
+    Lex[Lexical / attributes]
+  end
+  subgraph ranking [Ranking]
+    L1[L1 candidate merge]
+    L2[L2 ranker]
+    Bias[Position bias correction]
+  end
+  subgraph stores [Stores]
+    Item[(Item catalog)]
+    Emb[(Embedding store)]
+    Feat[(User features)]
+  end
+  Web --> GW
+  GW --> QEnc --> ANN
+  GW --> Lex
+  ANN --> L1
+  Lex --> L1 --> L2 --> Bias
+  Item --> Emb --> ANN
+  Feat --> L2
 ```
 
 The standard two-stage pattern — cheap, high-recall candidate generation followed by an

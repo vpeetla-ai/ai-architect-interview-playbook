@@ -42,22 +42,54 @@ documentation of Docs' current production system specifically.
   indicating which operations they've already applied.
 
 ## API / interface
+Auth: document ACL; presence is per-session.
 
-```text
-ApplyOperation(doc_id, operation, client_version) → { transformed_operation, new_version }
-  → broadcast to other connected clients
+```http
+POST /v1/docs
+{"title":"Spec","acl":{"editors":["u_1"],"viewers":["u_2"]}} → 201 {"doc_id":"doc_...","rev":0}
+
+GET /v1/docs/{doc_id} → {"rev":120,"snapshot_uri":"s3://...","acl":{...}}
+
+WebSocket /v1/docs/{doc_id}/session?session_id=sess_...
+→ client {"type":"op","base_rev":120,"op":{...}}
+→ server {"type":"ack","rev":121}
+→ server {"type":"op","rev":121,"op":{...},"from":"sess_other"}
+→ client {"type":"presence","cursor":{"line":10,"col":4}}
+
+POST /v1/docs/{doc_id}/snapshots
+{"rev":121} → 202 {"snapshot_id":"snap_..."}
+
+POST /v1/docs/{doc_id}/acl
+{"editors":["u_1","u_3"]} → 200 {"rev_acl":5}
 ```
+
+Staff+ callout: ops are revision-addressed; ACL changes are versioned separately from content revs.
+
 
 ## High-level design
 
 ```mermaid
-flowchart LR
-    C1[Client A types] -->|local op, applied optimistically| LOCAL1[Local doc state A]
-    C1 -->|op + version| SERVER[Central OT/CRDT server]
-    C2[Client B types concurrently] --> SERVER
-    SERVER -->|transform against concurrent ops| TRANSFORMED[Transformed operations]
-    TRANSFORMED --> LOCAL1
-    TRANSFORMED --> LOCAL2[Local doc state B]
+graph TB
+  subgraph clients [Clients]
+    E1[Editor session A]
+    E2[Editor session B]
+  end
+  subgraph collab [Collaboration]
+    GW[Session gateway]
+    OT[OT / CRDT service]
+    Pres[Presence]
+  end
+  subgraph stores [Stores]
+    Ops[(Op log)]
+    Snap[(Snapshots)]
+    ACL[(ACL store)]
+  end
+  E1 --> GW
+  E2 --> GW
+  GW --> OT --> Ops
+  OT --> Snap
+  GW --> Pres
+  GW --> ACL
 ```
 
 The central design problem this diagram is built around: two users type at nearly the same time
