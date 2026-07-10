@@ -2,5 +2,7 @@
   "framework": null,
   "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "outputDirectory": "out"
+  "outputDirectory": "out",
+  "cleanUrls": true,
+  "trailingSlash": true
 }

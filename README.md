@@ -2,7 +2,9 @@
 
 [![check-links](https://github.com/vpeetla-ai/ai-architect-interview-playbook/actions/workflows/check-links.yml/badge.svg)](https://github.com/vpeetla-ai/ai-architect-interview-playbook/actions/workflows/check-links.yml)
 [![Org](https://img.shields.io/badge/GitHub-vpeetla--ai-blue)](https://github.com/vpeetla-ai)
-[![Study UI](https://img.shields.io/badge/study-notebook-0b5fff)](https://github.com/vpeetla-ai/ai-architect-interview-playbook#structure)
+[![Live Study UI](https://img.shields.io/badge/demo-live-brightgreen)](https://ai-architect-interview-playbook-9xs.vercel.app)
+
+**Live study notebook:** [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app) · Graded practice: [Practice Arena](https://ai-architect-practice-arena.vercel.app)
 
 Most interview-prep content is generic: "here's how you'd design a RAG system" as a thought
 experiment. This repo is different in two ways. First, the `ai-system-design/` questions follow
@@ -71,7 +73,7 @@ staff-plus-interview-craft/        — 3 guides: signals, questions to ask, what
 ui/                                — Study notebook (tables + reader) — Vercel static export
 ```
 
-**49 graded study entries** (35 prior + 11 coding + 3 craft) — markdown is source of truth; [study UI](https://github.com/vpeetla-ai/ai-architect-interview-playbook) deploys from `ui/`. Practice Arena grades the original 35 system/behavioral/tradeoff set and syncs new coding/craft rubrics when the submodule is bumped.
+**49 graded study entries** (35 prior + 11 coding + 3 craft) — markdown is source of truth; live study UI: [ai-architect-interview-playbook-9xs.vercel.app](https://ai-architect-interview-playbook-9xs.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
 
 Every entry in every folder, not just `ai-system-design/`, now ends with the same
 "what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
