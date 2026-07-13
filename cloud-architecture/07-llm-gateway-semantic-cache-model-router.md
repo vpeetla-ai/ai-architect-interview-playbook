@@ -1,152 +1,185 @@
-# Design an LLM gateway with semantic cache and model routing
+# Design an enterprise LLM gateway with semantic cache — gateway vs sidecar; cache-in-process vs cache-as-service
 
 ## Where this actually gets asked
 
 Rising 2026 infra question as companies centralize LLM spend: "Design an LLM gateway," "API
-gateway for OpenAI/Anthropic," "semantic cache for prompts." Sits between multi-tenant platforms
-and FinOps — Staff+ cares about routing policy, cache safety, and blast radius.
+gateway for OpenAI/Anthropic," "semantic cache for prompts," "gateway vs sidecar." Sits between
+multi-tenant platforms and FinOps — Staff+ cares about deployment topology, cache safety, and
+blast radius — not a reverse proxy demo.
+
+Org grounding: [aegis-llm-gateway](https://github.com/vpeetla-ai/aegis-llm-gateway) +
+[aegis-semantic-cache](https://github.com/vpeetla-ai/aegis-semantic-cache) ([ADR-028](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-028-federated-ai-control-plane-k8s-analogy.md))
+— federated model plane; tool governance stays in AegisAI.
 
 ## Requirements
 
 **Functional**
-- Single ingress for chat/completions across multiple model providers.
+- Single ingress for chat/completions across multiple model providers (or stub → BYOK).
 - Route by policy: tenant, latency class, cost class, capability (tools, vision).
 - Optional semantic cache for idempotent / FAQ-like prompts.
 - Central auth, rate limits, usage metering, and kill switches.
+- Explicit choice: shared gateway plane vs per-app sidecar; cache-as-service vs in-process.
 
 **Non-functional**
 - P99 overhead of the gateway itself is small vs model latency.
-- Cache must not serve personalized or safety-sensitive answers across users.
-- Provider outages trigger failover without thundering herds.
-- FinOps: per-tenant budgets enforced before tokens burn.
+- Cache must not serve personalized or safety-sensitive answers across tenants.
+- Provider / FinOps outages: fail-closed vs fail-open is a **documented posture**, not silent.
+- FinOps: per-tenant budgets enforced **before** tokens burn.
+- No fake 99.9% SLO claims on free-tier demos.
 
 ## Core entities
 
 - **Route policy**: match rules → model/provider, timeout, retry, fallback chain.
-- **Cache key**: tenant_scope + embedding(prompt) + model_semver + policy_version.
+- **Cache key**: `tenant_id` + embedding(prompt) + model_id + policy_version (+ optional tags).
 - **Usage event**: tenant, model, tokens_in/out, cached_hit, cost_usd.
 - **Provider adapter**: normalized request/response + error taxonomy.
+- **Control posture**: `strict` | `demo` — budget/cache/auth failure behavior.
 
 ## API / interface
 
 ```http
 POST /v1/chat/completions
-Authorization: Bearer <tenant_key>
-X-Route-Class: interactive|batch
-{ "messages":[...], "model":"auto"| "gpt-…"| "claude-…", "cache":"allow"|"forbid" }
-→ 200 stream/json + headers: X-Model-Used, X-Cache: HIT|MISS
+Authorization: Bearer <gateway_key>
+X-Tenant-Id: vap|acf|…
+{ "messages":[...], "model":"auto"| "stub-small"| "gpt-…", "stream": false }
+→ 200 json + headers: X-Model-Used, X-Cache: HIT|MISS
+→ 402 budget breached (strict) | 503 FinOps down (strict)
 
-PUT /v1/policies/routing
-{ "rules":[{"match":{"tenant_tier":"free"},"model":"small","rpm":60}] }
-→ 200
+POST /v1/cache/lookup
+{ "tenant_id":"…", "model":"…", "messages":[...] }
+→ { "hit": true|false, "response": … }
 
-POST /v1/cache/invalidate
-{ "tenant_id":"…", "tag":"kb_v42" }
-→ 202
+POST /v1/cache/store
+{ "tenant_id":"…", "model":"…", "messages":[...], "response":{…} }
+→ 204
 
-GET /v1/usage/current
-→ { "spend_usd":…, "budget_usd":…, "cache_hit_rate":… }
+GET /v1/posture
+→ { "control_plane_mode":"demo"|"strict", "fail_open":… }
+
+GET /v1/ops/metrics
+→ completions, cache_hits/misses, finops_* (gateway) | hits, misses, hit_rate (cache)
 ```
 
-Staff+ callout: default `cache=forbid` for authenticated user-specific prompts; opt-in for safe classes.
+Staff+ callout: default deny semantic cache for user-specific / tool-using prompts; opt-in for safe classes. Tenant is a **first-class header**, not inferred from model name.
 
 ## Data Flow
 
-Client → auth/quota → route policy → cache lookup (if allowed) → provider adapter → meter → response.
-Failover walks the fallback chain.
+Client → auth → tenant bind → budget pre-check → cache lookup (if allowed) → provider/stub →
+meter → (optional) cache store → response. Failover walks the provider chain; posture decides
+whether FinOps/cache outages block or degrade.
 
 ```mermaid
 sequenceDiagram
-  participant C as Client
+  participant C as Client app
   participant GW as LLM Gateway
-  participant Pol as Route policy
+  participant Fin as FinOps
   participant Cache as Semantic cache
-  participant Prov as Provider APIs
-  C->>GW: POST completions
-  GW->>Pol: select model chain
-  alt cache allow
-    GW->>Cache: lookup
-    Cache-->>GW: hit
-  else miss or forbid
-    GW->>Prov: primary
-    Prov-->>GW: result or error
-    GW->>Prov: fallback
-    GW->>Cache: store if allow
+  participant Prov as Provider / stub
+  C->>GW: POST /v1/chat/completions + X-Tenant-Id
+  GW->>Fin: budget pre-check
+  alt strict and breached
+    Fin-->>GW: breached
+    GW-->>C: 402
+  else allow
+    GW->>Cache: lookup (tenant-scoped)
+    alt hit
+      Cache-->>GW: response
+      GW-->>C: 200 X-Cache HIT
+    else miss
+      GW->>Prov: complete
+      Prov-->>GW: result
+      GW->>Fin: meter usage
+      GW->>Cache: store
+      GW-->>C: 200 X-Cache MISS
+    end
   end
-  GW-->>C: response + usage
 ```
 
 ## High-level design
 
-Maps to **functional** requirements from step 1 — the component architecture that makes the API and data flow real.
+Maps to **functional** requirements — shared plane vs sidecar is a first-class topology choice.
 
 ```mermaid
 graph TB
-  subgraph edge [Edge]
-    GW[LLM Gateway]
-    Auth[Auth + RPM/TPM]
+  subgraph apps [Consumer apps]
+    VAP[VAP / ACF / …]
   end
-  subgraph policy [Policy]
-    Router[Model router]
-    Budgets[FinOps budgets]
+  subgraph plane [Federated model plane]
+    GW[aegis-llm-gateway]
+    Cache[aegis-semantic-cache]
+    Fin[agent-finops]
   end
-  subgraph cache [Cache]
-    Emb[Embedding service]
-    Sem[(Semantic cache store)]
+  subgraph tools [Separate — do not merge]
+    Aegis[AegisAI tool gateway + HITL]
   end
   subgraph providers [Providers]
-    A[Provider A]
-    B[Provider B]
-    Local[Self-hosted fleet]
+    Stub[Stub]
+    BYOK[BYOK OpenAI/Anthropic/…]
   end
-  GW --> Auth --> Router --> Budgets
-  Router --> Emb --> Sem
-  Router --> A
-  Router --> B
-  Router --> Local
+  VAP --> GW
+  GW --> Cache
+  GW --> Fin
+  GW --> Stub
+  GW --> BYOK
+  VAP -.-> Aegis
 ```
 
 Overlaps [../ai-system-design/09](../ai-system-design/09-multi-tenant-ai-platform-architecture.md) and
-[../scalability-governance-tradeoffs/01](../scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety.md);
-this entry focuses on the **gateway product** itself.
+[../scalability-governance-tradeoffs/01](../scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety.md).
+Tool side effects stay on AegisAI — this entry is the **model HTTP plane** only.
 
-Deep dives below target **non-functional** requirements (latency, scale, failure, cost, security).
+Deep dives below target **non-functional** requirements (topology, tenancy, safety, failure, cost).
 
-## Deep dive 1: semantic cache safety
+## Deep dive 1: gateway vs sidecar
 
-Embed prompts; ANN lookup under cosine threshold. **Scope keys by tenant** (and user when needed).
+**Shared gateway (org default):** one OpenAI-shaped service; apps set `LLM_GATEWAY_URL`. Wins for
+central FinOps, one policy surface, Control Room metrics, and cross-app cache hit rates.
+
+**Sidecar / in-process:** library or container next to a single app. Wins at the edge (low RTT),
+air-gapped single product, or when the shared plane is down and you need a documented local
+fallback (OmniForge “self-contained OR plane-connected”).
+
+Staff+ trap: absorbing the LLM proxy **into** the tool-governance monolith. Separating planes
+keeps blast radius and ownership clear (ADR-028).
+
+## Deep dive 2: cache-in-process vs cache-as-service
+
+**In-process / sidecar cache:** lowest latency; hard to share hits across apps; memory pressure on
+every replica; invalidation is local.
+
+**Cache-as-service (org default):** `aegis-semantic-cache` scales independently; gateway stays thin;
+tenant isolation and ops metrics (`hit_rate`) are one API. Cost: extra hop + availability coupling
+— mitigate with fail-open/closed posture and short timeouts.
+
+## Deep dive 3: tenancy keying and cache poisoning
+
+Keys **must** include `tenant_id` (logical multi-tenant). Cross-tenant lookup must miss — test it.
 Never cache: tool-using agent traces, PII-heavy prompts, regulated advice without review.
-Invalidate by knowledge-base version tags when RAG context changes.
+False-hit story: cosine threshold + optional exact-match secondary check; prefer miss over wrong answer.
 
-## Deep dive 2: routing and failover
+## Deep dive 4: TTL vs tag invalidation; fail-closed vs fail-open; FinOps placement
 
-Capability-based routing (vision → models that support images). Timeouts shorter than client SLOs;
-hedged requests carefully (cost). Circuit-break bad providers; shed to smaller models with
-`X-Model-Used` honesty.
+**TTL** alone is blunt; prefer **tag invalidation** when RAG/KB versions change (`kb_v42`).
+**Fail-closed (strict):** budget breached → 402; FinOps down → 503. **Fail-open (demo):** degrade
+to stub/direct with honest `/v1/posture` — never silent.
 
-## Deep dive 3: FinOps enforcement
+**FinOps placement:** pre-flight budget in the gateway (before provider call); meter after success;
+cache hits still record `saved_usd` for exec dashboards. Align with [agent-finops](https://github.com/vpeetla-ai/agent-finops).
 
-Budgets checked pre-flight; soft vs hard limits. Cache hits still meter "saved_usd" for exec
-dashboards. Align with agent-finops discipline used elsewhere in the org.
-
-## Deep dive 4: streaming cache, budget races, failover shedding
-
-Semantic cache is for **complete** responses — streaming either buffers-to-complete or skips cache;
-say how `X-Cache: HIT` works for SSE. Pre-flight **budget reservation** (hold→commit) prevents
-check-then-act overspend under concurrency. On provider outage, circuit-break + jitter + per-tenant
-caps so the fallback model isn't thundering-herded. In 45 minutes, cover route + cache safety +
-budget gate.
+Streaming: cache complete responses only (or skip cache for SSE) — say how `X-Cache: HIT` works.
 
 ## What's expected at each level
 
 - **Mid-level:** reverse proxy to OpenAI.
 - **Senior:** multi-provider + rate limits + basic cache.
-- **Staff+:** cache tenancy/safety, policy routing, failover, budget gates.
-- **Principal:** org-wide spend control and incident playbooks for provider outages.
+- **Staff+:** gateway vs sidecar trade-off; cache-as-service vs in-process; tenant-scoped keys; fail-closed posture; FinOps pre-flight.
+- **Principal:** org-wide spend control, Control Room ops, incident playbooks for provider/FinOps outages, clear non-goals (no fake SLO).
 
 ## Follow-up questions to expect
 
 - "How do you prevent cache poisoning across tenants?" (Hard tenant partition + authz on keys.)
+- "When does sidecar beat a shared gateway?" (Edge RTT, single-app blast radius, offline fallback.)
+- "Where do you meter — app, gateway, or provider webhook?" (Gateway pre-flight + post-success; webhooks as reconciliation.)
 - "What is your false-hit story?" (Threshold + optional exact-match secondary check.)
 
 ## Related
@@ -154,3 +187,5 @@ budget gate.
 - [../ai-system-design/09 Multi-tenant AI platform](../ai-system-design/09-multi-tenant-ai-platform-architecture.md)
 - [05 Security and compliance](05-security-and-compliance-architecture-for-ai-systems.md)
 - [../scalability-governance-tradeoffs/01 Cost vs latency vs safety](../scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety.md)
+- Shipped planes: [aegis-llm-gateway](https://github.com/vpeetla-ai/aegis-llm-gateway) · [aegis-semantic-cache](https://github.com/vpeetla-ai/aegis-semantic-cache)
+- ADR: [ADR-028 federated AI control plane](https://github.com/vpeetla-ai/ai-architecture-portfolio/blob/main/adr/ADR-028-federated-ai-control-plane-k8s-analogy.md)

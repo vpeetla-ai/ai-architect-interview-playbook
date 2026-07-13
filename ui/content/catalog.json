@@ -2103,7 +2103,7 @@
       "id": "cloud-architecture/07-llm-gateway-semantic-cache-model-router",
       "category": "cloud-architecture",
       "slug": "07-llm-gateway-semantic-cache-model-router",
-      "title": "Design an LLM gateway with semantic cache and model routing",
+      "title": "Design an enterprise LLM gateway with semantic cache \u2014 gateway vs sidecar; cache-in-process vs cache-as-service",
       "path": "cloud-architecture/07-llm-gateway-semantic-cache-model-router.md",
       "sections": [
         {
@@ -2131,20 +2131,20 @@
           "heading": "High-level design"
         },
         {
-          "id": "deep-dive-1-semantic-cache-safety",
-          "heading": "Deep dive 1: semantic cache safety"
+          "id": "deep-dive-1-gateway-vs-sidecar",
+          "heading": "Deep dive 1: gateway vs sidecar"
         },
         {
-          "id": "deep-dive-2-routing-and-failover",
-          "heading": "Deep dive 2: routing and failover"
+          "id": "deep-dive-2-cache-in-process-vs-cache-as-service",
+          "heading": "Deep dive 2: cache-in-process vs cache-as-service"
         },
         {
-          "id": "deep-dive-3-finops-enforcement",
-          "heading": "Deep dive 3: FinOps enforcement"
+          "id": "deep-dive-3-tenancy-keying-and-cache-poisoning",
+          "heading": "Deep dive 3: tenancy keying and cache poisoning"
         },
         {
-          "id": "deep-dive-4-streaming-cache-budget-races-failover-shedding",
-          "heading": "Deep dive 4: streaming cache, budget races, failover shedding"
+          "id": "deep-dive-4-ttl-vs-tag-invalidation-fail-closed-vs-fail-open-finops-placement",
+          "heading": "Deep dive 4: TTL vs tag invalidation; fail-closed vs fail-open; FinOps placement"
         },
         {
           "id": "what-s-expected-at-each-level",
