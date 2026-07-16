@@ -1,5 +1,24 @@
 # Design a ChatGPT-style conversational service
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a ChatGPT-style conversational service. How do you handle sessions, streaming, context windows, model routing, and safety at consumer scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a chat product for 100M MAU with streaming tokens and conversation history."
+- "How do you manage context when threads exceed the model's window — summarize or retrieve?"
+- "Design regenerate/edit-message UX without corrupting conversation state."
+- "Scale chat from one region to global with data residency constraints."
+- "Design rate limits, abuse detection, and tiered access (free vs paid)."
+- "How do you route simple queries to a small model and hard queries to a frontier model?"
+- "Design conversation export, deletion (RTBF), and retention policies."
+
 ## Where this actually gets asked
 
 This is the single most common **product-level** GenAI system-design prompt in public prep

@@ -1,5 +1,25 @@
 # Clone a graph (cycle-safe)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Given a reference to a node in a connected undirected graph, return a deep copy. The graph may contain cycles."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Clone an undirected graph — handle cycles."
+- "Clone a directed graph with possible cycles."
+- "BFS vs DFS for cloning — which and why?"
+- "What if node values are not unique?"
+- "Clone only the connected component reachable from the start."
+- "Serialize/deserialize the graph instead of cloning in memory."
+- "How do you prove you didn't share neighbor references with the original?"
+- "Extend to cloning with per-node metadata maps."
+
 ## The question, as it might actually be asked
 
 Given a reference to a node in a connected undirected graph where each node has `val` and `neighbors`, return a deep copy. Graph may contain cycles.

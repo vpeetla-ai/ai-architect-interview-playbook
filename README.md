@@ -12,7 +12,11 @@ experiment. This repo is different in two ways. First, the `ai-system-design/` q
 **Requirements → Core entities → API / interface → Data Flow → High-level design → Deep dives** —
 where high-level design maps back to functional requirements and deep dives target non-functional
 ones, plus real trade-off tables, concrete numbers, and an explicit "what's expected at
-Mid/Senior/Staff+/Principal" breakdown — rather than a shallow Q&A. Second, every entry either points at a system that's actually
+Mid/Senior/Staff+/Principal" breakdown — rather than a shallow Q&A. **Every graded entry**
+(design, behavioral, coding, trade-off frameworks, and Staff+ craft) opens with an **Expected
+question** and **Variant forms** block — the same archetype phrased different ways in real loops
+(multi-tenant / SLA / 100× scale for design; competency rephrases for STAR; Staff+ extensions for
+coding; decision-frame twists for trade-offs). Second, every entry either points at a system that's actually
 shipped and running (with a real ADR, a real trade-off, a real bug found in production), or is
 clearly marked as general framework content that hasn't been exercised against a specific
 shipped decision yet.

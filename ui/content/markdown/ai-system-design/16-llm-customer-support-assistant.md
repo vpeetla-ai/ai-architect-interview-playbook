@@ -1,5 +1,24 @@
 # Design an LLM-powered customer support assistant
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design an LLM-powered customer support assistant. How do you combine RAG, ticket systems, escalation to humans, and measurable resolution quality?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a support bot that deflects 40% of tickets with grounded answers from help center + past tickets."
+- "How do you escalate to a human with full context when confidence is low?"
+- "Design integration with Zendesk/Salesforce — create, update, and close tickets via tools."
+- "Our bot gave wrong refund policy — architect policy-aware RAG and decline paths."
+- "Design multilingual support with one knowledge base and locale-specific tone."
+- "How do you measure containment rate vs customer satisfaction vs handle time?"
+- "Design voice + chat support with shared memory and different latency budgets."
+
 ## Where this actually gets asked
 
 High-frequency product GenAI design at Amazon/Microsoft/AI startups: "Design a customer support

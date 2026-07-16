@@ -1,5 +1,25 @@
 # Finding and fixing a real FinOps gap in my own org
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a time you audited something you'd built or claimed publicly, found it didn't hold up, and fixed it."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about a time you discovered your own cost or usage claims were wrong — what did you do?"
+- "Describe finding a FinOps gap with no external pressure to look — why did you dig?"
+- "Tell me about publishing a fix after realizing a portfolio demo or metric was incomplete."
+- "How do you handle intellectual honesty when the audit would make your prior work look worse?"
+- "Tell me about turning a one-time cost surprise into a durable tracking system."
+- "Describe aligning engineering incentives with cloud spend without becoming 'the no team.'"
+- "Tell me about a time chargeback or attribution broke trust — how did you repair it?"
+- "Walk me through making LLM/token spend visible per team or tenant after a bill spike."
+
 ## The question, as it might actually be asked
 
 "Tell me about a time you audited something you'd built or claimed publicly, found it didn't

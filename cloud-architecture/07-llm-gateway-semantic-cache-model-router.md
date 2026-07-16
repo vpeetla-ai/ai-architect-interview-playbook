@@ -1,5 +1,24 @@
 # Design an enterprise LLM gateway with semantic cache — gateway vs sidecar; cache-in-process vs cache-as-service
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design an enterprise LLM gateway with semantic cache and model routing. How do you cut cost/latency while enforcing policy, keys, and observability?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a gateway that caches semantically similar prompts — when is it safe?"
+- "How do you route prompts to GPT-4 vs Haiku vs self-hosted Llama based on complexity?"
+- "Design centralized API keys, rate limits, and PII redaction before upstream LLM calls."
+- "Our LLM bill doubled — architect caching, routing, and budget caps per team."
+- "Gateway vs sidecar vs SDK — where does policy enforcement belong?"
+- "Design cache invalidation when the underlying model version changes."
+- "How do you log prompts/responses for compliance without storing secrets?"
+
 ## Where this actually gets asked
 
 Rising 2026 infra question as companies centralize LLM spend: "Design an LLM gateway," "API

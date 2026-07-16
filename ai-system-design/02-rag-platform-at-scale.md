@@ -1,5 +1,25 @@
 # Design a retrieval-augmented generation (RAG) platform at scale
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a retrieval-augmented generation (RAG) platform for enterprise knowledge. How do you ingest, index, retrieve, and generate grounded answers at scale with access control?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design an internal search + Q&A system over 50 million documents with per-user ACLs."
+- "How would you build a copilot over a company's SharePoint, Confluence, and tickets?"
+- "Our RAG answers hallucinate citations — architect a system that enforces grounding and decline paths."
+- "Design hybrid retrieval (keyword + vector) for a legal/compliance corpus where wrong answers are costly."
+- "Scale RAG from 10K to 10B chunks — what breaks first in indexing, retrieval, and generation?"
+- "Design agentic RAG where the model decides when to retrieve, rerank, and call tools."
+- "How do you keep RAG fresh when documents change hourly across thousands of sources?"
+- "Design a multi-tenant RAG SaaS where Tenant A must never see Tenant B's embeddings or chunks."
+
 ## Where this actually gets asked
 
 RAG is the best-attributed AI-infra system design topic in this whole set. A Blind post on

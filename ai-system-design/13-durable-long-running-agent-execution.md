@@ -1,5 +1,24 @@
 # Design durable execution for long-running AI agents
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design durable execution for long-running AI agents. How do you checkpoint state, survive crashes, resume HITL interrupts, and avoid duplicate side effects?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design agents that run for hours — research reports, multi-file refactors — with resume."
+- "How do you implement `interrupt_before` human approval without losing partial progress?"
+- "Design idempotent tool execution when an agent retries after a network timeout."
+- "Our orchestrator OOM-killed mid-mission — architect externalized state and replay."
+- "Design workflow engine vs hand-rolled state machine for agent missions."
+- "How do you version agent graph definitions while in-flight runs use old code?"
+- "Design saga/compensation when step 4 fails after steps 1–3 already emailed a customer."
+
 ## Where this actually gets asked
 
 No company-specific interview attribution was found for this exact topic — like the previous

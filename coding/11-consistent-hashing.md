@@ -1,5 +1,25 @@
 # Implement consistent hashing with virtual nodes
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Implement a consistent-hash ring that maps keys to nodes. Support add_node, remove_node, and get_node(key). Use virtual nodes."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Implement consistent hashing with virtual nodes."
+- "How many virtual nodes per physical node — how do you choose?"
+- "What happens to keys when a node is removed?"
+- "Add weighted nodes (bigger machines get more of the ring)."
+- "How do you avoid hotspots with a bad hash function?"
+- "Rendezvous hashing vs consistent hashing — when?"
+- "Make the ring concurrent for reads while rebalancing."
+- "Connect this to memcached/CDN shard placement — keep it brief."
+
 ## The question, as it might actually be asked
 
 Implement a consistent-hash ring that maps keys to nodes. Support `add_node`, `remove_node`, and `get_node(key)`. Use virtual nodes so load is roughly balanced when the cluster is small.

@@ -1,5 +1,24 @@
 # Design the security and compliance architecture for an AI system
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design security and compliance architecture for an AI system. How do you handle identity, secrets, audit, SOC2/HIPAA, and model abuse in production?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design zero-trust access from agents to internal APIs in a regulated bank."
+- "How do you meet HIPAA for an LLM that processes clinical notes?"
+- "Design audit logs proving who approved each agent side effect."
+- "Our API keys leaked via prompt injection — architect secret isolation for tools."
+- "Design VPC boundaries between training data, serving, and customer-facing apps."
+- "How do you implement SOC2-style controls for a multi-tenant AI SaaS?"
+- "Design red-team and abuse monitoring integrated with SIEM."
+
 ## Where this actually gets asked
 
 Mixed but genuinely well-sourced sourcing, disclosed per company. This is real public company

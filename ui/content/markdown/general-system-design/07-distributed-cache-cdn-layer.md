@@ -1,5 +1,24 @@
 # Design a distributed cache / global content delivery layer
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a distributed cache / global CDN layer. How do you cache content at the edge, invalidate consistently, and reduce origin load?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a CDN for static assets serving 10M QPS globally."
+- "How do you cache API responses at the edge without serving stale user-specific data?"
+- "Design cache invalidation when a product price changes worldwide in <60 seconds."
+- "Our origin melted during a viral event — architect multi-tier cache (browser, CDN, origin shield)."
+- "Design consistent hashing for a distributed memcached cluster with minimal remapping on node add."
+- "How do you cache personalized pages for logged-in users safely?"
+- "Design geo-routing to the nearest healthy PoP with failover."
+
 ## Where this actually gets asked — with two attribution corrections
 
 Mixed sourcing, with two specific corrections worth disclosing rather than smoothing over.

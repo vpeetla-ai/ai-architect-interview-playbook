@@ -1,5 +1,24 @@
 # Design a web crawler
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a web crawler. How do you discover URLs, fetch politely, deduplicate, store, and scale crawling without overloading target sites?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a search-engine crawler for billions of pages with politeness policies."
+- "How do you prioritize fresh vs important pages when crawl budget is finite?"
+- "Design distributed crawling with URL frontier sharding and dedup."
+- "Our crawler got blocked — architect rate limits, robots.txt, and backoff per domain."
+- "How do you detect and handle duplicate/near-duplicate content at crawl time?"
+- "Design a recrawl scheduler based on page change frequency signals."
+- "Architect storing raw HTML vs extracted text for downstream indexing."
+
 ## Where this actually gets asked
 
 Reported in OpenAI and general Staff system-design loops as "design a polite web crawler" or

@@ -1,5 +1,25 @@
 # Payments and supply chain modernization at Volvo Cars
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a time you accepted more short-term complexity for a long-term platform benefit, instead of shipping the faster path."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about choosing a harder architecture path because the faster path wouldn't scale."
+- "Describe modernizing payments or EDI where short-term delivery pressure fought platform quality."
+- "Tell me about a time you said no to a shortcut that would create years of operational debt."
+- "How did you convince stakeholders to accept more complexity now for leverage later?"
+- "Tell me about measuring whether the 'platform bet' actually paid off."
+- "Describe a migration where dual-running old and new paths was painful but necessary."
+- "Tell me about trading feature velocity for auditability or compliance in a regulated flow."
+- "Walk me through the decision criteria you used when build-vs-buy was also on the table."
+
 ## The question, as it might actually be asked
 
 "Tell me about a time you accepted more short-term complexity for a long-term platform benefit,

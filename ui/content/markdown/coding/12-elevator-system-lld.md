@@ -1,5 +1,25 @@
 # Design an elevator system (LLD / machine coding)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Model one or more elevators serving floors. Handle hall calls and cabin requests. Simulate with step() ticks. Choose a dispatch strategy (e.g., SCAN)."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Design an elevator system LLD — single elevator first, then N elevators."
+- "How do you represent up/down hall calls without starvation?"
+- "Implement SCAN vs nearest-car dispatch — trade-offs?"
+- "Add maintenance mode and out-of-service elevators."
+- "How do you unit-test timing without real threads sleeping?"
+- "Handle peak morning traffic in a 40-floor building."
+- "Model door open/close and capacity constraints."
+- "Where does this stop being coding and become scheduling theory?"
+
 ## The question, as it might actually be asked
 
 Model one or more elevators serving floors. Handle hall calls (up/down) and cabin requests. Simulate time with a `step()` tick rather than real threads sleeping. Choose a dispatch strategy (e.g., SCAN).

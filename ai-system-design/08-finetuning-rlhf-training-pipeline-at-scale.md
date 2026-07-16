@@ -1,5 +1,24 @@
 # Design a fine-tuning / RLHF training pipeline at scale
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a fine-tuning and RLHF training pipeline at scale. How do you orchestrate data prep, distributed training, checkpointing, and safe promotion to serving?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design weekly LoRA fine-tunes on production feedback — how do you schedule GPU clusters?"
+- "How do you run RLHF with human preference data across multiple annotator vendors?"
+- "Design a training pipeline that checkpoints every N steps and survives spot preemption."
+- "Our SFT model overfit on a small dataset — architect data mixing and eval gates."
+- "Design promotion from experiment → staging → prod with automatic rollback on eval failure."
+- "How do you train a 70B model with tensor + pipeline parallelism across nodes?"
+- "Design alignment training where reward model drift is monitored continuously."
+
 ## Where this actually gets asked
 
 Essentially no company-specific attributed evidence was found for OpenAI, Anthropic, Meta,

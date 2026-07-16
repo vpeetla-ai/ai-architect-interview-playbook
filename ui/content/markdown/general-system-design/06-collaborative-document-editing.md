@@ -1,5 +1,24 @@
 # Design a collaborative document editing system
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a collaborative document editing system (Google Docs-style). How do you sync edits in real time, resolve conflicts, and persist version history?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design real-time co-editing for 50 users on one document."
+- "OT vs CRDT — which would you choose and why for a new doc product?"
+- "How do you support offline edits that sync when the user reconnects?"
+- "Design comment threads and suggestions without blocking the main edit stream."
+- "Scale document storage and diff history for enterprise tenants with compliance hold."
+- "How do you implement 'undo' across collaborative sessions?"
+- "Design permission models: view, comment, edit, share link expiration."
+
 ## Where this actually gets asked — and another attribution correction
 
 Weakly sourced, with a specific correction worth flagging: one Glassdoor-sourced citation that

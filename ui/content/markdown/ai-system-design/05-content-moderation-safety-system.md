@@ -1,5 +1,24 @@
 # Design a content moderation and safety system for generated content
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a content moderation and safety system for LLM-generated output. How do you detect policy violations, block harmful content, and audit decisions at scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design guardrails for a consumer chatbot — block jailbreaks, PII leaks, and toxic output."
+- "How do you moderate 1M user prompts and model responses per day with <200ms added latency?"
+- "Design input/output classifiers plus human review queues for a regulated industry (health/finance)."
+- "Our model started leaking training-data snippets — architect detection and response."
+- "Design a safety layer that can decline to answer when grounding confidence is low."
+- "How do you run moderation in multiple languages without 10× classifier cost?"
+- "Design red-team feedback loops that update policies without redeploying the whole stack."
+
 ## Where this actually gets asked
 
 One secondary source describes Meta asking a "design a scalable content moderation system using

@@ -1,0 +1,779 @@
+{
+  "ai-system-design/01-llm-inference-serving-at-scale": {
+    "expected": "Design an LLM inference serving platform that can handle production traffic at scale. How do you achieve low latency, high throughput, and cost efficiency? Walk through KV cache, batching, and scaling.",
+    "variants": [
+      "Design the inference stack for ChatGPT-scale token generation — how do you serve millions of concurrent users?",
+      "Our API latency P99 spiked to 8 seconds under load. How would you architect LLM serving to fix it?",
+      "Design a model-serving layer that routes between a fast cheap model and a slow capable model behind one API.",
+      "How would you deploy Llama-3 70B on a fixed GPU budget for 10,000 requests/minute at peak?",
+      "Design continuous batching and PagedAttention-style KV management for a multi-tenant inference API.",
+      "You need 99.9% availability for `/v1/chat/completions` across three regions — walk me through serving architecture.",
+      "How do you scale from a single vLLM pod to a fleet that handles Black Friday traffic for an AI product?",
+      "Design inference infrastructure where prefill is compute-bound and decode is memory-bandwidth-bound — what changes?"
+    ]
+  },
+  "ai-system-design/02-rag-platform-at-scale": {
+    "expected": "Design a retrieval-augmented generation (RAG) platform for enterprise knowledge. How do you ingest, index, retrieve, and generate grounded answers at scale with access control?",
+    "variants": [
+      "Design an internal search + Q&A system over 50 million documents with per-user ACLs.",
+      "How would you build a copilot over a company's SharePoint, Confluence, and tickets?",
+      "Our RAG answers hallucinate citations — architect a system that enforces grounding and decline paths.",
+      "Design hybrid retrieval (keyword + vector) for a legal/compliance corpus where wrong answers are costly.",
+      "Scale RAG from 10K to 10B chunks — what breaks first in indexing, retrieval, and generation?",
+      "Design agentic RAG where the model decides when to retrieve, rerank, and call tools.",
+      "How do you keep RAG fresh when documents change hourly across thousands of sources?",
+      "Design a multi-tenant RAG SaaS where Tenant A must never see Tenant B's embeddings or chunks."
+    ]
+  },
+  "ai-system-design/03-agent-tool-use-orchestration-platform": {
+    "expected": "Design a scalable, enterprise-ready agentic AI platform. How do you architect it for availability, fault tolerance, and scale? Walk me through orchestration, tool use, and governance.",
+    "variants": [
+      "Design a multi-tenant AI agent system for 50 enterprise clients.",
+      "How would you scale your EDI agent platform to handle 100× the current load?",
+      "You are building a document-processing agentic pipeline. Enterprise SLA: 99.9% uptime, 10,000 documents/day at peak. Walk me through the architecture.",
+      "Design infrastructure for agents that call Slack, Jira, and internal APIs — with human approval for side effects.",
+      "How do you prevent one customer's runaway agent from exhausting GPU budget for everyone else?",
+      "Design a coding-agent platform like background agents — traces can run 30+ minutes with tool loops.",
+      "Architect MCP-style tool access so agents cannot bypass policy or exfiltrate credentials.",
+      "Design multi-agent orchestration: triage agent routes to specialist agents with separate tool surfaces.",
+      "How would you debug and replay a failed mission that touched five tools across three services?"
+    ]
+  },
+  "ai-system-design/04-feature-store-finetuning-data-pipeline": {
+    "expected": "Design a feature store and fine-tuning data pipeline for ML/LLM products. How do you version data, serve features online/offline, and feed training jobs reliably?",
+    "variants": [
+      "Design the data platform that feeds both RAG ingestion and periodic model fine-tunes.",
+      "How do you build training datasets from production logs without leaking PII?",
+      "Design point-in-time correct features for ranking models used in production and in offline eval.",
+      "Our fine-tune jobs keep training on stale data — architect lineage from raw docs to model weights.",
+      "Design a pipeline for curated SFT examples with human review, versioning, and rollback.",
+      "How do you share embeddings/features across ten product teams without schema chaos?",
+      "Design backfill and streaming feature updates for real-time personalization at scale."
+    ]
+  },
+  "ai-system-design/05-content-moderation-safety-system": {
+    "expected": "Design a content moderation and safety system for LLM-generated output. How do you detect policy violations, block harmful content, and audit decisions at scale?",
+    "variants": [
+      "Design guardrails for a consumer chatbot — block jailbreaks, PII leaks, and toxic output.",
+      "How do you moderate 1M user prompts and model responses per day with <200ms added latency?",
+      "Design input/output classifiers plus human review queues for a regulated industry (health/finance).",
+      "Our model started leaking training-data snippets — architect detection and response.",
+      "Design a safety layer that can decline to answer when grounding confidence is low.",
+      "How do you run moderation in multiple languages without 10× classifier cost?",
+      "Design red-team feedback loops that update policies without redeploying the whole stack."
+    ]
+  },
+  "ai-system-design/06-multimodal-search-recommendation-system": {
+    "expected": "Design a multimodal search and recommendation system (text, image, video). How do you index, retrieve, rank, and serve personalized results at scale?",
+    "variants": [
+      "Design Pinterest-style visual search — upload an image, get similar products.",
+      "How do you recommend short-form video with multimodal embeddings and real-time feedback?",
+      "Design a commerce search that blends lexical, vector, and visual signals.",
+      "Scale ANN search to 10B multimodal vectors — what index and sharding strategy?",
+      "How do you correct position bias and popularity bias in a feed ranking system?",
+      "Design cold-start recommendations for new users with only a few clicks.",
+      "Architect near-real-time feature updates for trending content without full reindex."
+    ]
+  },
+  "ai-system-design/07-llm-evaluation-observability-platform": {
+    "expected": "Design an LLM evaluation and observability platform. How do you run offline evals, monitor production quality, trace agent runs, and gate releases?",
+    "variants": [
+      "Design how you'd know a prompt change regressed quality before shipping to 100% traffic.",
+      "How do you evaluate RAG faithfulness and citation accuracy at scale?",
+      "Design tracing for multi-step agent runs — cost, latency, and tool outcomes per span.",
+      "Our eval pass rate is 95% but users complain — architect online vs offline metrics that align.",
+      "Design a golden-set CI that blocks deploys when regression exceeds a threshold.",
+      "How do you attribute LLM cost to team, product, and tenant for FinOps?",
+      "Design human-in-the-loop eval labeling without becoming the bottleneck."
+    ]
+  },
+  "ai-system-design/08-finetuning-rlhf-training-pipeline-at-scale": {
+    "expected": "Design a fine-tuning and RLHF training pipeline at scale. How do you orchestrate data prep, distributed training, checkpointing, and safe promotion to serving?",
+    "variants": [
+      "Design weekly LoRA fine-tunes on production feedback — how do you schedule GPU clusters?",
+      "How do you run RLHF with human preference data across multiple annotator vendors?",
+      "Design a training pipeline that checkpoints every N steps and survives spot preemption.",
+      "Our SFT model overfit on a small dataset — architect data mixing and eval gates.",
+      "Design promotion from experiment → staging → prod with automatic rollback on eval failure.",
+      "How do you train a 70B model with tensor + pipeline parallelism across nodes?",
+      "Design alignment training where reward model drift is monitored continuously."
+    ]
+  },
+  "ai-system-design/09-multi-tenant-ai-platform-architecture": {
+    "expected": "Design a multi-tenant AI platform where many customers share inference, agents, and data planes. How do you isolate tenants, quota usage, and customize per customer?",
+    "variants": [
+      "Design Azure OpenAI-style shared vs dedicated capacity for enterprise tenants.",
+      "How do you prevent noisy-neighbor token spikes from starving other customers?",
+      "Design per-tenant API keys, budgets, custom system prompts, and fine-tuned adapters.",
+      "Scale from 10 to 10,000 tenants on one control plane — what do you shard?",
+      "Design a hub-and-spoke agent architecture with centralized governance and isolated runtimes.",
+      "How do you bill accurately when one tenant runs 200-agent background jobs?",
+      "Design data residency: EU tenants' prompts and logs never leave EU regions.",
+      "Architect tenant-scoped tool credentials so Customer A's Stripe key is never visible to B."
+    ]
+  },
+  "ai-system-design/10-ai-agent-sandboxing-and-code-execution-security": {
+    "expected": "Design a sandboxing architecture for AI agents that execute code or shell commands. How do you isolate untrusted agent output from production networks and secrets?",
+    "variants": [
+      "Design safe code execution for a coding assistant — user repo, arbitrary commands.",
+      "How do you run agent-generated Python in production without container escape risk?",
+      "Design network egress policy for agents: allowlist APIs, block internal VPC scanning.",
+      "Our agent tried to read `/etc/passwd` — architect defense in depth for tool execution.",
+      "Design ephemeral sandboxes with CPU/memory/time limits and automatic teardown.",
+      "How do you audit every file write and subprocess an agent spawns?",
+      "Design WASM vs microVM vs gVisor trade-offs for agent runtimes at scale."
+    ]
+  },
+  "ai-system-design/11-on-device-edge-ai-inference-architecture": {
+    "expected": "Design on-device / edge AI inference architecture. How do you run models locally with battery, memory, and privacy constraints while syncing with cloud when needed?",
+    "variants": [
+      "Design Apple Intelligence-style split inference — sensitive on-device, heavy in PCC.",
+      "How do you ship a 7B model on a phone with 4GB RAM budget?",
+      "Design model compression (quantization, distillation) pipeline for edge deployment.",
+      "Architect federated learning without centralizing raw user data.",
+      "Design offline-first assistant that syncs context when connectivity returns.",
+      "How do you A/B test on-device models without draining battery in production?",
+      "Design NPU/GPU scheduling on edge SoCs for camera + voice concurrent workloads."
+    ]
+  },
+  "ai-system-design/12-training-data-provenance-and-ip-risk-architecture": {
+    "expected": "Design training-data provenance and IP-risk architecture. How do you track sources, licenses, opt-outs, and legal exposure for foundation-model training data?",
+    "variants": [
+      "Design a data catalog that proves which licensed corpus trained which model version.",
+      "How do you honor robots.txt, publisher opt-out, and GDPR deletion in training sets?",
+      "Design deduplication and near-duplicate detection across petabytes of crawled text.",
+      "Our model reproduced a paywalled article — architect provenance and mitigation.",
+      "Design synthetic data generation to reduce licensed-corpus dependency.",
+      "How do you separate 'allowed for RAG' vs 'allowed for training' at ingestion time?",
+      "Design audit trails for litigation: reproduce the exact training snapshot for a date."
+    ]
+  },
+  "ai-system-design/13-durable-long-running-agent-execution": {
+    "expected": "Design durable execution for long-running AI agents. How do you checkpoint state, survive crashes, resume HITL interrupts, and avoid duplicate side effects?",
+    "variants": [
+      "Design agents that run for hours — research reports, multi-file refactors — with resume.",
+      "How do you implement `interrupt_before` human approval without losing partial progress?",
+      "Design idempotent tool execution when an agent retries after a network timeout.",
+      "Our orchestrator OOM-killed mid-mission — architect externalized state and replay.",
+      "Design workflow engine vs hand-rolled state machine for agent missions.",
+      "How do you version agent graph definitions while in-flight runs use old code?",
+      "Design saga/compensation when step 4 fails after steps 1–3 already emailed a customer."
+    ]
+  },
+  "ai-system-design/14-chatgpt-style-conversational-service": {
+    "expected": "Design a ChatGPT-style conversational service. How do you handle sessions, streaming, context windows, model routing, and safety at consumer scale?",
+    "variants": [
+      "Design a chat product for 100M MAU with streaming tokens and conversation history.",
+      "How do you manage context when threads exceed the model's window — summarize or retrieve?",
+      "Design regenerate/edit-message UX without corrupting conversation state.",
+      "Scale chat from one region to global with data residency constraints.",
+      "Design rate limits, abuse detection, and tiered access (free vs paid).",
+      "How do you route simple queries to a small model and hard queries to a frontier model?",
+      "Design conversation export, deletion (RTBF), and retention policies."
+    ]
+  },
+  "ai-system-design/15-ai-coding-assistant": {
+    "expected": "Design an AI coding assistant (Copilot-style). How do you index repos, serve low-latency completions, respect IDE context, and keep suggestions safe?",
+    "variants": [
+      "Design inline code completion with <100ms perceived latency in VS Code.",
+      "How do you index a monorepo with 50M lines for semantic codebase search?",
+      "Design fill-in-the-middle (FIM) serving for partial edits in the middle of a file.",
+      "Our assistant suggested an API key from another file — architect secret leakage prevention.",
+      "Design multi-file agent edits with diff preview and user acceptance.",
+      "How do you personalize suggestions per repo style without per-repo full fine-tunes?",
+      "Design telemetry to measure suggestion acceptance without storing full source code."
+    ]
+  },
+  "ai-system-design/16-llm-customer-support-assistant": {
+    "expected": "Design an LLM-powered customer support assistant. How do you combine RAG, ticket systems, escalation to humans, and measurable resolution quality?",
+    "variants": [
+      "Design a support bot that deflects 40% of tickets with grounded answers from help center + past tickets.",
+      "How do you escalate to a human with full context when confidence is low?",
+      "Design integration with Zendesk/Salesforce — create, update, and close tickets via tools.",
+      "Our bot gave wrong refund policy — architect policy-aware RAG and decline paths.",
+      "Design multilingual support with one knowledge base and locale-specific tone.",
+      "How do you measure containment rate vs customer satisfaction vs handle time?",
+      "Design voice + chat support with shared memory and different latency budgets."
+    ]
+  },
+  "general-system-design/01-distributed-rate-limiter": {
+    "expected": "Design a distributed rate limiter. How do you enforce per-client limits accurately across many API servers with low overhead?",
+    "variants": [
+      "Design API rate limiting for 1M requests/second across a global edge.",
+      "How do you rate limit by API key, user tier, and IP without a single Redis bottleneck?",
+      "Design sliding window vs token bucket for a SaaS with burst-friendly paid plans.",
+      "Our limiter drifted under clock skew — architect consistent counting across regions.",
+      "Design rate limiting that survives Redis failover without allowing 10× traffic spikes.",
+      "How do you implement global vs per-region quotas for compliance?",
+      "Design adaptive rate limits that tighten during an ongoing DDoS."
+    ]
+  },
+  "general-system-design/02-realtime-chat-messaging-at-scale": {
+    "expected": "Design a real-time chat/messaging system at scale. How do you deliver messages with low latency, ordering guarantees, and presence across millions of users?",
+    "variants": [
+      "Design WhatsApp-scale 1:1 messaging with delivery and read receipts.",
+      "How do you build group chat for 500 members with acceptable fan-out?",
+      "Design message sync across mobile, web, and desktop with offline support.",
+      "Scale from 1M to 500M daily active users — what breaks in your websocket layer?",
+      "Design end-to-end encryption without sacrificing search and moderation.",
+      "How do you handle 'last seen' and typing indicators at scale?",
+      "Design a system where messages are never lost even if a client is offline for a week."
+    ]
+  },
+  "general-system-design/03-news-feed-ranking-system": {
+    "expected": "Design a news feed / ranking system. How do you ingest posts, rank content per user, and serve a fresh feed at scale?",
+    "variants": [
+      "Design Facebook/Instagram-style home feed for 1B users.",
+      "How do you blend chronological, social graph, and ML-ranked content?",
+      "Design fan-out on write vs fan-out on read for celebrity accounts with 50M followers.",
+      "Our feed feels stale — architect near-real-time ranking feature updates.",
+      "Design exploration vs exploitation to surface new creators without hurting engagement.",
+      "How do you A/B test ranking models without inconsistent user experiences?",
+      "Design feed caching and pagination for infinite scroll with consistent ordering."
+    ]
+  },
+  "general-system-design/04-distributed-job-scheduler-task-queue": {
+    "expected": "Design a distributed job scheduler / task queue. How do you enqueue, prioritize, execute, retry, and observe background work at scale?",
+    "variants": [
+      "Design a system like Celery/Sidekiq at company scale — millions of jobs/day.",
+      "How do you schedule cron jobs across a cluster without double execution?",
+      "Design priority queues where paid customers' jobs preempt free tier.",
+      "Our workers keep picking poison messages — architect DLQ and retry with backoff.",
+      "Design exactly-once vs at-least-once semantics for payment reconciliation jobs.",
+      "How do you shard a task queue when Redis/SQS becomes the bottleneck?",
+      "Design a workflow DAG executor (Airflow-style) with dependency tracking."
+    ]
+  },
+  "general-system-design/05-distributed-unique-id-generator": {
+    "expected": "Design a distributed unique ID generator. How do you generate sortable, unique IDs at high throughput without coordination hotspots?",
+    "variants": [
+      "Design Twitter Snowflake-style IDs — time-ordered, unique across data centers.",
+      "How do you generate IDs at 10K/sec per machine with no central database?",
+      "Design UUID vs snowflake trade-offs for a global payments ledger.",
+      "Our IDs collided after a clock rollback — architect clock drift handling.",
+      "Design IDs that embed shard hints for database routing.",
+      "How do you migrate from auto-increment to distributed IDs without downtime?",
+      "Design k-sorted IDs for roughly chronological ordering with privacy (no exact timestamp leak)."
+    ]
+  },
+  "general-system-design/06-collaborative-document-editing": {
+    "expected": "Design a collaborative document editing system (Google Docs-style). How do you sync edits in real time, resolve conflicts, and persist version history?",
+    "variants": [
+      "Design real-time co-editing for 50 users on one document.",
+      "OT vs CRDT — which would you choose and why for a new doc product?",
+      "How do you support offline edits that sync when the user reconnects?",
+      "Design comment threads and suggestions without blocking the main edit stream.",
+      "Scale document storage and diff history for enterprise tenants with compliance hold.",
+      "How do you implement 'undo' across collaborative sessions?",
+      "Design permission models: view, comment, edit, share link expiration."
+    ]
+  },
+  "general-system-design/07-distributed-cache-cdn-layer": {
+    "expected": "Design a distributed cache / global CDN layer. How do you cache content at the edge, invalidate consistently, and reduce origin load?",
+    "variants": [
+      "Design a CDN for static assets serving 10M QPS globally.",
+      "How do you cache API responses at the edge without serving stale user-specific data?",
+      "Design cache invalidation when a product price changes worldwide in <60 seconds.",
+      "Our origin melted during a viral event — architect multi-tier cache (browser, CDN, origin shield).",
+      "Design consistent hashing for a distributed memcached cluster with minimal remapping on node add.",
+      "How do you cache personalized pages for logged-in users safely?",
+      "Design geo-routing to the nearest healthy PoP with failover."
+    ]
+  },
+  "general-system-design/08-notification-system": {
+    "expected": "Design a notification system. How do you deliver push, email, SMS, and in-app notifications reliably with user preferences and rate limits?",
+    "variants": [
+      "Design Uber-style trip notifications across push, SMS, and email with fallbacks.",
+      "How do you send 1B push notifications for a marketing campaign without burning deliverability?",
+      "Design user preference center: quiet hours, channel opt-in, topic subscriptions.",
+      "Our notifications duplicated — architect idempotency and deduplication keys.",
+      "Design priority: transactional alerts bypass marketing throttles.",
+      "How do you template and localize notifications for 40 languages?",
+      "Design delivery analytics: sent, delivered, opened, failed — with retry policies."
+    ]
+  },
+  "general-system-design/09-url-shortener": {
+    "expected": "Design a URL shortener (bit.ly-style). How do you generate short codes, redirect with low latency, and track analytics at scale?",
+    "variants": [
+      "Design a URL shortener for 100M new links/month and 10B redirects/month.",
+      "How do you generate short codes — hash, counter, or random — and avoid collisions?",
+      "Design custom branded domains per enterprise customer.",
+      "Our short links were used for malware — architect abuse detection and takedown.",
+      "How do you expire links and support UTM analytics without slowing redirects?",
+      "Design read-heavy redirect path with <10ms P99 globally.",
+      "Scale the analytics pipeline separately from the redirect hot path."
+    ]
+  },
+  "general-system-design/10-video-streaming-platform": {
+    "expected": "Design a video streaming platform (YouTube/Netflix-style). How do you upload, transcode, store, and deliver video with adaptive bitrate streaming?",
+    "variants": [
+      "Design upload → transcode → CDN delivery for user-generated video.",
+      "How do you implement adaptive bitrate (HLS/DASH) for variable network conditions?",
+      "Design live streaming with <5 second glass-to-glass latency at scale.",
+      "Our transcoding queue backs up during peak — architect priority and autoscaling workers.",
+      "Design DRM and geo-restriction without breaking CDN cache efficiency.",
+      "How do you generate thumbnails, captions, and moderation scores in the pipeline?",
+      "Design view-count aggregation that's accurate but not write-heavy on every play."
+    ]
+  },
+  "general-system-design/11-web-crawler": {
+    "expected": "Design a web crawler. How do you discover URLs, fetch politely, deduplicate, store, and scale crawling without overloading target sites?",
+    "variants": [
+      "Design a search-engine crawler for billions of pages with politeness policies.",
+      "How do you prioritize fresh vs important pages when crawl budget is finite?",
+      "Design distributed crawling with URL frontier sharding and dedup.",
+      "Our crawler got blocked — architect rate limits, robots.txt, and backoff per domain.",
+      "How do you detect and handle duplicate/near-duplicate content at crawl time?",
+      "Design a recrawl scheduler based on page change frequency signals.",
+      "Architect storing raw HTML vs extracted text for downstream indexing."
+    ]
+  },
+  "cloud-architecture/01-gpu-capacity-planning-and-procurement": {
+    "expected": "Design a GPU capacity-planning and procurement system for AI workloads. How do you forecast demand, reserve vs spot, and avoid quota exhaustion?",
+    "variants": [
+      "OpenAI needs 10 gigawatts of compute — how do you plan procurement and cluster lifecycle?",
+      "Design reserved GPU capacity vs on-demand for training jobs with unpredictable duration.",
+      "How do you forecast H100 needs for next quarter when product usage doubles monthly?",
+      "Our training jobs queue for days — architect quota pooling across teams.",
+      "Design build vs rent (CoreWeave/Nebius) for a hyperscaler scaling GenAI.",
+      "How do you right-size clusters when model sizes jump 4× year over year?",
+      "Design FinOps dashboards tying GPU hours to product features and tenants."
+    ]
+  },
+  "cloud-architecture/02-multi-region-strategy-training-vs-serving": {
+    "expected": "Design a multi-region strategy for ML training vs inference serving. Where do you place GPUs, data, and control planes for latency, cost, and compliance?",
+    "variants": [
+      "Design global inference with model replicas in US, EU, and APAC — how do you route traffic?",
+      "Training happens in us-east; users are worldwide — architect serving regions and weight sync.",
+      "How do you comply with data residency while still using a central training pipeline?",
+      "Design active-active serving vs primary/DR for LLM APIs.",
+      "Our cross-region model artifact sync is slow — architect replication and blue/green deploy.",
+      "When do you colocate training and serving vs separate 'training regions'?",
+      "Design failover when an entire region loses GPU capacity during a heat event."
+    ]
+  },
+  "cloud-architecture/03-disaster-recovery-for-model-serving": {
+    "expected": "Design disaster recovery for a model-serving platform. How do you meet RTO/RPO when regions fail, models corrupt, or routing breaks?",
+    "variants": [
+      "Design DR for an LLM API with RPO <5 minutes and RTO <15 minutes.",
+      "How do you failover inference when the primary GPU cluster is unavailable?",
+      "Design model artifact replication and version pinning across regions.",
+      "Our config push broke all replicas — architect safe rollout and rollback for serving.",
+      "Design chaos testing for model-serving without customer-visible outages.",
+      "How do you DR KV-cache-heavy serving vs stateless API gateways differently?",
+      "Design runbooks when embedding index and model versions drift after failover."
+    ]
+  },
+  "cloud-architecture/04-network-architecture-for-distributed-training": {
+    "expected": "Design the network architecture for distributed training (tensor/pipeline/data parallel). How do you handle bandwidth, topology, and collective communication at scale?",
+    "variants": [
+      "Design a 3,000-GPU training cluster — what network topology (fat-tree, rail-optimized)?",
+      "How do you place ranks to minimize all-reduce latency for tensor parallelism?",
+      "Design inter-node vs intra-node communication for a 70B model training job.",
+      "Our training job straggles on one slow link — architect fault detection and rerouting.",
+      "Design network for mixture-of-experts all-to-all at scale.",
+      "How do you schedule jobs aware of physical rack boundaries?",
+      "Design RDMA/InfiniBand vs Ethernet trade-offs for a new AI data center."
+    ]
+  },
+  "cloud-architecture/05-security-and-compliance-architecture-for-ai-systems": {
+    "expected": "Design security and compliance architecture for an AI system. How do you handle identity, secrets, audit, SOC2/HIPAA, and model abuse in production?",
+    "variants": [
+      "Design zero-trust access from agents to internal APIs in a regulated bank.",
+      "How do you meet HIPAA for an LLM that processes clinical notes?",
+      "Design audit logs proving who approved each agent side effect.",
+      "Our API keys leaked via prompt injection — architect secret isolation for tools.",
+      "Design VPC boundaries between training data, serving, and customer-facing apps.",
+      "How do you implement SOC2-style controls for a multi-tenant AI SaaS?",
+      "Design red-team and abuse monitoring integrated with SIEM."
+    ]
+  },
+  "cloud-architecture/06-container-orchestration-and-cost-optimization-at-scale": {
+    "expected": "Design container orchestration and cost optimization for AI workloads at scale. How do you schedule GPUs, autoscale inference, and reduce idle spend?",
+    "variants": [
+      "Design Kubernetes scheduling for mixed inference + batch training on shared GPU nodes.",
+      "How do you scale vLLM pods to zero overnight without cold-start violating SLO?",
+      "Design spot/preemptible instances for fault-tolerant training with checkpoint resume.",
+      "Our GPU utilization is 30% — architect bin-packing, MIG, and right-sizing.",
+      "Design cluster autoscaling when queue depth exceeds threshold for 5 minutes.",
+      "How do you isolate noisy training jobs from latency-sensitive inference on one cluster?",
+      "Design chargeback/showback per namespace, team, and tenant for GPU hours."
+    ]
+  },
+  "cloud-architecture/07-llm-gateway-semantic-cache-model-router": {
+    "expected": "Design an enterprise LLM gateway with semantic cache and model routing. How do you cut cost/latency while enforcing policy, keys, and observability?",
+    "variants": [
+      "Design a gateway that caches semantically similar prompts — when is it safe?",
+      "How do you route prompts to GPT-4 vs Haiku vs self-hosted Llama based on complexity?",
+      "Design centralized API keys, rate limits, and PII redaction before upstream LLM calls.",
+      "Our LLM bill doubled — architect caching, routing, and budget caps per team.",
+      "Gateway vs sidecar vs SDK — where does policy enforcement belong?",
+      "Design cache invalidation when the underlying model version changes.",
+      "How do you log prompts/responses for compliance without storing secrets?"
+    ]
+  },
+  "behavioral/01-staffing-reduction-10-to-2": {
+    "expected": "Tell me about a time you significantly reduced manual or operational effort through automation, while keeping risk and reversibility under control.",
+    "variants": [
+      "Tell me about a time you automated a workflow and reduced headcount or staffing intensity — how did you know it was safe?",
+      "Describe shipping agentic automation for repeatable ops work without replacing human judgment on the hard 20%.",
+      "Tell me about a time you cut toil by 80% — what stayed manual and why?",
+      "How did you decide which exceptions still need human approval after you automated a process?",
+      "Tell me about scaling automation only after eval evidence, not before a headcount target.",
+      "Describe a time stakeholders wanted full autonomy and you insisted on HITL gates — what happened?",
+      "Tell me about measuring success of automation beyond 'it runs' — what metrics did you use?",
+      "Walk me through reverse-engineering risk tiers so staffing reduction followed evidence, not optimism."
+    ]
+  },
+  "behavioral/02-finops-audit-and-fix": {
+    "expected": "Tell me about a time you audited something you'd built or claimed publicly, found it didn't hold up, and fixed it.",
+    "variants": [
+      "Tell me about a time you discovered your own cost or usage claims were wrong — what did you do?",
+      "Describe finding a FinOps gap with no external pressure to look — why did you dig?",
+      "Tell me about publishing a fix after realizing a portfolio demo or metric was incomplete.",
+      "How do you handle intellectual honesty when the audit would make your prior work look worse?",
+      "Tell me about turning a one-time cost surprise into a durable tracking system.",
+      "Describe aligning engineering incentives with cloud spend without becoming 'the no team.'",
+      "Tell me about a time chargeback or attribution broke trust — how did you repair it?",
+      "Walk me through making LLM/token spend visible per team or tenant after a bill spike."
+    ]
+  },
+  "behavioral/03-org-wide-security-hardening": {
+    "expected": "Tell me about a time you found the same class of problem repeated across multiple systems and fixed it consistently, without breaking existing usage.",
+    "variants": [
+      "Tell me about finding the same security hole across many services — how did you roll out a consistent fix?",
+      "Describe hardening unauthenticated endpoints org-wide without breaking legitimate clients.",
+      "Tell me about turning a one-repo bug into a portfolio-wide pattern with a shared checklist.",
+      "How did you prioritize which systems to fix first when everything was exposed?",
+      "Tell me about coordinating a security change across teams that didn't report to you.",
+      "Describe balancing 'ship the patch now' vs 'design the paved-road auth pattern.'",
+      "Tell me about verifying remediation — how did you prove endpoints stayed locked?",
+      "Walk me through communicating a security incident class without causing panic or blame."
+    ]
+  },
+  "behavioral/04-payments-and-edi-modernization": {
+    "expected": "Tell me about a time you accepted more short-term complexity for a long-term platform benefit, instead of shipping the faster path.",
+    "variants": [
+      "Tell me about choosing a harder architecture path because the faster path wouldn't scale.",
+      "Describe modernizing payments or EDI where short-term delivery pressure fought platform quality.",
+      "Tell me about a time you said no to a shortcut that would create years of operational debt.",
+      "How did you convince stakeholders to accept more complexity now for leverage later?",
+      "Tell me about measuring whether the 'platform bet' actually paid off.",
+      "Describe a migration where dual-running old and new paths was painful but necessary.",
+      "Tell me about trading feature velocity for auditability or compliance in a regulated flow.",
+      "Walk me through the decision criteria you used when build-vs-buy was also on the table."
+    ]
+  },
+  "behavioral/05-leading-a-0-to-1-ai-product-build": {
+    "expected": "Tell me about a time you had to decide what to actually ship in a 0-to-1 build, when the ambiguity was in the scope itself, not just the execution.",
+    "variants": [
+      "Tell me about leading a 0-to-1 AI product when requirements kept changing — what did you cut?",
+      "Describe shipping a thin vertical slice vs boiling the ocean on an AI platform.",
+      "Tell me about a time the hard problem was deciding scope, not writing code.",
+      "How did you choose which integrations were real vs mocked for a first launch?",
+      "Tell me about navigating ambiguity with stakeholders who wanted everything in v1.",
+      "Describe a time you changed the plan mid-build when a real constraint surfaced.",
+      "Tell me about defining 'done' for an AI MVP with governance, not just demos.",
+      "Walk me through how you avoided overbuilding infrastructure before product proof."
+    ]
+  },
+  "behavioral/06-influence-without-authority": {
+    "expected": "Tell me about a time you influenced a technical decision when you did not own the teams involved and could not escalate your way to a mandate.",
+    "variants": [
+      "Tell me about a time you influenced people without authority.",
+      "Describe getting another team to adopt your design via RFC/docs/tooling rather than mandate.",
+      "Tell me about resolving a cross-team technical disagreement without escalating to leadership.",
+      "How do you make the right architecture the easiest path for other teams?",
+      "Tell me about building a paved-road library or template that replaced three competing patterns.",
+      "Describe aligning incentives so other teams wanted your proposal for their OKRs.",
+      "Tell me about a time influence failed the first time — what did you change?",
+      "Walk me through Staff-level leadership: how you drove a decision across org boundaries."
+    ]
+  },
+  "behavioral/07-technical-bet-that-failed": {
+    "expected": "Tell me about a technical bet you made that failed — or that you had to reverse — and how you handled it at the team or org level.",
+    "variants": [
+      "Tell me about a time you made a wrong technical decision.",
+      "Describe a bet you owned that failed in production — what did you reverse and leave behind?",
+      "Tell me about a postmortem where you were the decision owner, not a bystander.",
+      "How do you account for the cost of a failed bet without blaming individuals?",
+      "Tell me about reversing an architecture choice mid-rollout — communication and migration.",
+      "Describe what you do differently now in similar trade-offs after that failure.",
+      "Tell me about a time optimism beat evidence — and how you fixed the decision process.",
+      "Walk me through intellectual honesty: a story that could make you look worse, told cleanly."
+    ]
+  },
+  "scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety": {
+    "expected": "Every agent architecture decision seems to trade off cost, latency, and safety against each other. How do you reason about which one wins in a given situation?",
+    "variants": [
+      "When do you optimize for cost vs latency vs safety in an agent stack — pick one scenario and decide.",
+      "Our LLM bill is exploding but users want faster replies — walk me through the trade-off.",
+      "Design HITL gates: how much latency is acceptable for irreversible actions?",
+      "When is a cheaper model the wrong answer even if quality looks 'good enough'?",
+      "How do you decide which agent steps must be synchronous vs async for cost?",
+      "A product wants full autonomy to cut handle time — how do you argue safety wins?",
+      "Walk me through a decision matrix for refund issuance vs FAQ answer generation.",
+      "How would you explain this triangle to a VP who only cares about unit economics?"
+    ]
+  },
+  "scalability-governance-tradeoffs/02-build-vs-buy-shared-services": {
+    "expected": "You've identified a capability two or more teams need — say, cost tracking, or notification delivery. Do you build it as a shared service, embed the logic in each consumer, or buy a vendor solution? Walk me through how you decide.",
+    "variants": [
+      "Build vs buy vs embed — how do you decide for a shared FinOps or auth capability?",
+      "When does a shared internal platform beat three copy-paste libraries?",
+      "Tell me when buying a vendor is the Staff+ answer, not a cop-out.",
+      "How do you avoid building a platform nobody adopts?",
+      "Walk me through ownership: who on-calls a shared service when consumers outnumber builders?",
+      "Our team wants to own notifications end-to-end — when do you push for a shared bus?",
+      "How do you reverse a bad 'shared service' that became a bottleneck?",
+      "Compare 'thin shared library' vs 'thick shared service' for policy enforcement."
+    ]
+  },
+  "scalability-governance-tradeoffs/03-centralize-vs-federate-governance": {
+    "expected": "As an org scales its number of AI agents and teams, do you centralize governance (one team, one policy engine, one audit trail) or federate it (each team owns its own policy checks)? What breaks in each direction?",
+    "variants": [
+      "Centralize vs federate AI governance — which would you pick for 20 agent teams?",
+      "How do you avoid a central policy team becoming a ticket queue bottleneck?",
+      "What breaks when every team invents its own approval gates?",
+      "Design a hub-and-spoke model: central policy, federated agent runtimes.",
+      "How do you keep one audit trail without forcing one deployment cadence?",
+      "When does federated governance fail compliance reviews?",
+      "Walk me through graduating from federated experiments to centralized enforcement.",
+      "How do you let product teams move fast while security still has a choke point on side effects?"
+    ]
+  },
+  "scalability-governance-tradeoffs/04-build-vs-train-vs-finetune-foundation-model-strategy": {
+    "expected": "Your product needs an LLM. Do you train a foundation model from scratch, fine-tune an open-weight model, or call a vendor API? How do you decide, and how do real companies actually answer this?",
+    "variants": [
+      "Build vs buy the model layer — when is training from scratch actually rational?",
+      "Fine-tune vs RAG vs prompt engineering — how do you choose for a domain product?",
+      "When do you leave a frontier API and self-host open weights?",
+      "How do Meta/Anthropic/Apple-style strategies inform a mid-size company's choice?",
+      "Walk me through TCO: API tokens vs GPU ownership for your traffic shape.",
+      "Data moat vs model weights — which is the real competitive advantage here?",
+      "When is LoRA enough vs full SFT vs continued pretrain?",
+      "How do you revisit the decision as quality, cost, and latency targets move?"
+    ]
+  },
+  "coding/00-staff-plus-coding-bar": {
+    "expected": "We still do a coding round for Staff. What does a strong answer look like?",
+    "variants": [
+      "How is Staff coding graded differently from mid-level?",
+      "What do interviewers listen for if the problem is only medium difficulty?",
+      "Should I offer concurrency and distributed design unprompted in a coding round?",
+      "How much time should I spend clarifying vs coding vs testing aloud?",
+      "What are downlevel signals in a Staff coding interview?",
+      "How do I narrate complexity and tests without sounding scripted?",
+      "When should I stop optimizing and declare the solution good enough?",
+      "How do coding rounds differ at AI labs vs classic FAANG for Staff?"
+    ]
+  },
+  "coding/01-lru-cache-with-concurrency": {
+    "expected": "Design a data structure that supports get(key) and put(key, value) in average O(1). When capacity is exceeded, evict the least recently used item.",
+    "variants": [
+      "Implement an LRU cache — then make get/put thread-safe.",
+      "Design LRU with TTL expiration in addition to capacity eviction.",
+      "How would you shard an LRU across threads without a global lock?",
+      "Implement LFU instead — what's different from LRU?",
+      "Add a get_or_load(key, loader) that prevents stampede under concurrency.",
+      "Design an LRU that reports hit rate metrics safely from multiple threads.",
+      "What breaks if you only use a HashMap without a doubly linked list?",
+      "Extend to a distributed cache — where does the coding answer stop and system design begin?"
+    ]
+  },
+  "coding/02-rate-limiter-token-bucket": {
+    "expected": "Implement allow(client_id) -> bool using a token bucket: capacity C, refill R tokens per second. Each allowed request consumes 1 token.",
+    "variants": [
+      "Implement a token-bucket rate limiter for API keys in one process.",
+      "Add burst capacity vs sustained rate — how do you model it?",
+      "Make the limiter correct under concurrent calls for the same client_id.",
+      "Implement sliding window log vs token bucket — when would you pick each?",
+      "Support different limits per tier (free/paid) with the same API.",
+      "How do you refill tokens lazily without a background thread?",
+      "Design allow_n(client_id, n) for batch consumes.",
+      "What changes if this must work across multiple servers? (keep brief unless asked)"
+    ]
+  },
+  "coding/03-time-based-kv-store": {
+    "expected": "Implement set(key, value, timestamp) and get(key, timestamp) — return the largest value with time ≤ timestamp.",
+    "variants": [
+      "Design a time-travel key-value store with strictly increasing timestamps per key.",
+      "Add get_latest(key) and get_range(key, t1, t2).",
+      "How do you store history efficiently if most keys have few versions?",
+      "Make set/get thread-safe when different keys are updated concurrently.",
+      "What if timestamps can arrive out of order?",
+      "Support delete(key, timestamp) tombstones.",
+      "Binary search vs tree map per key — trade-offs?",
+      "How would you persist this structure for crash recovery? (Staff extension)"
+    ]
+  },
+  "coding/04-concurrent-bounded-queue": {
+    "expected": "Implement a bounded queue with put(item) (blocks if full) and take() (blocks if empty), safe for multiple producers and consumers.",
+    "variants": [
+      "Implement a blocking queue like ArrayBlockingQueue.",
+      "Add offer/poll with timeouts.",
+      "How do you avoid lost wakeups with condition variables?",
+      "Support fair ordering of waiting producers/consumers?",
+      "Implement using locks vs lock-free ring buffer — trade-offs?",
+      "Add drainTo(list, max) for batch consumers.",
+      "What invariants must hold after every put/take?",
+      "How do you test for deadlock and race conditions in an interview?"
+    ]
+  },
+  "coding/05-top-k-frequent-stream": {
+    "expected": "Given an array of integers, return the k most frequent elements. Order among ties can be arbitrary unless specified.",
+    "variants": [
+      "Find top-K frequent elements — heap vs bucket sort.",
+      "What if the input is a stream too large to store?",
+      "Return elements sorted by frequency descending.",
+      "Top-K frequent words in a document (string keys).",
+      "How do you handle ties stably?",
+      "Approximate top-K with Count-Min / heavy hitters for a stream.",
+      "Complexity when k ≈ n vs k ≪ n?",
+      "Extend to sliding-window top-K over the last N events."
+    ]
+  },
+  "coding/06-merge-k-sorted-iterators": {
+    "expected": "Merge k sorted ascending integer lists into one sorted list (or yield via iterator).",
+    "variants": [
+      "Merge K sorted lists — heap of size K.",
+      "Design a lazy iterator that merges without materializing all output.",
+      "What if some lists are empty or infinite streams?",
+      "Merge K sorted files on disk that don't fit in memory.",
+      "Complexity vs pairwise merge tournament?",
+      "Deduplicate while merging.",
+      "Merge by a custom comparator (timestamps + id).",
+      "How do you unit-test the iterator contract (hasNext/next)?"
+    ]
+  },
+  "coding/07-graph-clone-and-cycle-safe": {
+    "expected": "Given a reference to a node in a connected undirected graph, return a deep copy. The graph may contain cycles.",
+    "variants": [
+      "Clone an undirected graph — handle cycles.",
+      "Clone a directed graph with possible cycles.",
+      "BFS vs DFS for cloning — which and why?",
+      "What if node values are not unique?",
+      "Clone only the connected component reachable from the start.",
+      "Serialize/deserialize the graph instead of cloning in memory.",
+      "How do you prove you didn't share neighbor references with the original?",
+      "Extend to cloning with per-node metadata maps."
+    ]
+  },
+  "coding/08-debug-broken-cache-eviction": {
+    "expected": "A teammate's LRU-like cache sometimes returns stale values and occasionally grows past capacity. Debug the buggy sketch and fix the invariants.",
+    "variants": [
+      "Here's a broken cache — find the bug and explain the invariant.",
+      "Why might eviction not run even when size > capacity?",
+      "Debug a race where two threads both insert the same key.",
+      "The cache returns a value that was already evicted — what's wrong?",
+      "How do you add assertions/tests that would have caught this in CI?",
+      "Fix without rewriting from scratch — minimal correct patch.",
+      "What logging would you add to diagnose in production?",
+      "Explain the fix as if mentoring a junior who wrote the bug."
+    ]
+  },
+  "coding/09-design-inmemory-pubsub": {
+    "expected": "Implement an in-process pub/sub: subscribe(topic, handler), unsubscribe(sub_id), publish(topic, message) delivering to current subscribers.",
+    "variants": [
+      "Design in-memory pub/sub with slow handlers — sync vs async delivery?",
+      "What happens if a handler throws during publish?",
+      "Should publish copy the subscriber list to avoid concurrent mod issues?",
+      "Add once-subscriptions and wildcard topics.",
+      "Backpressure: what if handlers can't keep up?",
+      "Thread-safe subscribe/unsubscribe while publishing.",
+      "Ordered delivery per topic vs best-effort?",
+      "How far is this from Kafka — where does the LLD stop?"
+    ]
+  },
+  "coding/10-prefix-sum-subarray-patterns": {
+    "expected": "Given nums and k, return the number of contiguous subarrays whose sum equals k.",
+    "variants": [
+      "Subarray sum equals K — prefix sum + hashmap.",
+      "What if all nums are positive — can you use a sliding window?",
+      "Longest subarray with sum K.",
+      "Subarray sum divisible by K.",
+      "Count subarrays with product less than K.",
+      "2D prefix sums for matrix region queries.",
+      "How do negative numbers break the two-pointer approach?",
+      "State the invariant of the prefix-frequency map aloud."
+    ]
+  },
+  "coding/11-consistent-hashing": {
+    "expected": "Implement a consistent-hash ring that maps keys to nodes. Support add_node, remove_node, and get_node(key). Use virtual nodes.",
+    "variants": [
+      "Implement consistent hashing with virtual nodes.",
+      "How many virtual nodes per physical node — how do you choose?",
+      "What happens to keys when a node is removed?",
+      "Add weighted nodes (bigger machines get more of the ring).",
+      "How do you avoid hotspots with a bad hash function?",
+      "Rendezvous hashing vs consistent hashing — when?",
+      "Make the ring concurrent for reads while rebalancing.",
+      "Connect this to memcached/CDN shard placement — keep it brief."
+    ]
+  },
+  "coding/12-elevator-system-lld": {
+    "expected": "Model one or more elevators serving floors. Handle hall calls and cabin requests. Simulate with step() ticks. Choose a dispatch strategy (e.g., SCAN).",
+    "variants": [
+      "Design an elevator system LLD — single elevator first, then N elevators.",
+      "How do you represent up/down hall calls without starvation?",
+      "Implement SCAN vs nearest-car dispatch — trade-offs?",
+      "Add maintenance mode and out-of-service elevators.",
+      "How do you unit-test timing without real threads sleeping?",
+      "Handle peak morning traffic in a 40-floor building.",
+      "Model door open/close and capacity constraints.",
+      "Where does this stop being coding and become scheduling theory?"
+    ]
+  },
+  "coding/13-parking-lot-lld": {
+    "expected": "Design a multi-level parking lot that assigns spots by vehicle type, issues tickets on entry, and computes fees on exit. Support concurrent entry/exit safely.",
+    "variants": [
+      "Design a parking lot LLD — spots, tickets, fees.",
+      "How do you assign the nearest available spot of the right size?",
+      "Motorcycle can take car spot? Model vehicle hierarchy.",
+      "Compute fees with free first hour and progressive rates.",
+      "Make entry/exit thread-safe under concurrent gates.",
+      "Add reservations and expiring holds.",
+      "How do you avoid double-assigning the same spot?",
+      "Extend to EV chargers with occupancy + power constraints."
+    ]
+  },
+  "staff-plus-interview-craft/01-what-staff-plus-actually-signals": {
+    "expected": "How is a Staff / Principal interview different from Senior — and what are interviewers listening for?",
+    "variants": [
+      "What does Staff+ actually mean in interviews vs the job ladder doc?",
+      "How do coding, design, and behavioral rounds weight differently at Staff?",
+      "What are downlevel signals that make you look Senior instead of Staff?",
+      "How do interviewers test 'reduces ambiguity for others'?",
+      "What's the difference between Staff and Principal signals in the same loop?",
+      "How should I show org blast radius without name-dropping?",
+      "What questions should I ask before answering a vague design prompt?",
+      "How do AI-lab Staff loops differ from classic FAANG Staff loops?"
+    ]
+  },
+  "staff-plus-interview-craft/02-questions-you-should-ask": {
+    "expected": "What should I ask the interviewer — and when — if I'm interviewing for Staff or Principal?",
+    "variants": [
+      "What questions impress in a Staff+ reverse interview?",
+      "What should I ask about team scope, on-call, and decision rights?",
+      "How do I probe whether Staff means IC leverage or disguised management?",
+      "What questions reveal whether the org has real platform ownership?",
+      "When do I ask about failure modes of the hiring team's architecture?",
+      "What should I ask a hiring manager vs a peer interviewer?",
+      "How do I ask about promotion criteria without sounding entitled?",
+      "What questions help me decide to decline an offer?"
+    ]
+  },
+  "staff-plus-interview-craft/03-what-not-to-waste-time-on": {
+    "expected": "What should I deliberately not spend time on in a Staff / Principal loop?",
+    "variants": [
+      "What prep is low leverage for Staff+ interviews?",
+      "Should I memorize 50 system design templates?",
+      "Is leetcode Hard volume the right use of time for Staff coding?",
+      "When is buzzword architecture a downlevel signal?",
+      "What behavioral stories are too junior to bring to Staff?",
+      "How much company-specific gossip should I study?",
+      "Should I over-optimize resume keywords vs depth of 5–7 stories?",
+      "What should I skip in the last 72 hours before the onsite?"
+    ]
+  }
+}

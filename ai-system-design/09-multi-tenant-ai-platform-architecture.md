@@ -1,5 +1,25 @@
 # Design a multi-tenant AI platform
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a multi-tenant AI platform where many customers share inference, agents, and data planes. How do you isolate tenants, quota usage, and customize per customer?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Azure OpenAI-style shared vs dedicated capacity for enterprise tenants."
+- "How do you prevent noisy-neighbor token spikes from starving other customers?"
+- "Design per-tenant API keys, budgets, custom system prompts, and fine-tuned adapters."
+- "Scale from 10 to 10,000 tenants on one control plane — what do you shard?"
+- "Design a hub-and-spoke agent architecture with centralized governance and isolated runtimes."
+- "How do you bill accurately when one tenant runs 200-agent background jobs?"
+- "Design data residency: EU tenants' prompts and logs never leave EU regions."
+- "Architect tenant-scoped tool credentials so Customer A's Stripe key is never visible to B."
+
 ## Where this actually gets asked
 
 Best-sourced at Microsoft: the official [Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/service/openai)

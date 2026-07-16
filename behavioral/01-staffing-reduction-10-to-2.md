@@ -1,5 +1,25 @@
 # Staffing reduction from 10 to 2 in a supply chain workflow
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a time you significantly reduced manual or operational effort through automation, while keeping risk and reversibility under control."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about a time you automated a workflow and reduced headcount or staffing intensity — how did you know it was safe?"
+- "Describe shipping agentic automation for repeatable ops work without replacing human judgment on the hard 20%."
+- "Tell me about a time you cut toil by 80% — what stayed manual and why?"
+- "How did you decide which exceptions still need human approval after you automated a process?"
+- "Tell me about scaling automation only after eval evidence, not before a headcount target."
+- "Describe a time stakeholders wanted full autonomy and you insisted on HITL gates — what happened?"
+- "Tell me about measuring success of automation beyond 'it runs' — what metrics did you use?"
+- "Walk me through reverse-engineering risk tiers so staffing reduction followed evidence, not optimism."
+
 ## The question, as it might actually be asked
 
 "Tell me about a time you significantly reduced manual or operational effort through automation,

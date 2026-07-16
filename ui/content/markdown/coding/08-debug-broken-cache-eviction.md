@@ -1,5 +1,25 @@
 # Debug: broken cache eviction
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"A teammate's LRU-like cache sometimes returns stale values and occasionally grows past capacity. Debug the buggy sketch and fix the invariants."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Here's a broken cache — find the bug and explain the invariant."
+- "Why might eviction not run even when size > capacity?"
+- "Debug a race where two threads both insert the same key."
+- "The cache returns a value that was already evicted — what's wrong?"
+- "How do you add assertions/tests that would have caught this in CI?"
+- "Fix without rewriting from scratch — minimal correct patch."
+- "What logging would you add to diagnose in production?"
+- "Explain the fix as if mentoring a junior who wrote the bug."
+
 ## The question, as it might actually be asked
 
 A teammate's LRU-like cache sometimes returns stale values and occasionally grows past capacity. Here is a simplified buggy sketch: ```python class BuggyCache: def __init__(self, capacity: int): self.capacity = capacity self.data = {} # key -> value self.order = [] # keys, oldest at index 0 def get(self, key): if key not in self.data: return None # BUG 1: refreshes by append without removing old index self.order.append(key) return self.data[key] def put(self, key, value): self.data[key] = value self.order.append(key) # BUG 2: evicts using order[0] even if that key was refreshed while len(self.data) > self.capacity: old = self.order.pop(0) if old in self.data: del self.data[old] ``` Find the bugs, explain failure modes, and provide a correct fix (or point to the proper LRU structure).

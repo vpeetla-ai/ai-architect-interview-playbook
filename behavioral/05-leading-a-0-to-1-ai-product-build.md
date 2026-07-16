@@ -1,5 +1,25 @@
 # Leading a 0-to-1 AI product build under real ambiguity
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a time you had to decide what to actually ship in a 0-to-1 build, when the ambiguity was in the scope itself, not just the execution."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about leading a 0-to-1 AI product when requirements kept changing — what did you cut?"
+- "Describe shipping a thin vertical slice vs boiling the ocean on an AI platform."
+- "Tell me about a time the hard problem was deciding scope, not writing code."
+- "How did you choose which integrations were real vs mocked for a first launch?"
+- "Tell me about navigating ambiguity with stakeholders who wanted everything in v1."
+- "Describe a time you changed the plan mid-build when a real constraint surfaced."
+- "Tell me about defining 'done' for an AI MVP with governance, not just demos."
+- "Walk me through how you avoided overbuilding infrastructure before product proof."
+
 ## The question, as it might actually be asked
 
 "Tell me about a time you had to decide what to actually ship in a 0-to-1 build, when the

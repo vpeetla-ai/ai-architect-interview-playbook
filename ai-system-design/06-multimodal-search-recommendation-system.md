@@ -1,5 +1,24 @@
 # Design a multimodal search / recommendation system
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a multimodal search and recommendation system (text, image, video). How do you index, retrieve, rank, and serve personalized results at scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Pinterest-style visual search — upload an image, get similar products."
+- "How do you recommend short-form video with multimodal embeddings and real-time feedback?"
+- "Design a commerce search that blends lexical, vector, and visual signals."
+- "Scale ANN search to 10B multimodal vectors — what index and sharding strategy?"
+- "How do you correct position bias and popularity bias in a feed ranking system?"
+- "Design cold-start recommendations for new users with only a few clicks."
+- "Architect near-real-time feature updates for trending content without full reindex."
+
 ## Where this actually gets asked
 
 Meta has the best-attributed evidence in this entire set for a recommendation-flavored

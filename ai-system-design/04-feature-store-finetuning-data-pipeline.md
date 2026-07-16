@@ -1,5 +1,24 @@
 # Design a feature store / fine-tuning data pipeline
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a feature store and fine-tuning data pipeline for ML/LLM products. How do you version data, serve features online/offline, and feed training jobs reliably?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design the data platform that feeds both RAG ingestion and periodic model fine-tunes."
+- "How do you build training datasets from production logs without leaking PII?"
+- "Design point-in-time correct features for ranking models used in production and in offline eval."
+- "Our fine-tune jobs keep training on stale data — architect lineage from raw docs to model weights."
+- "Design a pipeline for curated SFT examples with human review, versioning, and rollback."
+- "How do you share embeddings/features across ten product teams without schema chaos?"
+- "Design backfill and streaming feature updates for real-time personalization at scale."
+
 ## Where this actually gets asked
 
 This is the weakest-evidenced topic in this set for the six companies in scope — no

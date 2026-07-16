@@ -1,5 +1,25 @@
 # Questions you should ask in a Staff+ interview
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"What should I ask the interviewer — and when — if I'm interviewing for Staff or Principal?"
+
+## Variant forms
+
+Interviewers (and reverse-interview moments) often ask the same meta-question differently — recognize the archetype:
+
+- "What questions impress in a Staff+ reverse interview?"
+- "What should I ask about team scope, on-call, and decision rights?"
+- "How do I probe whether Staff means IC leverage or disguised management?"
+- "What questions reveal whether the org has real platform ownership?"
+- "When do I ask about failure modes of the hiring team's architecture?"
+- "What should I ask a hiring manager vs a peer interviewer?"
+- "How do I ask about promotion criteria without sounding entitled?"
+- "What questions help me decide to decline an offer?"
+
 ## The question, as it might actually be asked
 
 "What should I ask the interviewer — and when — if I'm interviewing for Staff or Principal?"

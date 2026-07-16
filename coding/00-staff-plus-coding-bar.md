@@ -1,5 +1,25 @@
 # Staff+ coding bar — how this round is graded
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"We still do a coding round for Staff. What does a strong answer look like?"
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "How is Staff coding graded differently from mid-level?"
+- "What do interviewers listen for if the problem is only medium difficulty?"
+- "Should I offer concurrency and distributed design unprompted in a coding round?"
+- "How much time should I spend clarifying vs coding vs testing aloud?"
+- "What are downlevel signals in a Staff coding interview?"
+- "How do I narrate complexity and tests without sounding scripted?"
+- "When should I stop optimizing and declare the solution good enough?"
+- "How do coding rounds differ at AI labs vs classic FAANG for Staff?"
+
 ## The question, as it might actually be asked
 
 "We still do a coding round for Staff. What does a strong answer look like?"

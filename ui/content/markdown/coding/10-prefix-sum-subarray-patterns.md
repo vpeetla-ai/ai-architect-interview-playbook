@@ -1,5 +1,25 @@
 # Prefix-sum subarray patterns (Staff+ follow-ups)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Given nums and k, return the number of contiguous subarrays whose sum equals k."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Subarray sum equals K — prefix sum + hashmap."
+- "What if all nums are positive — can you use a sliding window?"
+- "Longest subarray with sum K."
+- "Subarray sum divisible by K."
+- "Count subarrays with product less than K."
+- "2D prefix sums for matrix region queries."
+- "How do negative numbers break the two-pointer approach?"
+- "State the invariant of the prefix-frequency map aloud."
+
 ## The question, as it might actually be asked
 
 Given `nums` and `k`, return the number of contiguous subarrays whose sum equals `k`.

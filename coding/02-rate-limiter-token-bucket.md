@@ -1,5 +1,25 @@
 # Implement a token-bucket rate limiter (in-process)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Implement allow(client_id) -> bool using a token bucket: capacity C, refill R tokens per second. Each allowed request consumes 1 token."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Implement a token-bucket rate limiter for API keys in one process."
+- "Add burst capacity vs sustained rate — how do you model it?"
+- "Make the limiter correct under concurrent calls for the same client_id."
+- "Implement sliding window log vs token bucket — when would you pick each?"
+- "Support different limits per tier (free/paid) with the same API."
+- "How do you refill tokens lazily without a background thread?"
+- "Design allow_n(client_id, n) for batch consumes."
+- "What changes if this must work across multiple servers? (keep brief unless asked)"
+
 ## The question, as it might actually be asked
 
 Implement `allow(client_id) -> bool` using a token bucket: capacity `C`, refill `R` tokens per second. Each allowed request consumes 1 token. Reject when empty.

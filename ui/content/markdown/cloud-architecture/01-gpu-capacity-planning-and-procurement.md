@@ -1,5 +1,24 @@
 # Design a GPU capacity-planning and procurement system
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a GPU capacity-planning and procurement system for AI workloads. How do you forecast demand, reserve vs spot, and avoid quota exhaustion?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "OpenAI needs 10 gigawatts of compute — how do you plan procurement and cluster lifecycle?"
+- "Design reserved GPU capacity vs on-demand for training jobs with unpredictable duration."
+- "How do you forecast H100 needs for next quarter when product usage doubles monthly?"
+- "Our training jobs queue for days — architect quota pooling across teams."
+- "Design build vs rent (CoreWeave/Nebius) for a hyperscaler scaling GenAI."
+- "How do you right-size clusters when model sizes jump 4× year over year?"
+- "Design FinOps dashboards tying GPU hours to product features and tenants."
+
 ## Where this actually gets asked
 
 Well-documented as a *real infrastructure problem* at OpenAI and Meta specifically, but not as a

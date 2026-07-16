@@ -1,5 +1,25 @@
 # Build vs. train-from-scratch vs. fine-tune: foundation model strategy
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Your product needs an LLM. Do you train a foundation model from scratch, fine-tune an open-weight model, or call a vendor API? How do you decide, and how do real companies actually answer this?"
+
+## Variant forms
+
+Interviewers often ask the same trade-off with different framing — recognize the archetype:
+
+- "Build vs buy the model layer — when is training from scratch actually rational?"
+- "Fine-tune vs RAG vs prompt engineering — how do you choose for a domain product?"
+- "When do you leave a frontier API and self-host open weights?"
+- "How do Meta/Anthropic/Apple-style strategies inform a mid-size company's choice?"
+- "Walk me through TCO: API tokens vs GPU ownership for your traffic shape."
+- "Data moat vs model weights — which is the real competitive advantage here?"
+- "When is LoRA enough vs full SFT vs continued pretrain?"
+- "How do you revisit the decision as quality, cost, and latency targets move?"
+
 ## The question, as it might actually be asked
 
 "Your product needs an LLM. Do you train a foundation model from scratch, fine-tune an

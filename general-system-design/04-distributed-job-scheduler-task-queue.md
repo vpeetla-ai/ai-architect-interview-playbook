@@ -1,5 +1,24 @@
 # Design a distributed job scheduler / task queue
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a distributed job scheduler / task queue. How do you enqueue, prioritize, execute, retry, and observe background work at scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a system like Celery/Sidekiq at company scale — millions of jobs/day."
+- "How do you schedule cron jobs across a cluster without double execution?"
+- "Design priority queues where paid customers' jobs preempt free tier."
+- "Our workers keep picking poison messages — architect DLQ and retry with backoff."
+- "Design exactly-once vs at-least-once semantics for payment reconciliation jobs."
+- "How do you shard a task queue when Redis/SQS becomes the bottleneck?"
+- "Design a workflow DAG executor (Airflow-style) with dependency tracking."
+
 ## Where this actually gets asked
 
 Weakly sourced for company-specific interview attribution: no confirmed Blind/Glassdoor post was

@@ -1,5 +1,24 @@
 # Design a news feed / ranking system
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a news feed / ranking system. How do you ingest posts, rank content per user, and serve a fresh feed at scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Facebook/Instagram-style home feed for 1B users."
+- "How do you blend chronological, social graph, and ML-ranked content?"
+- "Design fan-out on write vs fan-out on read for celebrity accounts with 50M followers."
+- "Our feed feels stale — architect near-real-time ranking feature updates."
+- "Design exploration vs exploitation to surface new creators without hurting engagement."
+- "How do you A/B test ranking models without inconsistent user experiences?"
+- "Design feed caching and pagination for infinite scroll with consistent ordering."
+
 ## Where this actually gets asked
 
 Well-documented for Meta specifically: "Design Instagram" is repeatedly cited, independently,

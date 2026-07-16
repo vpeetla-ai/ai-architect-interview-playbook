@@ -1,5 +1,25 @@
 # Build vs. buy (or embed) for shared services
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"You've identified a capability two or more teams need — say, cost tracking, or notification delivery. Do you build it as a shared service, embed the logic in each consumer, or buy a vendor solution? Walk me through how you decide."
+
+## Variant forms
+
+Interviewers often ask the same trade-off with different framing — recognize the archetype:
+
+- "Build vs buy vs embed — how do you decide for a shared FinOps or auth capability?"
+- "When does a shared internal platform beat three copy-paste libraries?"
+- "Tell me when buying a vendor is the Staff+ answer, not a cop-out."
+- "How do you avoid building a platform nobody adopts?"
+- "Walk me through ownership: who on-calls a shared service when consumers outnumber builders?"
+- "Our team wants to own notifications end-to-end — when do you push for a shared bus?"
+- "How do you reverse a bad 'shared service' that became a bottleneck?"
+- "Compare 'thin shared library' vs 'thick shared service' for policy enforcement."
+
 ## The question, as it might actually be asked
 
 "You've identified a capability two or more teams/services need — say, cost tracking, or

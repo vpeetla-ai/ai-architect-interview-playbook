@@ -1,5 +1,25 @@
 # Implement an LRU cache (Staff+ concurrency extension)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a data structure that supports get(key) and put(key, value) in average O(1). When capacity is exceeded, evict the least recently used item."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Implement an LRU cache — then make get/put thread-safe."
+- "Design LRU with TTL expiration in addition to capacity eviction."
+- "How would you shard an LRU across threads without a global lock?"
+- "Implement LFU instead — what's different from LRU?"
+- "Add a get_or_load(key, loader) that prevents stampede under concurrency."
+- "Design an LRU that reports hit rate metrics safely from multiple threads."
+- "What breaks if you only use a HashMap without a doubly linked list?"
+- "Extend to a distributed cache — where does the coding answer stop and system design begin?"
+
 ## The question, as it might actually be asked
 
 Design a data structure that supports `get(key)` and `put(key, value)` in average O(1). When capacity is exceeded, evict the least recently used item. `get` and `put` both count as "use."

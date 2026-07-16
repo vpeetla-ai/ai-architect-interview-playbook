@@ -1,5 +1,25 @@
 # Merge K sorted lists / iterators
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Merge k sorted ascending integer lists into one sorted list (or yield via iterator)."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Merge K sorted lists — heap of size K."
+- "Design a lazy iterator that merges without materializing all output."
+- "What if some lists are empty or infinite streams?"
+- "Merge K sorted files on disk that don't fit in memory."
+- "Complexity vs pairwise merge tournament?"
+- "Deduplicate while merging."
+- "Merge by a custom comparator (timestamps + id)."
+- "How do you unit-test the iterator contract (hasNext/next)?"
+
 ## The question, as it might actually be asked
 
 Merge k sorted ascending integer lists into one sorted list (or yield via iterator).

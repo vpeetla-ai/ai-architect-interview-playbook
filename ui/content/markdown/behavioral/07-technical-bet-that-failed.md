@@ -1,5 +1,25 @@
 # A technical bet that did not pay off
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a technical bet you made that failed — or that you had to reverse — and how you handled it at the team or org level."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about a time you made a wrong technical decision."
+- "Describe a bet you owned that failed in production — what did you reverse and leave behind?"
+- "Tell me about a postmortem where you were the decision owner, not a bystander."
+- "How do you account for the cost of a failed bet without blaming individuals?"
+- "Tell me about reversing an architecture choice mid-rollout — communication and migration."
+- "Describe what you do differently now in similar trade-offs after that failure."
+- "Tell me about a time optimism beat evidence — and how you fixed the decision process."
+- "Walk me through intellectual honesty: a story that could make you look worse, told cleanly."
+
 ## The question, as it might actually be asked
 
 "Tell me about a technical bet you made that failed — or that you had to reverse — and how you

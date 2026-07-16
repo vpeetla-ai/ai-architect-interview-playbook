@@ -1,5 +1,25 @@
 # Centralize vs. federate governance
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"As an org scales its number of AI agents and teams, do you centralize governance (one team, one policy engine, one audit trail) or federate it (each team owns its own policy checks)? What breaks in each direction?"
+
+## Variant forms
+
+Interviewers often ask the same trade-off with different framing — recognize the archetype:
+
+- "Centralize vs federate AI governance — which would you pick for 20 agent teams?"
+- "How do you avoid a central policy team becoming a ticket queue bottleneck?"
+- "What breaks when every team invents its own approval gates?"
+- "Design a hub-and-spoke model: central policy, federated agent runtimes."
+- "How do you keep one audit trail without forcing one deployment cadence?"
+- "When does federated governance fail compliance reviews?"
+- "Walk me through graduating from federated experiments to centralized enforcement."
+- "How do you let product teams move fast while security still has a choke point on side effects?"
+
 ## The question, as it might actually be asked
 
 "As an org scales its number of AI agents and teams, do you centralize governance (one team,

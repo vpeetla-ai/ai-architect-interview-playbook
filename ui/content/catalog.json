@@ -130,6 +130,14 @@
       "path": "ai-system-design/01-llm-inference-serving-at-scale.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -186,6 +194,14 @@
       "title": "Design a retrieval-augmented generation (RAG) platform at scale",
       "path": "ai-system-design/02-rag-platform-at-scale.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -248,6 +264,14 @@
       "path": "ai-system-design/03-agent-tool-use-orchestration-platform.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -304,6 +328,14 @@
       "title": "Design a feature store / fine-tuning data pipeline",
       "path": "ai-system-design/04-feature-store-finetuning-data-pipeline.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -370,6 +402,14 @@
       "path": "ai-system-design/05-content-moderation-safety-system.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -426,6 +466,14 @@
       "title": "Design a multimodal search / recommendation system",
       "path": "ai-system-design/06-multimodal-search-recommendation-system.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -492,6 +540,14 @@
       "path": "ai-system-design/07-llm-evaluation-observability-platform.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -553,6 +609,14 @@
       "path": "ai-system-design/08-finetuning-rlhf-training-pipeline-at-scale.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -609,6 +673,14 @@
       "title": "Design a multi-tenant AI platform",
       "path": "ai-system-design/09-multi-tenant-ai-platform-architecture.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -671,6 +743,14 @@
       "path": "ai-system-design/10-ai-agent-sandboxing-and-code-execution-security.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -732,6 +812,14 @@
       "path": "ai-system-design/11-on-device-edge-ai-inference-architecture.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -789,6 +877,14 @@
       "path": "ai-system-design/12-training-data-provenance-and-ip-risk-architecture.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -845,6 +941,14 @@
       "title": "Design durable execution for long-running AI agents",
       "path": "ai-system-design/13-durable-long-running-agent-execution.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -907,6 +1011,14 @@
       "path": "ai-system-design/14-chatgpt-style-conversational-service.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -968,6 +1080,14 @@
       "path": "ai-system-design/15-ai-coding-assistant.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1024,6 +1144,14 @@
       "title": "Design an LLM-powered customer support assistant",
       "path": "ai-system-design/16-llm-customer-support-assistant.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -1086,6 +1214,14 @@
       "path": "general-system-design/01-distributed-rate-limiter.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1146,6 +1282,14 @@
       "title": "Design a real-time chat/messaging system at scale",
       "path": "general-system-design/02-realtime-chat-messaging-at-scale.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -1208,6 +1352,14 @@
       "path": "general-system-design/03-news-feed-ranking-system.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1265,6 +1417,14 @@
       "path": "general-system-design/04-distributed-job-scheduler-task-queue.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1321,6 +1481,14 @@
       "title": "Design a distributed unique ID generator",
       "path": "general-system-design/05-distributed-unique-id-generator.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked-and-an-honest-attribution-correction",
           "heading": "Where this actually gets asked \u2014 and an honest attribution correction"
@@ -1383,6 +1551,14 @@
       "path": "general-system-design/06-collaborative-document-editing.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked-and-another-attribution-correction",
           "heading": "Where this actually gets asked \u2014 and another attribution correction"
         },
@@ -1444,6 +1620,14 @@
       "path": "general-system-design/07-distributed-cache-cdn-layer.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked-with-two-attribution-corrections",
           "heading": "Where this actually gets asked \u2014 with two attribution corrections"
         },
@@ -1500,6 +1684,14 @@
       "title": "Design a notification system",
       "path": "general-system-design/08-notification-system.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -1562,6 +1754,14 @@
       "path": "general-system-design/09-url-shortener.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1622,6 +1822,14 @@
       "title": "Design a video streaming platform",
       "path": "general-system-design/10-video-streaming-platform.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -1684,6 +1892,14 @@
       "path": "general-system-design/11-web-crawler.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1745,6 +1961,14 @@
       "path": "cloud-architecture/01-gpu-capacity-planning-and-procurement.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1802,6 +2026,14 @@
       "path": "cloud-architecture/02-multi-region-strategy-training-vs-serving.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -1858,6 +2090,14 @@
       "title": "Design disaster recovery for a model-serving platform",
       "path": "cloud-architecture/03-disaster-recovery-for-model-serving.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked-and-a-fabricated-source-caught-and-rejected",
           "heading": "Where this actually gets asked \u2014 and a fabricated source caught and rejected"
@@ -1919,6 +2159,14 @@
       "title": "Design the network architecture for distributed training",
       "path": "cloud-architecture/04-network-architecture-for-distributed-training.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -1985,6 +2233,14 @@
       "path": "cloud-architecture/05-security-and-compliance-architecture-for-ai-systems.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -2045,6 +2301,14 @@
       "title": "Design container orchestration and cost optimization for AI workloads",
       "path": "cloud-architecture/06-container-orchestration-and-cost-optimization-at-scale.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
@@ -2107,6 +2371,14 @@
       "path": "cloud-architecture/07-llm-gateway-semantic-cache-model-router.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "where-this-actually-gets-asked",
           "heading": "Where this actually gets asked"
         },
@@ -2168,6 +2440,14 @@
       "path": "behavioral/01-staffing-reduction-10-to-2.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2208,6 +2488,14 @@
       "title": "Finding and fixing a real FinOps gap in my own org",
       "path": "behavioral/02-finops-audit-and-fix.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2250,6 +2538,14 @@
       "path": "behavioral/03-org-wide-security-hardening.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2290,6 +2586,14 @@
       "title": "Payments and supply chain modernization at Volvo Cars",
       "path": "behavioral/04-payments-and-edi-modernization.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2332,6 +2636,14 @@
       "path": "behavioral/05-leading-a-0-to-1-ai-product-build.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2372,6 +2684,14 @@
       "title": "Influencing a technical decision without authority",
       "path": "behavioral/06-influence-without-authority.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2414,6 +2734,14 @@
       "path": "behavioral/07-technical-bet-that-failed.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2455,6 +2783,14 @@
       "path": "scalability-governance-tradeoffs/01-cost-vs-latency-vs-safety.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2487,6 +2823,14 @@
       "title": "Build vs. buy (or embed) for shared services",
       "path": "scalability-governance-tradeoffs/02-build-vs-buy-shared-services.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2521,6 +2865,14 @@
       "path": "scalability-governance-tradeoffs/03-centralize-vs-federate-governance.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2553,6 +2905,14 @@
       "title": "Build vs. train-from-scratch vs. fine-tune: foundation model strategy",
       "path": "scalability-governance-tradeoffs/04-build-vs-train-vs-finetune-foundation-model-strategy.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2590,6 +2950,14 @@
       "title": "Staff+ coding bar \u2014 how this round is graded",
       "path": "coding/00-staff-plus-coding-bar.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2635,6 +3003,14 @@
       "title": "Implement an LRU cache (Staff+ concurrency extension)",
       "path": "coding/01-lru-cache-with-concurrency.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2697,6 +3073,14 @@
       "path": "coding/02-rate-limiter-token-bucket.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2758,6 +3142,14 @@
       "path": "coding/03-time-based-kv-store.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2814,6 +3206,14 @@
       "title": "Concurrent bounded blocking queue",
       "path": "coding/04-concurrent-bounded-queue.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2872,6 +3272,14 @@
       "path": "coding/05-top-k-frequent-stream.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -2928,6 +3336,14 @@
       "title": "Merge K sorted lists / iterators",
       "path": "coding/06-merge-k-sorted-iterators.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -2986,6 +3402,14 @@
       "path": "coding/07-graph-clone-and-cycle-safe.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -3042,6 +3466,14 @@
       "title": "Debug: broken cache eviction",
       "path": "coding/08-debug-broken-cache-eviction.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -3100,6 +3532,14 @@
       "path": "coding/09-design-inmemory-pubsub.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -3156,6 +3596,14 @@
       "title": "Prefix-sum subarray patterns (Staff+ follow-ups)",
       "path": "coding/10-prefix-sum-subarray-patterns.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -3218,6 +3666,14 @@
       "path": "coding/11-consistent-hashing.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -3278,6 +3734,14 @@
       "title": "Design an elevator system (LLD / machine coding)",
       "path": "coding/12-elevator-system-lld.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
@@ -3340,6 +3804,14 @@
       "path": "coding/13-parking-lot-lld.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -3401,6 +3873,14 @@
       "path": "staff-plus-interview-craft/01-what-staff-plus-actually-signals.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -3438,6 +3918,14 @@
       "path": "staff-plus-interview-craft/02-questions-you-should-ask.md",
       "sections": [
         {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"
         },
@@ -3470,6 +3958,14 @@
       "title": "What not to waste time on in Staff+ interviews",
       "path": "staff-plus-interview-craft/03-what-not-to-waste-time-on.md",
       "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
         {
           "id": "the-question-as-it-might-actually-be-asked",
           "heading": "The question, as it might actually be asked"

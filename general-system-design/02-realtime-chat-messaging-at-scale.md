@@ -1,5 +1,24 @@
 # Design a real-time chat/messaging system at scale
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a real-time chat/messaging system at scale. How do you deliver messages with low latency, ordering guarantees, and presence across millions of users?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design WhatsApp-scale 1:1 messaging with delivery and read receipts."
+- "How do you build group chat for 500 members with acceptable fan-out?"
+- "Design message sync across mobile, web, and desktop with offline support."
+- "Scale from 1M to 500M daily active users — what breaks in your websocket layer?"
+- "Design end-to-end encryption without sacrificing search and moderation."
+- "How do you handle 'last seen' and typing indicators at scale?"
+- "Design a system where messages are never lost even if a client is offline for a week."
+
 ## Where this actually gets asked
 
 The best-sourced entry in this folder. **Meta** is well-documented as asking a version of this —

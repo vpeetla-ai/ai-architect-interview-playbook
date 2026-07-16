@@ -1,5 +1,24 @@
 # Design an AI coding assistant (Copilot-style)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design an AI coding assistant (Copilot-style). How do you index repos, serve low-latency completions, respect IDE context, and keep suggestions safe?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design inline code completion with <100ms perceived latency in VS Code."
+- "How do you index a monorepo with 50M lines for semantic codebase search?"
+- "Design fill-in-the-middle (FIM) serving for partial edits in the middle of a file."
+- "Our assistant suggested an API key from another file — architect secret leakage prevention."
+- "Design multi-file agent edits with diff preview and user acceptance."
+- "How do you personalize suggestions per repo style without per-repo full fine-tunes?"
+- "Design telemetry to measure suggestion acceptance without storing full source code."
+
 ## Where this actually gets asked
 
 Explicitly listed among high-frequency 2026 GenAI system-design questions (Microsoft, OpenAI,

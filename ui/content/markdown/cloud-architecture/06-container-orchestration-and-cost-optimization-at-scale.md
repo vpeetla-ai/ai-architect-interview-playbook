@@ -1,5 +1,24 @@
 # Design container orchestration and cost optimization for AI workloads
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design container orchestration and cost optimization for AI workloads at scale. How do you schedule GPUs, autoscale inference, and reduce idle spend?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Kubernetes scheduling for mixed inference + batch training on shared GPU nodes."
+- "How do you scale vLLM pods to zero overnight without cold-start violating SLO?"
+- "Design spot/preemptible instances for fault-tolerant training with checkpoint resume."
+- "Our GPU utilization is 30% — architect bin-packing, MIG, and right-sizing."
+- "Design cluster autoscaling when queue depth exceeds threshold for 5 minutes."
+- "How do you isolate noisy training jobs from latency-sensitive inference on one cluster?"
+- "Design chargeback/showback per namespace, team, and tenant for GPU hours."
+
 ## Where this actually gets asked
 
 Partially a well-known general archetype, partially distinctive to AI infra — disclosed

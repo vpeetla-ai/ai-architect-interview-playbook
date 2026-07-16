@@ -1,5 +1,24 @@
 # Design a training-data provenance and IP-risk architecture
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design training-data provenance and IP-risk architecture. How do you track sources, licenses, opt-outs, and legal exposure for foundation-model training data?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a data catalog that proves which licensed corpus trained which model version."
+- "How do you honor robots.txt, publisher opt-out, and GDPR deletion in training sets?"
+- "Design deduplication and near-duplicate detection across petabytes of crawled text."
+- "Our model reproduced a paywalled article — architect provenance and mitigation."
+- "Design synthetic data generation to reduce licensed-corpus dependency."
+- "How do you separate 'allowed for RAG' vs 'allowed for training' at ingestion time?"
+- "Design audit trails for litigation: reproduce the exact training snapshot for a date."
+
 ## Where this actually gets asked
 
 No company-specific interview attribution was found for this exact topic at any of the six

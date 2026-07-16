@@ -1,5 +1,24 @@
 # Design a URL shortener
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a URL shortener (bit.ly-style). How do you generate short codes, redirect with low latency, and track analytics at scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a URL shortener for 100M new links/month and 10B redirects/month."
+- "How do you generate short codes — hash, counter, or random — and avoid collisions?"
+- "Design custom branded domains per enterprise customer."
+- "Our short links were used for malware — architect abuse detection and takedown."
+- "How do you expire links and support UTM analytics without slowing redirects?"
+- "Design read-heavy redirect path with <10ms P99 globally."
+- "Scale the analytics pipeline separately from the redirect hot path."
+
 ## Where this actually gets asked
 
 Canonical warm-up / screening system-design question (Bitly-style) across Google, Amazon, Meta,

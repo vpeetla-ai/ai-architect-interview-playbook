@@ -1,5 +1,24 @@
 # Design a notification system
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a notification system. How do you deliver push, email, SMS, and in-app notifications reliably with user preferences and rate limits?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Uber-style trip notifications across push, SMS, and email with fallbacks."
+- "How do you send 1B push notifications for a marketing campaign without burning deliverability?"
+- "Design user preference center: quiet hours, channel opt-in, topic subscriptions."
+- "Our notifications duplicated — architect idempotency and deduplication keys."
+- "Design priority: transactional alerts bypass marketing throttles."
+- "How do you template and localize notifications for 40 languages?"
+- "Design delivery analytics: sent, delivered, opened, failed — with retry policies."
+
 ## Where this actually gets asked
 
 Top-tier classic system-design question at Amazon, Meta, and most big-tech loops: multi-channel

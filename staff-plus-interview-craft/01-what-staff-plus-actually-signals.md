@@ -1,5 +1,25 @@
 # What Staff+ actually signals in interviews
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"How is a Staff / Principal interview different from Senior — and what are interviewers listening for?"
+
+## Variant forms
+
+Interviewers (and reverse-interview moments) often ask the same meta-question differently — recognize the archetype:
+
+- "What does Staff+ actually mean in interviews vs the job ladder doc?"
+- "How do coding, design, and behavioral rounds weight differently at Staff?"
+- "What are downlevel signals that make you look Senior instead of Staff?"
+- "How do interviewers test 'reduces ambiguity for others'?"
+- "What's the difference between Staff and Principal signals in the same loop?"
+- "How should I show org blast radius without name-dropping?"
+- "What questions should I ask before answering a vague design prompt?"
+- "How do AI-lab Staff loops differ from classic FAANG Staff loops?"
+
 ## The question, as it might actually be asked
 
 "How is a Staff / Principal interview different from Senior — and what are interviewers listening for?"

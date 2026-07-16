@@ -1,5 +1,25 @@
 # Cost vs. latency vs. safety — a reasoning framework
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Every agent architecture decision seems to trade off cost, latency, and safety against each other. How do you reason about which one wins in a given situation?"
+
+## Variant forms
+
+Interviewers often ask the same trade-off with different framing — recognize the archetype:
+
+- "When do you optimize for cost vs latency vs safety in an agent stack — pick one scenario and decide."
+- "Our LLM bill is exploding but users want faster replies — walk me through the trade-off."
+- "Design HITL gates: how much latency is acceptable for irreversible actions?"
+- "When is a cheaper model the wrong answer even if quality looks 'good enough'?"
+- "How do you decide which agent steps must be synchronous vs async for cost?"
+- "A product wants full autonomy to cut handle time — how do you argue safety wins?"
+- "Walk me through a decision matrix for refund issuance vs FAQ answer generation."
+- "How would you explain this triangle to a VP who only cares about unit economics?"
+
 ## The question, as it might actually be asked
 
 "Every agent architecture decision seems to trade off cost, latency, and safety against each

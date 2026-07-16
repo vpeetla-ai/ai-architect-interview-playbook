@@ -1,5 +1,24 @@
 # Design a video streaming platform
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a video streaming platform (YouTube/Netflix-style). How do you upload, transcode, store, and deliver video with adaptive bitrate streaming?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design upload → transcode → CDN delivery for user-generated video."
+- "How do you implement adaptive bitrate (HLS/DASH) for variable network conditions?"
+- "Design live streaming with <5 second glass-to-glass latency at scale."
+- "Our transcoding queue backs up during peak — architect priority and autoscaling workers."
+- "Design DRM and geo-restriction without breaking CDN cache efficiency."
+- "How do you generate thumbnails, captions, and moderation scores in the pipeline?"
+- "Design view-count aggregation that's accurate but not write-heavy on every play."
+
 ## Where this actually gets asked
 
 Classic hard system-design (YouTube/Netflix-style): upload, transcode, CDN delivery, adaptive

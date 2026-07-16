@@ -1,5 +1,26 @@
 # Design an agent orchestration platform with real tool use
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a scalable, enterprise-ready agentic AI platform. How do you architect it for availability, fault tolerance, and scale? Walk me through orchestration, tool use, and governance."
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a multi-tenant AI agent system for 50 enterprise clients."
+- "How would you scale your EDI agent platform to handle 100× the current load?"
+- "You are building a document-processing agentic pipeline. Enterprise SLA: 99.9% uptime, 10,000 documents/day at peak. Walk me through the architecture."
+- "Design infrastructure for agents that call Slack, Jira, and internal APIs — with human approval for side effects."
+- "How do you prevent one customer's runaway agent from exhausting GPU budget for everyone else?"
+- "Design a coding-agent platform like background agents — traces can run 30+ minutes with tool loops."
+- "Architect MCP-style tool access so agents cannot bypass policy or exfiltrate credentials."
+- "Design multi-agent orchestration: triage agent routes to specialist agents with separate tool surfaces."
+- "How would you debug and replay a failed mission that touched five tools across three services?"
+
 ## Where this actually gets asked
 
 A Blind post on Google DeepMind's Applied AI Engineer loop names "agent frameworks

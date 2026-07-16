@@ -1,5 +1,24 @@
 # Design a distributed rate limiter
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a distributed rate limiter. How do you enforce per-client limits accurately across many API servers with low overhead?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design API rate limiting for 1M requests/second across a global edge."
+- "How do you rate limit by API key, user tier, and IP without a single Redis bottleneck?"
+- "Design sliding window vs token bucket for a SaaS with burst-friendly paid plans."
+- "Our limiter drifted under clock skew — architect consistent counting across regions."
+- "Design rate limiting that survives Redis failover without allowing 10× traffic spikes."
+- "How do you implement global vs per-region quotas for compliance?"
+- "Design adaptive rate limits that tighten during an ongoing DDoS."
+
 ## Where this actually gets asked
 
 Weakly sourced for company-specific attribution, disclosed honestly: no verified Blind/Glassdoor

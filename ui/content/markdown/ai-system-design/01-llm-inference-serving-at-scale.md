@@ -1,5 +1,25 @@
 # Design an LLM inference serving platform at scale
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design an LLM inference serving platform that can handle production traffic at scale. How do you achieve low latency, high throughput, and cost efficiency? Walk through KV cache, batching, and scaling."
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design the inference stack for ChatGPT-scale token generation — how do you serve millions of concurrent users?"
+- "Our API latency P99 spiked to 8 seconds under load. How would you architect LLM serving to fix it?"
+- "Design a model-serving layer that routes between a fast cheap model and a slow capable model behind one API."
+- "How would you deploy Llama-3 70B on a fixed GPU budget for 10,000 requests/minute at peak?"
+- "Design continuous batching and PagedAttention-style KV management for a multi-tenant inference API."
+- "You need 99.9% availability for `/v1/chat/completions` across three regions — walk me through serving architecture."
+- "How do you scale from a single vLLM pod to a fleet that handles Black Friday traffic for an AI product?"
+- "Design inference infrastructure where prefill is compute-bound and decode is memory-bandwidth-bound — what changes?"
+
 ## Where this actually gets asked
 
 GPU scheduling, batching, and autoscaling for model serving is one of the most consistently

@@ -1,5 +1,25 @@
 # Design a parking lot (LLD / machine coding)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a multi-level parking lot that assigns spots by vehicle type, issues tickets on entry, and computes fees on exit. Support concurrent entry/exit safely."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Design a parking lot LLD — spots, tickets, fees."
+- "How do you assign the nearest available spot of the right size?"
+- "Motorcycle can take car spot? Model vehicle hierarchy."
+- "Compute fees with free first hour and progressive rates."
+- "Make entry/exit thread-safe under concurrent gates."
+- "Add reservations and expiring holds."
+- "How do you avoid double-assigning the same spot?"
+- "Extend to EV chargers with occupancy + power constraints."
+
 ## The question, as it might actually be asked
 
 Design a multi-level parking lot that assigns spots by vehicle type, issues tickets on entry, and computes fees on exit. Support concurrent entry/exit safely.

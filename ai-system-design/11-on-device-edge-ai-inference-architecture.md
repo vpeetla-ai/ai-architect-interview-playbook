@@ -1,5 +1,24 @@
 # Design an on-device / edge AI inference architecture
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design on-device / edge AI inference architecture. How do you run models locally with battery, memory, and privacy constraints while syncing with cloud when needed?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Apple Intelligence-style split inference — sensitive on-device, heavy in PCC."
+- "How do you ship a 7B model on a phone with 4GB RAM budget?"
+- "Design model compression (quantization, distillation) pipeline for edge deployment."
+- "Architect federated learning without centralizing raw user data."
+- "Design offline-first assistant that syncs context when connectivity returns."
+- "How do you A/B test on-device models without draining battery in production?"
+- "Design NPU/GPU scheduling on edge SoCs for camera + voice concurrent workloads."
+
 ## Where this actually gets asked
 
 Confirms a real hypothesis: this is the topic where Apple's interview loop most plausibly

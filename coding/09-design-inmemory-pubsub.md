@@ -1,5 +1,25 @@
 # Design an in-memory pub/sub (LLD in code)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Implement an in-process pub/sub: subscribe(topic, handler), unsubscribe(sub_id), publish(topic, message) delivering to current subscribers."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Design in-memory pub/sub with slow handlers — sync vs async delivery?"
+- "What happens if a handler throws during publish?"
+- "Should publish copy the subscriber list to avoid concurrent mod issues?"
+- "Add once-subscriptions and wildcard topics."
+- "Backpressure: what if handlers can't keep up?"
+- "Thread-safe subscribe/unsubscribe while publishing."
+- "Ordered delivery per topic vs best-effort?"
+- "How far is this from Kafka — where does the LLD stop?"
+
 ## The question, as it might actually be asked
 
 Implement an in-process pub/sub: - `subscribe(topic, handler)` → subscription id - `unsubscribe(sub_id)` - `publish(topic, message)` — delivers to current subscribers Handlers may be slow; define semantics.

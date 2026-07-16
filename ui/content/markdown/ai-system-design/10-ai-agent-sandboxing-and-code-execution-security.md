@@ -1,5 +1,24 @@
 # Design a sandboxing architecture for AI agent code execution
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a sandboxing architecture for AI agents that execute code or shell commands. How do you isolate untrusted agent output from production networks and secrets?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design safe code execution for a coding assistant — user repo, arbitrary commands."
+- "How do you run agent-generated Python in production without container escape risk?"
+- "Design network egress policy for agents: allowlist APIs, block internal VPC scanning."
+- "Our agent tried to read `/etc/passwd` — architect defense in depth for tool execution."
+- "Design ephemeral sandboxes with CPU/memory/time limits and automatic teardown."
+- "How do you audit every file write and subprocess an agent spawns?"
+- "Design WASM vs microVM vs gVisor trade-offs for agent runtimes at scale."
+
 ## Where this actually gets asked
 
 The best-sourced entry in this repo. **Anthropic** has published real, primary, and unusually

@@ -1,5 +1,25 @@
 # Time-based key-value store
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Implement set(key, value, timestamp) and get(key, timestamp) — return the largest value with time ≤ timestamp."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Design a time-travel key-value store with strictly increasing timestamps per key."
+- "Add get_latest(key) and get_range(key, t1, t2)."
+- "How do you store history efficiently if most keys have few versions?"
+- "Make set/get thread-safe when different keys are updated concurrently."
+- "What if timestamps can arrive out of order?"
+- "Support delete(key, timestamp) tombstones."
+- "Binary search vs tree map per key — trade-offs?"
+- "How would you persist this structure for crash recovery? (Staff extension)"
+
 ## The question, as it might actually be asked
 
 Implement: - `set(key, value, timestamp)` — timestamps for a key are strictly increasing - `get(key, timestamp)` — largest value with time ≤ timestamp, or null

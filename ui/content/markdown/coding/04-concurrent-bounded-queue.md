@@ -1,5 +1,25 @@
 # Concurrent bounded blocking queue
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Implement a bounded queue with put(item) (blocks if full) and take() (blocks if empty), safe for multiple producers and consumers."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Implement a blocking queue like ArrayBlockingQueue."
+- "Add offer/poll with timeouts."
+- "How do you avoid lost wakeups with condition variables?"
+- "Support fair ordering of waiting producers/consumers?"
+- "Implement using locks vs lock-free ring buffer — trade-offs?"
+- "Add drainTo(list, max) for batch consumers."
+- "What invariants must hold after every put/take?"
+- "How do you test for deadlock and race conditions in an interview?"
+
 ## The question, as it might actually be asked
 
 Implement a bounded queue with `put(item)` (blocks if full) and `take()` (blocks if empty), safe for multiple producers and consumers.

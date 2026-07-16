@@ -1,5 +1,25 @@
 # Finding and fixing unauthenticated endpoints across six repos
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a time you found the same class of problem repeated across multiple systems and fixed it consistently, without breaking existing usage."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about finding the same security hole across many services — how did you roll out a consistent fix?"
+- "Describe hardening unauthenticated endpoints org-wide without breaking legitimate clients."
+- "Tell me about turning a one-repo bug into a portfolio-wide pattern with a shared checklist."
+- "How did you prioritize which systems to fix first when everything was exposed?"
+- "Tell me about coordinating a security change across teams that didn't report to you."
+- "Describe balancing 'ship the patch now' vs 'design the paved-road auth pattern.'"
+- "Tell me about verifying remediation — how did you prove endpoints stayed locked?"
+- "Walk me through communicating a security incident class without causing panic or blame."
+
 ## The question, as it might actually be asked
 
 "Tell me about a time you found the same class of problem repeated across multiple systems and

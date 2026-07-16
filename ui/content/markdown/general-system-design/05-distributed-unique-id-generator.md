@@ -1,5 +1,24 @@
 # Design a distributed unique ID generator
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a distributed unique ID generator. How do you generate sortable, unique IDs at high throughput without coordination hotspots?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design Twitter Snowflake-style IDs — time-ordered, unique across data centers."
+- "How do you generate IDs at 10K/sec per machine with no central database?"
+- "Design UUID vs snowflake trade-offs for a global payments ledger."
+- "Our IDs collided after a clock rollback — architect clock drift handling."
+- "Design IDs that embed shard hints for database routing."
+- "How do you migrate from auto-increment to distributed IDs without downtime?"
+- "Design k-sorted IDs for roughly chronological ordering with privacy (no exact timestamp leak)."
+
 ## Where this actually gets asked — and an honest attribution correction
 
 No company-specific interview attribution was found for any of the six companies in scope

@@ -1,5 +1,24 @@
 # Design the network architecture for distributed training
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design the network architecture for distributed training (tensor/pipeline/data parallel). How do you handle bandwidth, topology, and collective communication at scale?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design a 3,000-GPU training cluster — what network topology (fat-tree, rail-optimized)?"
+- "How do you place ranks to minimize all-reduce latency for tensor parallelism?"
+- "Design inter-node vs intra-node communication for a 70B model training job."
+- "Our training job straggles on one slow link — architect fault detection and rerouting."
+- "Design network for mixture-of-experts all-to-all at scale."
+- "How do you schedule jobs aware of physical rack boundaries?"
+- "Design RDMA/InfiniBand vs Ethernet trade-offs for a new AI data center."
+
 ## Where this actually gets asked
 
 The best-sourced entry in this section — grounded in real, primary engineering-blog material,

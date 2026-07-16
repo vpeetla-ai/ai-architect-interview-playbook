@@ -1,5 +1,25 @@
 # Influencing a technical decision without authority
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Tell me about a time you influenced a technical decision when you did not own the teams involved and could not escalate your way to a mandate."
+
+## Variant forms
+
+Interviewers often probe the same competency with different framing — recognize the archetype and answer with *your* story:
+
+- "Tell me about a time you influenced people without authority."
+- "Describe getting another team to adopt your design via RFC/docs/tooling rather than mandate."
+- "Tell me about resolving a cross-team technical disagreement without escalating to leadership."
+- "How do you make the right architecture the easiest path for other teams?"
+- "Tell me about building a paved-road library or template that replaced three competing patterns."
+- "Describe aligning incentives so other teams wanted your proposal for their OKRs."
+- "Tell me about a time influence failed the first time — what did you change?"
+- "Walk me through Staff-level leadership: how you drove a decision across org boundaries."
+
 ## The question, as it might actually be asked
 
 "Tell me about a time you influenced a technical decision when you did not own the teams involved

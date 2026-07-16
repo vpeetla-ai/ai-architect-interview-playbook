@@ -1,5 +1,24 @@
 # Design disaster recovery for a model-serving platform
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design disaster recovery for a model-serving platform. How do you meet RTO/RPO when regions fail, models corrupt, or routing breaks?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design DR for an LLM API with RPO <5 minutes and RTO <15 minutes."
+- "How do you failover inference when the primary GPU cluster is unavailable?"
+- "Design model artifact replication and version pinning across regions."
+- "Our config push broke all replicas — architect safe rollout and rollback for serving."
+- "Design chaos testing for model-serving without customer-visible outages."
+- "How do you DR KV-cache-heavy serving vs stateless API gateways differently?"
+- "Design runbooks when embedding index and model versions drift after failover."
+
 ## Where this actually gets asked — and a fabricated source caught and rejected
 
 This is the weakest-evidenced entry in this repo. No company-specific interview account was

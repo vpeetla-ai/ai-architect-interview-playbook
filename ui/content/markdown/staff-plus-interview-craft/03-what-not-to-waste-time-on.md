@@ -1,5 +1,25 @@
 # What not to waste time on in Staff+ interviews
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"What should I deliberately not spend time on in a Staff / Principal loop?"
+
+## Variant forms
+
+Interviewers (and reverse-interview moments) often ask the same meta-question differently — recognize the archetype:
+
+- "What prep is low leverage for Staff+ interviews?"
+- "Should I memorize 50 system design templates?"
+- "Is leetcode Hard volume the right use of time for Staff coding?"
+- "When is buzzword architecture a downlevel signal?"
+- "What behavioral stories are too junior to bring to Staff?"
+- "How much company-specific gossip should I study?"
+- "Should I over-optimize resume keywords vs depth of 5–7 stories?"
+- "What should I skip in the last 72 hours before the onsite?"
+
 ## The question, as it might actually be asked
 
 "What should I deliberately *not* spend time on in a Staff / Principal loop?"

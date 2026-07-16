@@ -1,5 +1,25 @@
 # Top-K frequent elements (stream-aware)
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Given an array of integers, return the k most frequent elements. Order among ties can be arbitrary unless specified."
+
+## Variant forms
+
+Interviewers often ask the same structure with different framing or Staff+ extensions — recognize the archetype:
+
+- "Find top-K frequent elements — heap vs bucket sort."
+- "What if the input is a stream too large to store?"
+- "Return elements sorted by frequency descending."
+- "Top-K frequent words in a document (string keys)."
+- "How do you handle ties stably?"
+- "Approximate top-K with Count-Min / heavy hitters for a stream."
+- "Complexity when k ≈ n vs k ≪ n?"
+- "Extend to sliding-window top-K over the last N events."
+
 ## The question, as it might actually be asked
 
 Given an array of integers, return the `k` most frequent elements. Order among ties can be arbitrary unless specified.

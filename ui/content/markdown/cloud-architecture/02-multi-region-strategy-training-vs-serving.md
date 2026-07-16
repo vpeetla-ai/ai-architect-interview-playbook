@@ -1,5 +1,24 @@
 # Design a multi-region strategy for training vs. serving
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design a multi-region strategy for ML training vs inference serving. Where do you place GPUs, data, and control planes for latency, cost, and compliance?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design global inference with model replicas in US, EU, and APAC — how do you route traffic?"
+- "Training happens in us-east; users are worldwide — architect serving regions and weight sync."
+- "How do you comply with data residency while still using a central training pipeline?"
+- "Design active-active serving vs primary/DR for LLM APIs."
+- "Our cross-region model artifact sync is slow — architect replication and blue/green deploy."
+- "When do you colocate training and serving vs separate 'training regions'?"
+- "Design failover when an entire region loses GPU capacity during a heat event."
+
 ## Where this actually gets asked
 
 The weakest-sourced entry in this section, disclosed plainly: no company-specific interview

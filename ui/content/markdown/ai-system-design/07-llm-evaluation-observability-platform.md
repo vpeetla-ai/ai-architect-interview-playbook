@@ -1,5 +1,24 @@
 # Design an LLM evaluation and observability platform
 
+
+<!-- question-variants:v1 -->
+
+## Expected question
+
+"Design an LLM evaluation and observability platform. How do you run offline evals, monitor production quality, trace agent runs, and gate releases?"
+
+## Variant forms
+
+Interviewers often ask the same design with different framing — recognize the archetype:
+
+- "Design how you'd know a prompt change regressed quality before shipping to 100% traffic."
+- "How do you evaluate RAG faithfulness and citation accuracy at scale?"
+- "Design tracing for multi-step agent runs — cost, latency, and tool outcomes per span."
+- "Our eval pass rate is 95% but users complain — architect online vs offline metrics that align."
+- "Design a golden-set CI that blocks deploys when regression exceeds a threshold."
+- "How do you attribute LLM cost to team, product, and tenant for FinOps?"
+- "Design human-in-the-loop eval labeling without becoming the bottleneck."
+
 ## Where this actually gets asked
 
 No company-specific attributed question was confirmed for this exact topic across the six
