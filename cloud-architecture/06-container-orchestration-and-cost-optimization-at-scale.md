@@ -194,11 +194,10 @@ cost loop + one failure story.
   vs. bursty training).
 - **Staff+:** designs the utilization-tracking and rightsizing feedback loop explicitly (idle-
   allocated-GPU detection, consolidation passes), not just initial placement.
-- **Principal:** additionally reasons about the real operational cost of the surrounding
-  infrastructure (ALB fixed costs, cluster ops overhead) as part of the total cost equation, not
-  just the compute/GPU line item — and can articulate why a candidate's "I have cloud
-  infrastructure experience" claim is unverifiable without evidence of Terraform that was
-  actually applied and torn down, not just written.
+- **Principal:** fleet-level capacity reservation and topology-aware scheduling (rail-aligned
+  GPU packs, heterogeneous accelerators, preemption SLOs that protect interactive serving while
+  reclaiming idle training); treats ALB/cluster ops overhead as part of unit economics, not just
+  the GPU line item; designs multi-cluster failover when a zone loses a GPU SKU.
 
 ## Follow-up questions to expect
 

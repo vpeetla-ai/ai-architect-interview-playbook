@@ -182,13 +182,26 @@ corrupt session state. Keep TTFT ~200ms P50; budget context (summarize/truncate 
 retention (e.g., 30/90 day) + delete for GDPR. In 45 minutes, **compose** serving (01), safety (05),
 quotas (09) — do not redraw the inference scheduler from scratch.
 
+## Deep dive 5: conversation-store consistency and residency (Staff+)
+
+At multi-region scale the hard bug is not "can we store JSON messages" — it is **branch-safe
+regenerate** under concurrency plus **data residency**. Prefer a primary per residency zone
+(EU/US) with sticky routing by `user_region`; do not asynchronously replicate full transcripts
+across regions unless the user migrates. For regenerate/edit: optimistic concurrency on
+`parent_message_id` + conversation version; lost updates create duplicate branches or orphaned
+assistant turns. Error budget example: 99.9% stream success allows ~43 min/month of generation
+failures — burn that budget on inference overload, not on silent history corruption. Tie model
+defaults to the release bundle ([19](19-model-release-canary-and-rollback.md)) so a canary rollback
+does not leave sessions pinned to a yanked model id.
+
 ## What's expected at each level
 
 - **Mid-level:** client → LLM API → store messages; mentions streaming.
 - **Senior:** sessions, quotas, input/output safety, basic model choice.
-- **Staff+:** prefix caching / context budgeting, regenerate branching, load shedding with UX.
-- **Principal:** composes org/platform building blocks, names cost-per-conversation as a product
-  SLO, and designs retention/compliance for conversation data.
+- **Staff+:** prefix caching / context budgeting, regenerate branching with concurrency control,
+  load shedding with UX, residency-aware storage, cost-per-conversation as an explicit SLO.
+- **Principal:** composes platform building blocks; sets error budgets across TTFT vs availability
+  vs safety false-blocks; designs retention/compliance and model-release coupling for conversation data.
 
 ## Follow-up questions to expect
 

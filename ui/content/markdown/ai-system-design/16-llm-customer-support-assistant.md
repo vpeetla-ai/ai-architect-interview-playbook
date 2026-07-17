@@ -163,17 +163,32 @@ guardrail, not 90% at any cost. Under load, stop aggressive deflection and route
 explicit `queue_depth_high` reason; name a pickup SLA (e.g., minutes for chat). Reuse RAG (02) and
 gateway (03); do not rebuild them.
 
+## Deep dive 5: false-containment economics and exactly-once actions (Staff+)
+
+**False containment** (bot "resolves," customer returns angrier) is more expensive than an early
+escalate. Track reopen-within-72h and downstream contact rate as first-class guards next to
+containment %. Example: if human handle cost is $8 and a false containment creates 1.5 extra
+contacts, a bot that boosts containment +10pp while raising reopen +4pp can lose money — show the
+arithmetic. For refunds/cancels: idempotency keys + reconciliation jobs against the system of
+record (order state wins over transcript claims). Policy articles need **effective dating**; the
+bot must cite the version active at decision time, not "latest draft." Queue math: if chat arrival
+is λ and human capacity is μ, when λ_escalate > μ, shed bot ambition (fewer tool retries) before
+SLA breach; publish expected wait to the customer.
+
 ## What's expected at each level
 
 - **Mid-level:** FAQ chatbot over docs.
 - **Senior:** retrieval + escalation path.
-- **Staff+:** tool governance, confidence routing, citation grounding, case state machine.
-- **Principal:** SLAs for queues, audit for regulated actions, metrics that prevent false containment.
+- **Staff+:** tool governance, confidence routing, citation grounding, case state machine,
+  containment vs CSAT/reopen economics, idempotent mutating tools.
+- **Principal:** queue capacity/SLA math under surge, regulated audit trails, policy versioning,
+  and explicit false-containment cost models.
 
 ## Follow-up questions to expect
 
 - "How do you prevent the bot from promising a refund the policy forbids?" (Tool+policy engine, not prompt-only.)
 - "What does the human see on escalate?" (Transcript, intent, failed attempts, recommended macros.)
+- "How do you know containment is healthy?" (Reopen rate + CSAT + cost per resolution, not deflection alone.)
 
 ## Related
 

@@ -202,6 +202,15 @@ asserted.
   (not a global policy), and designs the human review experience itself as a first-class part
   of the system, not an implementation detail.
 
+## Scope boundary (do not conflate with app security)
+
+This entry owns **harmful content classes** (toxicity, self-harm, CSAM, scams, jailbreak-to-produce-harm)
+and human review capacity. It does **not** own tool/data exfiltration or indirect prompt injection
+via retrieved documents — that is [17](17-llm-application-security-prompt-injection.md). Staff+
+answers name both planes when the product has tools or RAG. Policy rollouts need canary + rollback
+([19](19-model-release-canary-and-rollback.md)); measure reviewer backlog hours and precision/recall
+per category so a new policy does not silently overwhelm humans.
+
 ## Follow-up questions to expect
 
 - "How do you evaluate whether your safety system is actually catching what it should, without

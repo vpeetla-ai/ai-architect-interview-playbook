@@ -1,12 +1,12 @@
 {
   "generatedFrom": "ai-architect-interview-playbook",
-  "totalEntries": 62,
+  "totalEntries": 81,
   "categories": [
     {
       "id": "ai-system-design",
       "label": "AI system design",
       "blurb": "AI/ML platform design \u2014 hellointerview depth",
-      "count": 16,
+      "count": 21,
       "entryIds": [
         "ai-system-design/01-llm-inference-serving-at-scale",
         "ai-system-design/02-rag-platform-at-scale",
@@ -23,14 +23,19 @@
         "ai-system-design/13-durable-long-running-agent-execution",
         "ai-system-design/14-chatgpt-style-conversational-service",
         "ai-system-design/15-ai-coding-assistant",
-        "ai-system-design/16-llm-customer-support-assistant"
+        "ai-system-design/16-llm-customer-support-assistant",
+        "ai-system-design/17-llm-application-security-prompt-injection",
+        "ai-system-design/18-ai-data-flywheel-and-human-feedback-platform",
+        "ai-system-design/19-model-release-canary-and-rollback",
+        "ai-system-design/20-persistent-ai-memory-and-personalization",
+        "ai-system-design/21-realtime-voice-ai-assistant"
       ]
     },
     {
       "id": "general-system-design",
       "label": "General system design",
       "blurb": "Classic distributed systems round",
-      "count": 11,
+      "count": 17,
       "entryIds": [
         "general-system-design/01-distributed-rate-limiter",
         "general-system-design/02-realtime-chat-messaging-at-scale",
@@ -42,14 +47,20 @@
         "general-system-design/08-notification-system",
         "general-system-design/09-url-shortener",
         "general-system-design/10-video-streaming-platform",
-        "general-system-design/11-web-crawler"
+        "general-system-design/11-web-crawler",
+        "general-system-design/12-search-autocomplete-typeahead",
+        "general-system-design/13-ride-sharing-service",
+        "general-system-design/14-payment-processing-system",
+        "general-system-design/15-distributed-file-storage",
+        "general-system-design/16-distributed-key-value-store",
+        "general-system-design/17-metrics-monitoring-system"
       ]
     },
     {
       "id": "cloud-architecture",
       "label": "Cloud architecture",
       "blurb": "AI infra cloud, network, security",
-      "count": 7,
+      "count": 8,
       "entryIds": [
         "cloud-architecture/01-gpu-capacity-planning-and-procurement",
         "cloud-architecture/02-multi-region-strategy-training-vs-serving",
@@ -57,14 +68,15 @@
         "cloud-architecture/04-network-architecture-for-distributed-training",
         "cloud-architecture/05-security-and-compliance-architecture-for-ai-systems",
         "cloud-architecture/06-container-orchestration-and-cost-optimization-at-scale",
-        "cloud-architecture/07-llm-gateway-semantic-cache-model-router"
+        "cloud-architecture/07-llm-gateway-semantic-cache-model-router",
+        "cloud-architecture/08-foundation-model-pretraining-cluster"
       ]
     },
     {
       "id": "behavioral",
       "label": "Behavioral (STAR)",
       "blurb": "Reusable prompts + real case studies",
-      "count": 7,
+      "count": 9,
       "entryIds": [
         "behavioral/01-staffing-reduction-10-to-2",
         "behavioral/02-finops-audit-and-fix",
@@ -72,7 +84,9 @@
         "behavioral/04-payments-and-edi-modernization",
         "behavioral/05-leading-a-0-to-1-ai-product-build",
         "behavioral/06-influence-without-authority",
-        "behavioral/07-technical-bet-that-failed"
+        "behavioral/07-technical-bet-that-failed",
+        "behavioral/08-disagreement-and-conflict-with-peers",
+        "behavioral/09-mentoring-and-growing-engineers"
       ]
     },
     {
@@ -91,7 +105,7 @@
       "id": "coding",
       "label": "Staff+ coding",
       "blurb": "High-signal coding with Staff+ extensions",
-      "count": 14,
+      "count": 19,
       "entryIds": [
         "coding/00-staff-plus-coding-bar",
         "coding/01-lru-cache-with-concurrency",
@@ -106,7 +120,12 @@
         "coding/10-prefix-sum-subarray-patterns",
         "coding/11-consistent-hashing",
         "coding/12-elevator-system-lld",
-        "coding/13-parking-lot-lld"
+        "coding/13-parking-lot-lld",
+        "coding/14-implement-trie-prefix-tree",
+        "coding/15-median-from-data-stream",
+        "coding/16-serialize-deserialize-binary-tree",
+        "coding/17-design-hit-counter",
+        "coding/18-circuit-breaker"
       ]
     },
     {
@@ -448,6 +467,10 @@
         {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
+        },
+        {
+          "id": "scope-boundary-do-not-conflate-with-app-security",
+          "heading": "Scope boundary (do not conflate with app security)"
         },
         {
           "id": "follow-up-questions-to-expect",
@@ -1059,6 +1082,10 @@
           "heading": "Deep dive 4: overload, retention, and 45-min composition"
         },
         {
+          "id": "deep-dive-5-conversation-store-consistency-and-residency-staff",
+          "heading": "Deep dive 5: conversation-store consistency and residency (Staff+)"
+        },
+        {
           "id": "what-s-expected-at-each-level",
           "heading": "What's expected at each level"
         },
@@ -1122,6 +1149,10 @@
         {
           "id": "deep-dive-3-privacy-license-eval",
           "heading": "Deep dive 3: privacy, license, eval"
+        },
+        {
+          "id": "deep-dive-4-repo-trust-boundaries-and-multi-file-rollback-staff",
+          "heading": "Deep dive 4: repo trust boundaries and multi-file rollback (Staff+)"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1191,6 +1222,355 @@
         {
           "id": "deep-dive-4-containment-slos-and-human-queue-saturation",
           "heading": "Deep dive 4: containment SLOs and human-queue saturation"
+        },
+        {
+          "id": "deep-dive-5-false-containment-economics-and-exactly-once-actions-staff",
+          "heading": "Deep dive 5: false-containment economics and exactly-once actions (Staff+)"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "ai-system-design/17-llm-application-security-prompt-injection",
+      "category": "ai-system-design",
+      "slug": "17-llm-application-security-prompt-injection",
+      "title": "Design LLM application security against prompt injection",
+      "path": "ai-system-design/17-llm-application-security-prompt-injection.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-trust-tiers-beat-better-prompting",
+          "heading": "Deep dive 1: trust tiers beat \"better prompting\""
+        },
+        {
+          "id": "deep-dive-2-indirect-injection-via-rag-and-tools",
+          "heading": "Deep dive 2: indirect injection via RAG and tools"
+        },
+        {
+          "id": "deep-dive-3-capability-grants-and-credential-isolation",
+          "heading": "Deep dive 3: capability grants and credential isolation"
+        },
+        {
+          "id": "deep-dive-4-detection-latency-and-45-min-priorities",
+          "heading": "Deep dive 4: detection latency and 45-min priorities"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "ai-system-design/18-ai-data-flywheel-and-human-feedback-platform",
+      "category": "ai-system-design",
+      "slug": "18-ai-data-flywheel-and-human-feedback-platform",
+      "title": "Design an AI data flywheel and human-feedback platform",
+      "path": "ai-system-design/18-ai-data-flywheel-and-human-feedback-platform.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-sampling-without-silent-bias",
+          "heading": "Deep dive 1: sampling without silent bias"
+        },
+        {
+          "id": "deep-dive-2-annotation-quality-and-reward-hacking",
+          "heading": "Deep dive 2: annotation quality and reward hacking"
+        },
+        {
+          "id": "deep-dive-3-consent-pii-and-train-eval-leakage",
+          "heading": "Deep dive 3: consent, PII, and train/eval leakage"
+        },
+        {
+          "id": "deep-dive-4-promotion-slos-and-bad-week-rollback",
+          "heading": "Deep dive 4: promotion SLOs and bad-week rollback"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "ai-system-design/19-model-release-canary-and-rollback",
+      "category": "ai-system-design",
+      "slug": "19-model-release-canary-and-rollback",
+      "title": "Design a model release, canary, and rollback platform",
+      "path": "ai-system-design/19-model-release-canary-and-rollback.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-shadow-vs-canary",
+          "heading": "Deep dive 1: shadow vs canary"
+        },
+        {
+          "id": "deep-dive-2-gates-that-catch-the-usual-failures",
+          "heading": "Deep dive 2: gates that catch the usual failures"
+        },
+        {
+          "id": "deep-dive-3-coordinated-rollback",
+          "heading": "Deep dive 3: coordinated rollback"
+        },
+        {
+          "id": "deep-dive-4-multi-tenant-blast-radius",
+          "heading": "Deep dive 4: multi-tenant blast radius"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "ai-system-design/20-persistent-ai-memory-and-personalization",
+      "category": "ai-system-design",
+      "slug": "20-persistent-ai-memory-and-personalization",
+      "title": "Design persistent AI memory and personalization",
+      "path": "ai-system-design/20-persistent-ai-memory-and-personalization.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-write-policy-the-staff-crux",
+          "heading": "Deep dive 1: write policy (the Staff+ crux)"
+        },
+        {
+          "id": "deep-dive-2-retrieval-vs-rag-vs-session",
+          "heading": "Deep dive 2: retrieval vs RAG vs session"
+        },
+        {
+          "id": "deep-dive-3-isolation-deletion-enterprise",
+          "heading": "Deep dive 3: isolation, deletion, enterprise"
+        },
+        {
+          "id": "deep-dive-4-poisoning-and-45-min-focus",
+          "heading": "Deep dive 4: poisoning and 45-min focus"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "ai-system-design/21-realtime-voice-ai-assistant",
+      "category": "ai-system-design",
+      "slug": "21-realtime-voice-ai-assistant",
+      "title": "Design a real-time voice AI assistant",
+      "path": "ai-system-design/21-realtime-voice-ai-assistant.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-latency-budget-name-the-numbers",
+          "heading": "Deep dive 1: latency budget (name the numbers)"
+        },
+        {
+          "id": "deep-dive-2-turn-taking-and-barge-in",
+          "heading": "Deep dive 2: turn-taking and barge-in"
+        },
+        {
+          "id": "deep-dive-3-tools-pci-and-transcripts",
+          "heading": "Deep dive 3: tools, PCI, and transcripts"
+        },
+        {
+          "id": "deep-dive-4-scale-and-degrade",
+          "heading": "Deep dive 4: scale and degrade"
         },
         {
           "id": "what-s-expected-at-each-level",
@@ -1954,6 +2334,420 @@
       ]
     },
     {
+      "id": "general-system-design/12-search-autocomplete-typeahead",
+      "category": "general-system-design",
+      "slug": "12-search-autocomplete-typeahead",
+      "title": "Design search autocomplete / typeahead",
+      "path": "general-system-design/12-search-autocomplete-typeahead.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-data-structure-choice",
+          "heading": "Deep dive 1: data structure choice"
+        },
+        {
+          "id": "deep-dive-2-ranking-and-freshness",
+          "heading": "Deep dive 2: ranking and freshness"
+        },
+        {
+          "id": "deep-dive-3-privacy-and-abuse",
+          "heading": "Deep dive 3: privacy and abuse"
+        },
+        {
+          "id": "deep-dive-4-failure-and-45-min-focus",
+          "heading": "Deep dive 4: failure and 45-min focus"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "general-system-design/13-ride-sharing-service",
+      "category": "general-system-design",
+      "slug": "13-ride-sharing-service",
+      "title": "Design a ride-sharing service (Uber-style)",
+      "path": "general-system-design/13-ride-sharing-service.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-geo-index-and-location-ingestion",
+          "heading": "Deep dive 1: geo index and location ingestion"
+        },
+        {
+          "id": "deep-dive-2-matching-and-the-trip-state-machine",
+          "heading": "Deep dive 2: matching and the trip state machine"
+        },
+        {
+          "id": "deep-dive-3-eta-and-surge-pricing",
+          "heading": "Deep dive 3: ETA and surge pricing"
+        },
+        {
+          "id": "deep-dive-4-failure-modes-and-multi-region-scope",
+          "heading": "Deep dive 4: failure modes and multi-region scope"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "general-system-design/14-payment-processing-system",
+      "category": "general-system-design",
+      "slug": "14-payment-processing-system",
+      "title": "Design a payment processing system",
+      "path": "general-system-design/14-payment-processing-system.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-idempotency-and-payment-state",
+          "heading": "Deep dive 1: idempotency and payment state"
+        },
+        {
+          "id": "deep-dive-2-ledger-and-double-entry-correctness",
+          "heading": "Deep dive 2: ledger and double-entry correctness"
+        },
+        {
+          "id": "deep-dive-3-saga-2pc-pci-and-fraud",
+          "heading": "Deep dive 3: saga, 2PC, PCI, and fraud"
+        },
+        {
+          "id": "deep-dive-4-reconciliation-and-failure-handling",
+          "heading": "Deep dive 4: reconciliation and failure handling"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "general-system-design/15-distributed-file-storage",
+      "category": "general-system-design",
+      "slug": "15-distributed-file-storage",
+      "title": "Design a distributed file storage system (Dropbox/Drive-style)",
+      "path": "general-system-design/15-distributed-file-storage.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-chunks-manifests-and-deduplication",
+          "heading": "Deep dive 1: chunks, manifests, and deduplication"
+        },
+        {
+          "id": "deep-dive-2-metadata-versioning-and-conflicts",
+          "heading": "Deep dive 2: metadata, versioning, and conflicts"
+        },
+        {
+          "id": "deep-dive-3-synchronization-and-sharing-acls",
+          "heading": "Deep dive 3: synchronization and sharing ACLs"
+        },
+        {
+          "id": "deep-dive-4-durability-deletion-and-operations",
+          "heading": "Deep dive 4: durability, deletion, and operations"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "general-system-design/16-distributed-key-value-store",
+      "category": "general-system-design",
+      "slug": "16-distributed-key-value-store",
+      "title": "Design a distributed key-value store",
+      "path": "general-system-design/16-distributed-key-value-store.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-partitioning-and-replica-placement",
+          "heading": "Deep dive 1: partitioning and replica placement"
+        },
+        {
+          "id": "deep-dive-2-cap-quorum-and-conflicts",
+          "heading": "Deep dive 2: CAP, quorum, and conflicts"
+        },
+        {
+          "id": "deep-dive-3-storage-engine-and-compaction",
+          "heading": "Deep dive 3: storage engine and compaction"
+        },
+        {
+          "id": "deep-dive-4-hinted-handoff-repair-and-failure-modes",
+          "heading": "Deep dive 4: hinted handoff, repair, and failure modes"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "general-system-design/17-metrics-monitoring-system",
+      "category": "general-system-design",
+      "slug": "17-metrics-monitoring-system",
+      "title": "Design a metrics and monitoring system",
+      "path": "general-system-design/17-metrics-monitoring-system.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-collection-and-ingestion",
+          "heading": "Deep dive 1: collection and ingestion"
+        },
+        {
+          "id": "deep-dive-2-cardinality-explosion",
+          "heading": "Deep dive 2: cardinality explosion"
+        },
+        {
+          "id": "deep-dive-3-tsdb-queries-retention-and-aggregation",
+          "heading": "Deep dive 3: TSDB queries, retention, and aggregation"
+        },
+        {
+          "id": "deep-dive-4-alert-evaluation-and-failure-modes",
+          "heading": "Deep dive 4: alert evaluation and failure modes"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
       "id": "cloud-architecture/01-gpu-capacity-planning-and-procurement",
       "category": "cloud-architecture",
       "slug": "01-gpu-capacity-planning-and-procurement",
@@ -2433,6 +3227,75 @@
       ]
     },
     {
+      "id": "cloud-architecture/08-foundation-model-pretraining-cluster",
+      "category": "cloud-architecture",
+      "slug": "08-foundation-model-pretraining-cluster",
+      "title": "Design a foundation-model pretraining cluster",
+      "path": "cloud-architecture/08-foundation-model-pretraining-cluster.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "requirements",
+          "heading": "Requirements"
+        },
+        {
+          "id": "core-entities",
+          "heading": "Core entities"
+        },
+        {
+          "id": "api-interface",
+          "heading": "API / interface"
+        },
+        {
+          "id": "data-flow",
+          "heading": "Data Flow"
+        },
+        {
+          "id": "high-level-design",
+          "heading": "High-level design"
+        },
+        {
+          "id": "deep-dive-1-parallelism-topology",
+          "heading": "Deep dive 1: parallelism topology"
+        },
+        {
+          "id": "deep-dive-2-checkpoint-vs-lost-work",
+          "heading": "Deep dive 2: checkpoint vs lost work"
+        },
+        {
+          "id": "deep-dive-3-network-and-stragglers",
+          "heading": "Deep dive 3: network and stragglers"
+        },
+        {
+          "id": "deep-dive-4-utilization-economics-and-45-min-focus",
+          "heading": "Deep dive 4: utilization economics and 45-min focus"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
       "id": "behavioral/01-staffing-reduction-10-to-2",
       "category": "behavioral",
       "slug": "01-staffing-reduction-10-to-2",
@@ -2732,6 +3595,104 @@
       "slug": "07-technical-bet-that-failed",
       "title": "A technical bet that did not pay off",
       "path": "behavioral/07-technical-bet-that-failed.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "situation",
+          "heading": "Situation"
+        },
+        {
+          "id": "task",
+          "heading": "Task"
+        },
+        {
+          "id": "action",
+          "heading": "Action"
+        },
+        {
+          "id": "result",
+          "heading": "Result"
+        },
+        {
+          "id": "the-follow-up-question-you-should-expect",
+          "heading": "The follow-up question you should expect"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "behavioral/08-disagreement-and-conflict-with-peers",
+      "category": "behavioral",
+      "slug": "08-disagreement-and-conflict-with-peers",
+      "title": "Navigating deep technical disagreement with peers",
+      "path": "behavioral/08-disagreement-and-conflict-with-peers.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "situation",
+          "heading": "Situation"
+        },
+        {
+          "id": "task",
+          "heading": "Task"
+        },
+        {
+          "id": "action",
+          "heading": "Action"
+        },
+        {
+          "id": "result",
+          "heading": "Result"
+        },
+        {
+          "id": "the-follow-up-question-you-should-expect",
+          "heading": "The follow-up question you should expect"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "behavioral/09-mentoring-and-growing-engineers",
+      "category": "behavioral",
+      "slug": "09-mentoring-and-growing-engineers",
+      "title": "Mentoring and growing engineers toward the next level",
+      "path": "behavioral/09-mentoring-and-growing-engineers.md",
       "sections": [
         {
           "id": "expected-question",
@@ -3850,6 +4811,331 @@
         {
           "id": "what-not-to-discuss",
           "heading": "What not to discuss"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "coding/14-implement-trie-prefix-tree",
+      "category": "coding",
+      "slug": "14-implement-trie-prefix-tree",
+      "title": "Implement a Trie / prefix tree (Staff+ autocomplete extension)",
+      "path": "coding/14-implement-trie-prefix-tree.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "the-framework",
+          "heading": "The framework"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "problem",
+          "heading": "Problem"
+        },
+        {
+          "id": "clarifying-questions-you-should-ask-first",
+          "heading": "Clarifying questions you should ask first"
+        },
+        {
+          "id": "approach-ladder",
+          "heading": "Approach ladder"
+        },
+        {
+          "id": "reference-solution-python",
+          "heading": "Reference solution (Python)"
+        },
+        {
+          "id": "tests-edge-cases",
+          "heading": "Tests / edge cases"
+        },
+        {
+          "id": "staff-deep-dive",
+          "heading": "Staff+ deep dive"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "coding/15-median-from-data-stream",
+      "category": "coding",
+      "slug": "15-median-from-data-stream",
+      "title": "Find median from a data stream (Staff+ concurrent extension)",
+      "path": "coding/15-median-from-data-stream.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "the-framework",
+          "heading": "The framework"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "problem",
+          "heading": "Problem"
+        },
+        {
+          "id": "clarifying-questions-you-should-ask-first",
+          "heading": "Clarifying questions you should ask first"
+        },
+        {
+          "id": "approach-ladder",
+          "heading": "Approach ladder"
+        },
+        {
+          "id": "reference-solution-python",
+          "heading": "Reference solution (Python)"
+        },
+        {
+          "id": "tests-edge-cases",
+          "heading": "Tests / edge cases"
+        },
+        {
+          "id": "staff-deep-dive",
+          "heading": "Staff+ deep dive"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "coding/16-serialize-deserialize-binary-tree",
+      "category": "coding",
+      "slug": "16-serialize-deserialize-binary-tree",
+      "title": "Serialize and deserialize a binary tree (Staff+ schema extension)",
+      "path": "coding/16-serialize-deserialize-binary-tree.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "the-framework",
+          "heading": "The framework"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "problem",
+          "heading": "Problem"
+        },
+        {
+          "id": "clarifying-questions-you-should-ask-first",
+          "heading": "Clarifying questions you should ask first"
+        },
+        {
+          "id": "approach-ladder",
+          "heading": "Approach ladder"
+        },
+        {
+          "id": "reference-solution-python",
+          "heading": "Reference solution (Python)"
+        },
+        {
+          "id": "tests-edge-cases",
+          "heading": "Tests / edge cases"
+        },
+        {
+          "id": "staff-deep-dive",
+          "heading": "Staff+ deep dive"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "coding/17-design-hit-counter",
+      "category": "coding",
+      "slug": "17-design-hit-counter",
+      "title": "Design a hit counter (Staff+ distributed extension)",
+      "path": "coding/17-design-hit-counter.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "the-framework",
+          "heading": "The framework"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "problem",
+          "heading": "Problem"
+        },
+        {
+          "id": "clarifying-questions-you-should-ask-first",
+          "heading": "Clarifying questions you should ask first"
+        },
+        {
+          "id": "approach-ladder",
+          "heading": "Approach ladder"
+        },
+        {
+          "id": "reference-solution-python",
+          "heading": "Reference solution (Python)"
+        },
+        {
+          "id": "tests-edge-cases",
+          "heading": "Tests / edge cases"
+        },
+        {
+          "id": "staff-deep-dive",
+          "heading": "Staff+ deep dive"
+        },
+        {
+          "id": "what-s-expected-at-each-level",
+          "heading": "What's expected at each level"
+        },
+        {
+          "id": "follow-up-questions-to-expect",
+          "heading": "Follow-up questions to expect"
+        },
+        {
+          "id": "related",
+          "heading": "Related"
+        }
+      ]
+    },
+    {
+      "id": "coding/18-circuit-breaker",
+      "category": "coding",
+      "slug": "18-circuit-breaker",
+      "title": "Implement a circuit breaker (Staff+ resilience extension)",
+      "path": "coding/18-circuit-breaker.md",
+      "sections": [
+        {
+          "id": "expected-question",
+          "heading": "Expected question"
+        },
+        {
+          "id": "variant-forms",
+          "heading": "Variant forms"
+        },
+        {
+          "id": "the-question-as-it-might-actually-be-asked",
+          "heading": "The question, as it might actually be asked"
+        },
+        {
+          "id": "the-framework",
+          "heading": "The framework"
+        },
+        {
+          "id": "where-this-actually-gets-asked",
+          "heading": "Where this actually gets asked"
+        },
+        {
+          "id": "problem",
+          "heading": "Problem"
+        },
+        {
+          "id": "clarifying-questions-you-should-ask-first",
+          "heading": "Clarifying questions you should ask first"
+        },
+        {
+          "id": "approach-ladder",
+          "heading": "Approach ladder"
+        },
+        {
+          "id": "reference-solution-python",
+          "heading": "Reference solution (Python)"
+        },
+        {
+          "id": "tests-edge-cases",
+          "heading": "Tests / edge cases"
+        },
+        {
+          "id": "staff-deep-dive",
+          "heading": "Staff+ deep dive"
         },
         {
           "id": "what-s-expected-at-each-level",
