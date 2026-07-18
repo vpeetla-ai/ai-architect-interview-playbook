@@ -210,3 +210,5 @@ The other folders follow lighter shapes:
 
 **Vercel deploy:** project **Root Directory** must be `ui` (not repo root). Framework Preset **Other**, Output Directory **`out`**, Install/Build = `npm install` / `npm run build`.  
 If Root is `.` and Output is `ui/out` without a real Next build, production returns **404** (empty deploy). Live: [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app).
+
+**Canonical host only (S3.4):** use `ai-architect-interview-playbook.vercel.app`. Delete any duplicate Vercel project (`*-9xs` / `*-9xss`) so panels never land on a second host.
