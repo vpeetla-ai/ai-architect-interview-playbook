@@ -79,7 +79,10 @@ const components: Components = {
 };
 
 export function MarkdownBody({ source }: { source: string }) {
-  const body = source.replace(/^#\s+.+\n+/, "");
+  const body = source
+    .replace(/^#\s+.+\n+/, "")
+    // Build/inject markers must not render as visible text
+    .replace(/<!--[\s\S]*?-->/g, "");
 
   return (
     <ReactMarkdown

@@ -153,12 +153,24 @@ Client-side secret redaction before network. Enterprise: on-device or VPC infere
 ([11](11-on-device-edge-ai-inference-architecture.md)). Filter license-contaminated and known-CWE
 patterns. Online metrics: acceptance rate, persistence@30m — offline HumanEval alone is insufficient.
 
+## Deep dive 4: repo trust boundaries and multi-file rollback (Staff+)
+
+Index and agent tools must respect **VCS permissions** — a user without read access to `//secret/`
+must not retrieve those symbols via the assistant. Treat dependency lockfiles and `.env` examples
+as secret-adjacent. For multi-file agent edits: propose a **single reviewable diff stack** with
+per-file apply; support atomic reject/rollback of the stack (do not leave half-applied refactors).
+Supply-chain: suggestions that add dependencies need allowlist / SCA gates before "apply." Segment
+online eval by language and repo size — a model that wins on small Python repos can fail on
+monorepo Java/TS. Tie agent tool schemas to release gates ([19](19-model-release-canary-and-rollback.md)).
+
 ## What's expected at each level
 
 - **Mid-level:** send current file to an LLM API; show completion.
 - **Senior:** FIM, basic retrieval, streaming, mentions latency.
-- **Staff+:** cancelation, cascade, incremental index, privacy redaction, acceptance metrics.
-- **Principal:** separates inline vs agent products, GPU pool isolation, enterprise no-train contracts.
+- **Staff+:** cancelation, cascade, incremental index, privacy redaction, acceptance metrics,
+  permission-aware retrieval, multi-file apply/rollback.
+- **Principal:** separates inline vs agent products and GPU pools; enterprise no-train contracts;
+  supply-chain gates; eval segmentation that matches real customer repos.
 
 ## Follow-up questions to expect
 
