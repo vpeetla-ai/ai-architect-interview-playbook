@@ -1,0 +1,8 @@
+{
+  "framework": null,
+  "installCommand": "npm install --prefix ui",
+  "buildCommand": "npm run build --prefix ui",
+  "outputDirectory": "ui/out",
+  "cleanUrls": true,
+  "trailingSlash": true
+}
