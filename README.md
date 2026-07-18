@@ -208,5 +208,7 @@ The other folders follow lighter shapes:
 
 **Study UI:** from `ui/` run `npm install && npm run build` (runs `scripts/build_catalog.py`).
 
-**Vercel deploy:** project **Root Directory** must be `ui` (not repo root). Framework Preset **Other**, Output Directory **`out`**, Install/Build = `npm install` / `npm run build`.  
-If Root is `.` and Output is `ui/out` without a real Next build, production returns **404** (empty deploy). Live: [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app).
+**Vercel deploy (canonical):** [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app)
+
+- Preferred: project **Root Directory** = `ui`, Framework **Other**, Output = `out`, Install/Build = `npm install` / `npm run build`.
+- Repo-root deploys are also supported via root [`vercel.json`](vercel.json) (builds `ui/` → `ui/out`). A second Git-linked project that deploys root **without** that config produces an empty **404** site — delete or fix that duplicate rather than using it as the live URL.
