@@ -165,3 +165,4 @@ fan-out + preferences + idempotency + one provider-failure story.
 - [04 Distributed job scheduler](04-distributed-job-scheduler-task-queue.md)
 - [02 Realtime chat](02-realtime-chat-messaging-at-scale.md)
 - [01 Distributed rate limiter](01-distributed-rate-limiter.md)
+- [18 Event-driven architecture with Kafka](18-event-driven-architecture-with-kafka.md)
