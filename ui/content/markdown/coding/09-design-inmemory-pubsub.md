@@ -138,4 +138,6 @@ class PubSub:
 ## Related
 
 - [04-concurrent-bounded-queue.md](04-concurrent-bounded-queue.md)
+- [19-idempotent-event-consumer.md](19-idempotent-event-consumer.md)
+- [../general-system-design/18-event-driven-architecture-with-kafka.md](../general-system-design/18-event-driven-architecture-with-kafka.md)
 - [00-staff-plus-coding-bar.md](00-staff-plus-coding-bar.md)

@@ -71,16 +71,16 @@ Product repos link back here via `## Interview map` sections; the org matrix liv
 
 ```text
 ai-system-design/                  — 21 AI/ML system design questions, hellointerview-style depth
-general-system-design/             — 17 classic distributed-systems questions, non-AI-specific, same depth
+general-system-design/             — 18 classic distributed-systems questions, non-AI-specific, same depth
 cloud-architecture/                — 8 AI-infra cloud/network/security questions, same depth
 behavioral/                        — 9 STAR-method write-ups for real, cited outcomes
 scalability-governance-tradeoffs/  — 4 reasoning frameworks: cost vs latency vs safety, etc.
-coding/                            — 19 Staff+ coding entries (bar + 18 problems)
+coding/                            — 20 Staff+ coding entries (bar + 19 problems)
 staff-plus-interview-craft/        — 3 guides: signals, questions to ask, what not to waste time on
 ui/                                — Study notebook (tables + reader) — Vercel static export
 ```
 
-**81 graded study entries** — markdown is source of truth; live study UI: [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
+**83 graded study entries** — markdown is source of truth; live study UI: [ai-architect-interview-playbook.vercel.app](https://ai-architect-interview-playbook.vercel.app). Practice Arena syncs rubrics when the submodule is bumped.
 
 Every entry in every folder, not just `ai-system-design/`, now ends with the same
 "what's expected at Mid/Senior/Staff+/Principal" breakdown — added to `behavioral/` and
@@ -138,6 +138,7 @@ which doesn't require any AI-specific knowledge to answer well.
 | [general-system-design/15](general-system-design/15-distributed-file-storage.md) — Distributed file storage (Dropbox/Drive) | 🟡 Hello Interview recommended top-10 classic |
 | [general-system-design/16](general-system-design/16-distributed-key-value-store.md) — Distributed key-value store | 🟡 Infrastructure classic (hashing, quorum, CAP) — distinct from cache/CDN |
 | [general-system-design/17](general-system-design/17-metrics-monitoring-system.md) — Metrics & monitoring | 🟡 Observability classic (ingestion, TSDB, alerts, cardinality) |
+| [general-system-design/18](general-system-design/18-event-driven-architecture-with-kafka.md) — Event-driven architecture with Kafka | 🟡 High-frequency EDA/Kafka archetype (partitions, delivery, outbox, saga, lag) |
 | [cloud-architecture/01](cloud-architecture/01-gpu-capacity-planning-and-procurement.md) — GPU capacity planning & procurement | 🟡 Real OpenAI/Meta engineering-blog evidence for the industry problem; org callback via agent-finops |
 | [cloud-architecture/02](cloud-architecture/02-multi-region-strategy-training-vs-serving.md) — Multi-region strategy: training vs. serving | 🟡 General framework; weakest company-specific sourcing in this repo, disclosed as such |
 | [cloud-architecture/03](cloud-architecture/03-disaster-recovery-for-model-serving.md) — Disaster recovery for model serving | 🟡 General framework; also documents a fabricated source caught and rejected during research |
@@ -178,6 +179,7 @@ which doesn't require any AI-specific knowledge to answer well.
 | [coding/16](coding/16-serialize-deserialize-binary-tree.md) — Serialize / deserialize binary tree | 🟡 LC 297 senior+ staple; Staff = schema / streaming |
 | [coding/17](coding/17-design-hit-counter.md) — Design hit counter | 🟡 LC 362 time-window design; Staff = concurrent + distributed merge |
 | [coding/18](coding/18-circuit-breaker.md) — Circuit breaker | 🟡 Resilience state machine; Staff = metrics + bulkhead boundary |
+| [coding/19](coding/19-idempotent-event-consumer.md) — Idempotent event consumer | 🟡 At-least-once + dedupe/offset commit; pairs with general-system-design/18 |
 | [staff-plus-interview-craft/01](staff-plus-interview-craft/01-what-staff-plus-actually-signals.md) — What Staff+ signals | 🟡 Meta guide for Staff+/Principal loops |
 | [staff-plus-interview-craft/02](staff-plus-interview-craft/02-questions-you-should-ask.md) — Questions you should ask | 🟡 Clarifying + HM questions |
 | [staff-plus-interview-craft/03](staff-plus-interview-craft/03-what-not-to-waste-time-on.md) — What not to waste time on | 🟡 Timebox + anti-patterns |

@@ -802,6 +802,19 @@
       "How does a circuit breaker differ from retries, timeouts, and bulkheads?"
     ]
   },
+  "coding/19-idempotent-event-consumer": {
+    "expected": "Implement an idempotent event consumer: given at-least-once delivery, process each event_id at most once for side effects, and advance the offset only after successful handling.",
+    "variants": [
+      "Consumers see duplicates — how do you make handlers safe?",
+      "Implement process(event) with a processed-ids store.",
+      "Commit offsets before or after side effects — which is correct for at-least-once?",
+      "What happens if we crash after the side effect but before offset commit?",
+      "Add a poison-message path that skips and dead-letters.",
+      "Make the dedupe store safe under concurrent partition handlers.",
+      "How is this different from Kafka exactly-once transactions?",
+      "Implement a tiny in-memory broker + consumer group to demo the contract."
+    ]
+  },
   "staff-plus-interview-craft/01-what-staff-plus-actually-signals": {
     "expected": "How is a Staff / Principal interview different from Senior \u2014 and what are interviewers listening for?",
     "variants": [
@@ -1008,6 +1021,19 @@
       "Design dashboards that query a month of data without scanning every raw point.",
       "How do you provide multi-tenant isolation and usage limits for observability?",
       "Our alert manager pages everyone during a regional outage \u2014 architect deduplication and routing."
+    ]
+  },
+  "general-system-design/18-event-driven-architecture-with-kafka": {
+    "expected": "Design an event-driven architecture using Kafka (or a similar log). How do producers and consumers stay decoupled, preserve per-entity ordering, choose delivery semantics, avoid dual-write bugs, and handle failures, lag, and schema change?",
+    "variants": [
+      "Design an order / inventory / payment pipeline that communicates via events, not synchronous RPC.",
+      "When would you choose Kafka over RabbitMQ or SQS \u2014 and when would you not?",
+      "How do partitions, keys, and consumer groups give you ordering and parallelism?",
+      "Explain at-most-once, at-least-once, and exactly-once \u2014 what do you actually ship in production?",
+      "Our service writes to Postgres and publishes to Kafka \u2014 how do you prevent lost or duplicated domain events?",
+      "Design a saga for checkout: choreography vs orchestration, and compensating actions.",
+      "How do Event Sourcing and CQRS relate to Kafka \u2014 and when are they overkill?",
+      "Consumer lag spiked during a rebalance storm \u2014 how do you diagnose and harden the system?"
     ]
   },
   "behavioral/09-mentoring-and-growing-engineers": {

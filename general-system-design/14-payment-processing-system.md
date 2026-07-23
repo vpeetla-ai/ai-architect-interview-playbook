@@ -194,3 +194,4 @@ breaks, and ledger imbalance (which should be zero).
 - [05 Distributed unique ID generator](05-distributed-unique-id-generator.md)
 - [01 Distributed rate limiter](01-distributed-rate-limiter.md)
 - [08 Notification system](08-notification-system.md)
+- [18 Event-driven architecture with Kafka](18-event-driven-architecture-with-kafka.md)
